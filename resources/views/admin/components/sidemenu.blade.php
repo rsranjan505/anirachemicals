@@ -8,14 +8,14 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#vendor" aria-expanded="false" aria-controls="ui-order">
-                <i class="icon-inbox menu-icon"></i>
+                <i class="icon-stack menu-icon"></i>
                 <span class="menu-title">Vendor</span>
                 <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="vendor">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="#">List</a></li>
-                    <li class="nav-item"><a class="nav-link" href="Today-Delivery-Order"> Add New</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('vendor-list') }}">List</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('vendor') }}"> Add New</a></li>
                 </ul>
             </div>
         </li>

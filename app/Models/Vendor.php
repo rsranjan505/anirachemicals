@@ -16,4 +16,15 @@ class Vendor extends Model
     {
         return $this->morphOne(AssetFile::class, 'pictureable','model_type', 'model_id');
     }
+    public function getState(){
+        return $this->belongsTo(State::class,'state');
+    }
+
+    public function getCity(){
+        return $this->belongsTo(City::class,'city');
+    }
+
+    public function creator(){
+        return $this->belongsTo(User::class,'created_by');
+    }
 }

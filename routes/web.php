@@ -69,7 +69,10 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
     //vendors
     Route::get('vendor', [VendorController::class, 'index'])->name('vendor');
     Route::post('vendor', [VendorController::class, 'store'])->name('vendor-save');
-
+    Route::get('vendor/list', [VendorController::class, 'vendorList'])->name('vendor-list');
+    Route::get('vendor/edit/{id?}', [VendorController::class, 'edit'])->name('vendor-edit-view');
+    Route::post('vendor/update', [VendorController::class, 'update'])->name('vendor-update');
+    Route::get('vendor/change-status/{id}', [VendorController::class, 'changeStatus'])->name('vendor-status-change');
 
 });
 // Route::apiResource('posts', PostController::class)->middleware('auth:sanctum');

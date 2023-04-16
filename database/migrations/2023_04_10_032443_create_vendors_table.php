@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
             $table->string('name_of_establishment',100);
-            $table->integer('establishment_type')->nullable();//1:indivisual,2:llp,3:opc,4:propietorship,5:partnership,6:pvt. ltd., 7:ltd, 8:other
+            $table->integer('establishment_type')->nullable();//1:individual,2:llp,3:opc,4:propietorship,5:partnership,6:pvt. ltd., 7:ltd, 8:other
             $table->longText('partner_details')->nullable();
             $table->string('pan',30)->unique();
             $table->string('gst',40);
