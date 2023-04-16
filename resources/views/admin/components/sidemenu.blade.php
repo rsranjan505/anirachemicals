@@ -40,7 +40,7 @@
             </a>
             <div class="collapse" id="product">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="Add-Chef">Add Chef </a></li>
+                    <li class="nav-item"><a class="nav-link" href="Add-Chef">Add Products </a></li>
                 </ul>
             </div>
         </li>
@@ -53,8 +53,7 @@
             </a>
             <div class="collapse" id="report">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="#">Items </a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Menus </a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">vedors report </a></li>
                 </ul>
             </div>
         </li>

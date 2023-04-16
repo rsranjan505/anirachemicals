@@ -72,11 +72,7 @@ class AuthController extends Controller
                 ], 401);
             }
 
-
             $request['password'] = Hash::make($request->password);
-            if($request['is_admin'] ==1){
-                $request['user_type'] = 'admin';
-            }
 
             $user = User::create([
                 'first_name' => $request->first_name,

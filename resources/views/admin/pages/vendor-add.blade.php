@@ -83,7 +83,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2" style="margin-top: 3.8rem">
-                                                    <a id="add_morepartner" class="btn btn-primary mr-2">Add</a>
+                                                    <a id="add_morepartner" class="btn btn-primary mr-2">Add partner</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -178,7 +178,7 @@
                                             </div>
 
                                             <div class="col-md-2" style="margin-top: 3.8rem">
-                                                <a id="add_item" class="btn btn-primary mr-2">Add</a>
+                                                <a id="add_item" class="btn btn-primary mr-2">Add product</a>
                                             </div>
                                         </div>
                                         <div class="previous_productitems"></div>

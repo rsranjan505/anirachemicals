@@ -86,9 +86,8 @@
                         <div class="row mb-3">
                             <label for="city_id" class="col-md-4 col-form-label text-md-end">{{ __('City') }}</label>
                             <div class="col-md-6">
-                                <select  id="city_id" type="text" name="city_id" class="form-control" required>
-                                    <option value="0">No</option>
-                                    <option value="1">Yes</option>
+                                <select id="city_id" type="text" name="city_id" class="form-control">
+                                    <option value="" >Select State First</option>
                                 </select>
                                 @error('city_id')
                                     <span class="invalid-feedback" role="alert">
@@ -117,6 +116,22 @@
                                     <option value="1">Yes</option>
                                 </select>
                                 @error('is_admin')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="user_type" class="col-md-4 col-form-label text-md-end">{{ __('User Type') }}</label>
+                            <div class="col-md-6">
+                                <select  id="user_type" type="text" name="user_type" class="form-control" required>
+                                    <option value="">Select User Type</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="employee">Employee</option>
+                                    <option value="vendor">Vendor</option>
+                                </select>
+                                @error('user_type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -175,4 +190,24 @@
         </div>
     </div>
 </div>
+<script>
+    $('#state_id').on('change', function () {
+        let state_id = this.value;
+        $.ajax({
+            url: "/city/"+state_id,
+            type: "get",
+
+            success: function (res) {
+                let html = "";
+                html += '<select id="city_id" type="text" name="city_id" search class="form-control">';
+                res.forEach((val, key) => {
+                    html += "<option value=" + val.id + ">" + val.name + "</option>";
+                });
+                html += '</select>';
+                $("#city_id").html("");
+                $("#city_id").html(html);
+            },
+        });
+    });
+</script>
 @endsection

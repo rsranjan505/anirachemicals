@@ -16,7 +16,7 @@ return new class extends Migration
 
         Schema::create('states', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name',100);
             $table->unsignedBigInteger('country_id');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
