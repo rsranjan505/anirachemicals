@@ -13,13 +13,6 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-
-    //here is many to one polymorph
-    public function image()
-    {
-        return $this->morphOne(AssetFile::class, 'pictureable','model_type', 'model_id');
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -42,6 +35,20 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password'
     ];
+
+     //here is many to one polymorph
+     public function image()
+     {
+         return $this->morphOne(AssetFile::class, 'pictureable','model_type', 'model_id');
+     }
+
+     public function state(){
+         return $this->belongsTo(State::class,'state_id');
+     }
+
+     public function city(){
+         return $this->belongsTo(City::class,'city_id');
+     }
 
     /**
      * The attributes that should be hidden for serialization.

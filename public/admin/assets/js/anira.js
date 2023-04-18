@@ -2,7 +2,7 @@
 $("#add_morepartner").click(
     function () {
 
-        let template = '<div id="partner" class="row"><div class="col-md-4"><div class="form-group"><label class="col-form-label">Name</label><input id="partner_details" type="text" name="partner_details[name][]" class="form-control"/></div></div><div class="col-md-2"><div class="form-group"><label class="col-form-label">Pan</label><input id="partner_details" type="text" name="partner_details[pan][]" class="form-control"/></div></div><div class="col-md-2"><div class="form-group"><label class="col-form-label">DOB</label><input id="partner_details" type="date" name="partner_details[dob][]" class="form-control"/></div></div><div class="col-md-2"><div class="form-group"><label class="col-form-label">Anniversary</label><input id="partner_details" type="text" name="partner_details[anniversary][]" class="form-control"/></div></div><div class="col-md-2" style="margin-top: 3.8rem"><a id="Deleteparter" class="btn btn-danger mr-2">Remove</a></div></div>';
+        let template = '<div id="partner" class="row"><div class="col-md-4"><div class="form-group"><label class="col-form-label">Name</label><input id="partner_details" type="text" name="partner_details[name][]" class="form-control"/></div></div><div class="col-md-2"><div class="form-group"><label class="col-form-label">Pan</label><input id="partner_details" type="text" name="partner_details[pan][]" class="form-control"/></div></div><div class="col-md-2"><div class="form-group"><label class="col-form-label">DOB</label><input id="partner_details" type="date" name="partner_details[dob][]" class="form-control"/></div></div><div class="col-md-2"><div class="form-group"><label class="col-form-label">Anniversary</label><input id="partner_details" type="date" name="partner_details[anniversary][]" class="form-control"/></div></div><div class="col-md-2" style="margin-top: 3.8rem"><a id="Deleteparter" class="btn btn-danger mr-2">Remove</a></div></div>';
 
         $(".morepartner").append(template);
     }
@@ -59,3 +59,15 @@ $('#state').on('change', function () {
         },
     });
 });
+
+
+//business type for proitership
+$('#establishment_type').on('change', function () {
+    let type = this.value;
+    if(type==1){
+        $('.partner').attr('style', 'display:none;');
+
+    }
+});
+
+

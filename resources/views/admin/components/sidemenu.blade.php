@@ -27,8 +27,8 @@
             </a>
             <div class="collapse" id="order">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="#"> Order List</a></li>
-                    <li class="nav-item"><a class="nav-link" href="Cancel-Order"> Create Order</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('order-list') }}"> Order List</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('order-add-view') }}"> Create Order</a></li>
                 </ul>
             </div>
         </li>
@@ -40,7 +40,8 @@
             </a>
             <div class="collapse" id="product">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="Add-Chef">Add Products </a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('product-list') }}"> Product List</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('product-add-view') }}"> Add Product</a></li>
                 </ul>
             </div>
         </li>
@@ -67,17 +68,14 @@
             </a>
             <div class="collapse" id="users">
             <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="#">List</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Info</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Add New</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#edit">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('user-list') }}">User List</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('add-user-view') }}">Add User</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('setting-view') }}">Setting</a></li>
             </ul>
             </div>
         </li>
 
     @endif
-
-
 
     </ul>
   </nav>

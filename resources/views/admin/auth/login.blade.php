@@ -11,6 +11,9 @@
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
                 {{-- <img src="{{ asset('assets/img/logo.png')}}" style="width: 50px;" alt="logo"> --}}
+                @if (isset($message))
+                    <h4 class="danger">{{ $message }}</h4>
+                @endif
               </div>
               <h6 class="font-weight-light"></h6>
                 <form method="POST" action="{{ route('login') }}" class="pt-3">

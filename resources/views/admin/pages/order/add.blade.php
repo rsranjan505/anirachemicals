@@ -6,24 +6,15 @@
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                @include('admin/components/header-nav/vendor-nav',['activeTab' => 'add'] )
+                @include('admin/components/header-nav/order-nav',['activeTab' => 'add'] )
                 <div class="row w-100 mx-0">
                     <div class="col-md-12 grid-margin mx-auto">
                         <div class="card">
                             <div class="card-body">
-                                @if (count($errors) > 0)
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                                <form class="form-sample" method="POST" action="{{ route('vendor-save') }}" enctype="multipart/form-data">
+                                <form class="form-sample" method="POST" action="{{ route('order-save') }}" enctype="multipart/form-data">
                                     @csrf
                                     <p class="card-description">
-                                        Vendor Registration
+                                        Order
                                     </p>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -46,6 +37,7 @@
                                                     <option value="7">Ltd.</option>
                                                     <option value="8">Other</option>
                                                 </select>
+
                                             </div>
                                         </div>
                                     </div>
@@ -63,8 +55,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="partner"  style="padding:15px;">
                                     <h4>Partner Details</h4>
+                                    <div class="partner">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
@@ -87,7 +79,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label class="col-form-label">Anniversary</label>
-                                                    <input id="partner_details" type="date" name="partner_details[anniversary][]" class="form-control"/>
+                                                    <input id="partner_details" type="text" name="partner_details[anniversary][]" class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2" style="margin-top: 3.8rem">
@@ -166,7 +158,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Marriage Anniversary</label>
-                                                <input id="marriage_aniversory" type="date" name="marriage_aniversory" class="form-control"/>
+                                                <input id="marriage_aniversory" type="text" name="marriage_aniversory" class="form-control"/>
                                             </div>
                                         </div>
                                     </div>

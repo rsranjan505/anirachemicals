@@ -87,7 +87,7 @@ class AuthController extends Controller
                 'is_active' => $request->is_active,
                 'is_admin ' => $request->is_admin,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'password' => $request['password']
             ]);
 
             $token = Auth::login($user);
@@ -132,11 +132,8 @@ class AuthController extends Controller
 
             if(!Auth::attempt($credentials)){
                 // return redirect()->intended('dashboard');
-                // return redirect()->back()->with(['message' => 'Email & Password does not match with our record.']);
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
-                ], 401);
+                // $this->toastrMsg('Email & Password does not match with our record.');
+                return view('admin.auth.login')->with(['message' => 'Email & Password does not match with our record.']);
             }
 
             $user = User::where('email', $request->email)->first();
@@ -144,13 +141,6 @@ class AuthController extends Controller
             if($user){
                 return redirect($this->redirectTo);
             }
-
-            // return redirect($this->redirectTo);
-            // return response()->json([
-            //     'status' => true,
-            //     'message' => 'User Logged In Successfully',
-            //     'token' => $user->createToken("API TOKEN")->plainTextToken
-            // ], 200);
 
         } catch (\Throwable $th) {
             return response()->json([

@@ -11,6 +11,15 @@
                         <div class="col-md-12 grid-margin mx-auto">
                             <div class="card">
                                 <div class="card-body">
+                                    @if (count($errors) > 0)
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     @if (isset($data['vendor']) and $data['vendor'] !=null)
                                         <form class="form-sample" method="POST" action="{{ route('vendor-update') }}" enctype="multipart/form-data">
                                             @csrf
@@ -58,8 +67,22 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <h4>Partner Details</h4>
-                                            <div class="partner">
+
+                                            <div class="partner" style="padding:15px;">
+                                                <h4>Partner Details</h4>
+                                                @if (isset($data['partner']))
+                                                <div class="row">
+                                                    @foreach ( $data['partner']['name'] as  $key0 => $value)
+                                                        @foreach ( $data['partner'] as  $key => $partner)
+                                                            <div class="col-md-{{$key == 'name' ? '4' : '2'}}">
+                                                                <div class="form-group">
+                                                                    <input id="partner_details" value="{{ $key == 'dob' && 'anniversary' ? date('d-m-Y', strtotime($data['partner'][$key][$key0])): $data['partner'][$key][$key0]}}"  type="text" name="partner_details[{{$key}}][]" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @endforeach
+                                                </div>
+                                                @endif
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
@@ -82,7 +105,7 @@
                                                     <div class="col-md-2">
                                                         <div class="form-group">
                                                             <label class="col-form-label">Anniversary</label>
-                                                            <input id="partner_details" type="text" name="partner_details[anniversary][]" class="form-control"/>
+                                                            <input id="partner_details" type="date" name="partner_details[anniversary][]" class="form-control"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2" style="margin-top: 3.8rem">
@@ -92,7 +115,7 @@
                                             </div>
                                             <div class="morepartner">
                                             </div>
-                                            <h4>Address</h4>
+                                            <h4 style="margin-top: 3.8rem">Address</h4>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -106,7 +129,7 @@
                                                         <select id="state" type="text" name="state" class="form-control">
                                                             <option value="" >Select State</option>
                                                             @foreach ($data['state'] as $state)
-                                                                <option value="{{$state->id}} {{$data['vendor']->state == $state->id ? 'selected' : '' }}">{{ $state->name}}</option>
+                                                                <option value="{{$state->id}}" {{$data['vendor']->state == $state->id ? 'selected' : '' }}>{{ $state->name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -117,7 +140,10 @@
                                                     <div class="form-group">
                                                         <label class="col-form-label">City</label>
                                                         <select id="city" type="text" name="city" class="form-control">
-                                                            <option value="0" >Select State First</option>
+                                                            <option >Select State First</option>
+                                                            @foreach ($data['city'] as $city)
+                                                                <option value="{{$city->id}}" {{$data['vendor']->city == $city->id ? 'selected' : '' }}>{{ $city->name}}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -166,6 +192,19 @@
                                                 </div>
                                             </div>
                                             <h4>Previous Product Details</h4>
+                                            @if (isset($data['previous_product']))
+                                                <div class="row">
+                                                    @foreach ( $data['previous_product']['name'] as  $key0 => $value)
+                                                        @foreach ( $data['previous_product'] as  $key => $partner)
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <input id="previous_product_details" value="{{ $data['previous_product'][$key][$key0]}}"  type="text" name="previous_product_details[{{$key}}][]" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @endforeach
+                                                </div>
+                                            @endif
                                             <div class="row">
                                                 <div class="col-md-5">
                                                     <div class="form-group">

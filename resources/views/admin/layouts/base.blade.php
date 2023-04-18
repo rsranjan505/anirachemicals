@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/vendors/feather/feather.css')}}">
     <link rel="stylesheet" href="{{ asset('admin/assets/vendors/ti-icons/css/themify-icons.css')}}">
     <link rel="stylesheet" href="{{ asset('admin/assets/vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link rel="stylesheet" href="{{ asset('admin/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/js/select.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/vertical-layout-light/style.css')}}">
@@ -58,10 +59,11 @@
     <script src="{{ asset('admin/assets/js/tabs.js')}}"></script>
     <!-- Custom js for this page-->
     <script src="{{ asset('admin/assets/js/dashboard.js')}}"></script>
+    <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 
-     {{-- @stack('scripts')
+    @stack('scripts')
     {!! Toastr::message() !!}
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script> --}}
+
 </body>
 
 </html>

@@ -185,6 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Brian2694\Toastr\ToastrServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -209,6 +210,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 

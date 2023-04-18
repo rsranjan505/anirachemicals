@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\State;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
@@ -20,10 +21,19 @@ class VendorController extends Controller
     public function store(Request $request)
     {
         $data = $request->except(['avatar','document']);
-        $vendorData = $this->validateData($data,'create');
-        if($vendorData->fails()){
-            return response()->json($vendorData->errors());
-        }
+        $request->validate([
+            'name_of_establishment' => 'required',
+            'establishment_type' => 'required',
+            'pan' =>'required|unique:vendors,pan',
+            'address' => 'required',
+            'state' =>'required',
+            'city' =>'required',
+            'pincode' =>'required|min:5',
+            'key_person' => 'required',
+            'dob' => 'required|date',
+            'mobile' => 'required|min:10',
+            'email' => 'required',
+        ]);
 
         $data['partner_details'] = json_encode($request->partner_details,true);
         $data['previous_product_details'] = json_encode($request->previous_product_details,true);
@@ -47,45 +57,6 @@ class VendorController extends Controller
         }
 
         return redirect()->back()->with(['message'=>'success']);
-    }
-
-    public function validateData($request,$type)
-    {
-        if($type == 'create'){
-            $vendorData = Validator::make($request,
-            [
-                'name_of_establishment' => 'required',
-                'establishment_type' => 'required',
-                'pan' =>'required|unique:vendors,pan',
-                'address' => 'required',
-                'state' =>'required',
-                'city' =>'required',
-                'pincode' =>'required|numeric',
-                'key_person' => 'required',
-                'dob' => 'required',
-                'mobile' => 'required|numeric',
-                'email' => 'required',
-
-            ]);
-        }else{
-            $vendorData = Validator::make($request,
-            [
-                'name_of_establishment' => 'required',
-                'establishment_type' => 'required',
-                'address' => 'required',
-                'state' =>'required',
-                'city' =>'required',
-                'pincode' =>'required|numeric',
-                'key_person' => 'required',
-                'dob' => 'required',
-                'mobile' => 'required|numeric',
-                'email' => 'required',
-
-            ]);
-
-        }
-
-        return $vendorData;
     }
 
     public function vendorList(Request $request)
@@ -120,10 +91,10 @@ class VendorController extends Controller
                         return $vendor->address;
                     })
                     ->addColumn('City', function ($vendor) {
-                        return $vendor->getCity->name;
+                        return $vendor->getCity ? $vendor->getCity->name : '';
                     })
                     ->addColumn('State', function ($vendor) {
-                        return $vendor->getState->name;
+                        return $vendor->getState ? $vendor->getState->name : '';
                     })
                     ->addColumn('Pincode', function ($vendor) {
                         return $vendor->pincode;
@@ -168,7 +139,7 @@ class VendorController extends Controller
                                 <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                                <a class="dropdown-item" href="'.url('admin/vendor/edit/'.$vendor->id).'">Edit</a>
+                                <a class="dropdown-item" href="'.url('admin/vendor/update/'.$vendor->id).'">Edit</a>
                                 <a class="dropdown-item" href="'.url('admin/vendor/change-status/'.$vendor->id).'">'.$status.'</a>
 
                                 </div>
@@ -186,7 +157,10 @@ class VendorController extends Controller
         if($id!=null){
             $vendor = Vendor::find($id);
             $data['state'] = State::all();
+            $data['city'] = City::all();
             $data['vendor'] = $vendor;
+            $data['partner'] = (array)json_decode($vendor->partner_details);
+            $data['previous_product'] =  (array)json_decode($vendor->previous_product_details);
             return view('admin.pages.vendor-edit',['data'=>$data]);
         }
     }
@@ -196,13 +170,29 @@ class VendorController extends Controller
         if($request->id !=null){
             // $vendor = Vendor::find($request->id);
             $data = $request->except(['avatar','document']);
-            $vendorData = $this->validateData($data,'update');
-            if($vendorData->fails()){
-                return response()->json($vendorData->errors());
-            }
+            $request->validate([
+                'name_of_establishment' => 'required',
+                'establishment_type' => 'required',
+                'address' => 'required',
+                'state' =>'required',
+                'city' =>'required',
+                'pincode' =>'required|min:5',
+                'key_person' => 'required',
+                'dob' => 'required|date',
+                'mobile' => 'required|min:10',
+                'email' => 'required',
+            ]);
 
-            $data['partner_details'] = json_encode($request->partner_details,true);
-            $data['previous_product_details'] = json_encode($request->previous_product_details,true);
+            $vendor = Vendor::find($request->id);
+
+            $prevpartnerdata = json_decode($vendor->partner_details);
+            $newpartnerdata = array_merge((array) $prevpartnerdata,$request->partner_details);
+
+            $prevproductdata = json_decode($vendor->previous_product_details);
+            $newproductdata = array_merge((array) $prevproductdata,$request->previous_product_details);
+
+            $data['partner_details'] = json_encode($newpartnerdata,true);
+            $data['previous_product_details'] = json_encode($newproductdata,true);
 
             $vendor = $this->recordSave(Vendor::class,$data,null,null);
 

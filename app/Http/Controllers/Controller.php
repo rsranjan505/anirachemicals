@@ -9,6 +9,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Brian2694\Toastr\Facades\Toastr;
 
 class Controller extends BaseController
 {
@@ -111,5 +112,14 @@ class Controller extends BaseController
             }
         }
         return null;
+    }
+
+    public function toastrMsg($id=null)
+    {
+        if($id!=null){
+            echo Toastr::success("A new record has been updated successfully", "", ["positionClass" => "toast-top-right","progressBar"=>true,"timeOut"=>"5000"]);
+        }else{
+            echo Toastr::success("A new record has been inserted successfully", "", ["positionClass" => "toast-top-right","progressBar"=>true,"timeOut"=>"5000"]);
+        }
     }
 }
