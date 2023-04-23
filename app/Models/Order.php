@@ -27,4 +27,8 @@ class Order extends Model
     public function creator(){
         return $this->belongsTo(User::class,'created_by');
     }
+
+    public function orderItems(){
+        return $this->hasMany(OrderItem::class,'order_id');
+    }
 }

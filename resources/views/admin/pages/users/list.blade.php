@@ -18,7 +18,7 @@
                                 <table class="table user-table">
                                     <thead>
                                     <tr>
-                                        <th>SN</th>
+                                        <th>SL No</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Email</th>
@@ -60,7 +60,13 @@
           serverSide: true,
           ajax: "{{ route('user-list') }}",
           columns: [
-              {data: 'id', name: 'id'},
+            {
+                data: "DT_RowIndex",
+                name: "SL No",
+                className: "text-center",
+                orderable: false,
+                searchable: false,
+            },
               {data: 'First Name', name: 'First Name'},
               {data: 'Last Name', name: 'Last Name'},
               {data: 'Email', name: 'Email'},

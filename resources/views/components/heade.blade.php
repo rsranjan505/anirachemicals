@@ -35,7 +35,9 @@
             <li><a class="nav-link scrollto {{Request::is('client') ? 'active' : ''}}" href="{{ route('/client') }}">Client</a></li>
 		    <li><a class="nav-link scrollto {{Request::is('career') ? 'active' : ''}}" href="{{ route('/career') }}">Careers</a></li>
             <li><a class="nav-link scrollto {{Request::is('contact') ? 'active' : ''}}" href="{{ route('/contact') }}">Contact</a></li>
+
         </ul>
+        <a class="btn btn-primary admin-login" href="{{ route('user-login') }}">Login</a>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 

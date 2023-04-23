@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Vendor;
 
+use App\Exports\ExportVendors;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\State;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class VendorController extends Controller
@@ -68,14 +70,11 @@ class VendorController extends Controller
                     ->setRowId(function ($vendor) {
                         return 'row'.$vendor->id;
                     })
-                    ->setRowId(function ($vendor) {
-                        return 'SN'.$vendor->id;
-                    })
                     ->addColumn('Business Name', function ($vendor) {
                         return $vendor->name_of_establishment;
                     })
                     ->addColumn('Establishment Type', function ($vendor) {
-                        $type = $this->getEstablishmentType($vendor->establishment_type);
+                        $type = getEstablishmentType($vendor->establishment_type);
                         return $type;
                     })
                     ->addColumn('Pan', function ($vendor) {
@@ -121,16 +120,16 @@ class VendorController extends Controller
                         return $vendor->created_at;
                     })
                     ->addColumn('Status', function ($vendor) {
-                        if($vendor->is_ative ==1){
-                            $status ='Activated';
+                        if($vendor->is_active ==1){
+                            $status ='Active';
                         }else{
-                            $status= 'Deactivate';
+                            $status= 'Deactive';
                         }
                         return $status;
                     })
 
                     ->addColumn('action', function($vendor){
-                        if($vendor->is_ative ==1){
+                        if($vendor->is_active ==1){
                             $status = 'Deactivate';
                         }else{
                             $status = 'Activate';
@@ -139,7 +138,9 @@ class VendorController extends Controller
                                 <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                                <a class="dropdown-item" href="'.url('admin/vendor/update/'.$vendor->id).'">Edit</a>
+                                <a class="dropdown-item" onClick="openModelpartner('.$vendor->id.')" href="#">Partner Details</a>
+                                <a class="dropdown-item" onClick="openModelpreProducts('.$vendor->id.')" href="#">Previous Products</a>
+                                <a class="dropdown-item" href="'.url('admin/vendor-update/'.$vendor->id).'">Edit</a>
                                 <a class="dropdown-item" href="'.url('admin/vendor/change-status/'.$vendor->id).'">'.$status.'</a>
 
                                 </div>
@@ -217,10 +218,15 @@ class VendorController extends Controller
     public function changeStatus($id)
     {
         $vendor = Vendor::find($id);
-        $vendor->save([
-            'is_ative' => $vendor->is_ative ==1 ? 0 : 1,
+        $value = !$vendor->is_active;
+        $vendor->update([
+            'is_active' => (int) $value,
         ]);
 
         return redirect()->back()->with(['message'=>'success']);
+    }
+
+    public function exportVendor(Request $request){
+        return Excel::download(new ExportVendors, 'vendors.csv');
     }
 }

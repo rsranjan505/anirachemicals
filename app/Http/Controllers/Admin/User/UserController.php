@@ -76,9 +76,7 @@ class UserController extends Controller
                     ->setRowId(function ($user) {
                         return 'row'.$user->id;
                     })
-                    ->setRowId(function ($user) {
-                        return 'SN'.$user->id;
-                    })
+
                     ->addColumn('First Name', function ($user) {
                         return $user->first_name;
                     })
@@ -111,16 +109,17 @@ class UserController extends Controller
                         return $user->created_at;
                     })
                     ->addColumn('Status', function ($user) {
+                        $status='';
                         if($user->is_active ==1){
-                            $status ='Activated';
+                            $status ='Active';
                         }else{
-                            $status= 'Deactivate';
+                            $status= 'Deactive';
                         }
                         return $status;
                     })
 
                     ->addColumn('action', function($user){
-                        if($user->is_ative ==1){
+                        if($user->is_active ==1){
                             $status = 'Deactivate';
                         }else{
                             $status = 'Activate';
@@ -129,7 +128,7 @@ class UserController extends Controller
                                 <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                                <a class="dropdown-item" href="'.url('admin/user/update/'.$user->id).'">Edit</a>
+                                <a class="dropdown-item" href="'.url('admin/user-update/'.$user->id).'">Edit</a>
                                 <a class="dropdown-item" href="'.url('admin/user/change-status/'.$user->id).'">'.$status.'</a>
 
                                 </div>
@@ -179,8 +178,9 @@ class UserController extends Controller
     public function changeStatus($id)
     {
         $user = User::find($id);
-        $user->save([
-            'is_active' => $user->is_ative ==1 ? 0 : 1,
+        $value = !$user->is_active;
+        $user->update([
+            'is_active' => (int) $value,
         ]);
 
         return redirect()->back()->with(['message'=>'success']);

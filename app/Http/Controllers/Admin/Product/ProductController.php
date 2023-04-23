@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin\Product;
 
+use App\Exports\ExportProducts;
 use App\Http\Controllers\Controller;
+use App\Models\PackingSize;
+use App\Models\Product;
 use App\Models\State;
-use App\Models\User;
+use App\Models\StockItems;
+use App\Models\Unit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
@@ -15,158 +18,102 @@ class ProductController extends Controller
     public function index()
     {
         $data['state'] = State::all();
+        $data['unit'] = Unit::all();
+        $data['packing_size'] = PackingSize::all();
         return view('admin.pages.product.add',['data'=>$data]);
     }
 
      /**
      * Create User
      * @param Request $request
-     * @return User
+     * @return Product
      */
     public function createProduct(Request $request)
     {
-        try {
-            //Validated
-            $validateUser = Validator::make($request->all(),
-            [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'mobile' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required',
-                'password_confirmation' => 'required|same:password',
-            ]);
+        //Validated
+        $data = $request->except(['avatar','product_items']);
 
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
+        $request->validate([
+            'name' => 'required|string',
+            'code' => 'required|unique:products,code',
+            'brand' =>'required',
+            'form' => 'required',
+        ]);
+
+
+        $data['created_by'] = auth()->user()->id;
+        $product = $this->recordSave(Product::class,$data,null,null);
+        if($product !=null && $request->product_items !=null){
+
+            foreach($request->product_items as $items){
+                $itemsDetails = new StockItems();
+                $items['product_id'] = $product->id;
+                $itemsDetails->create($items);
             }
-
-            $request['password'] = Hash::make($request->password);
-
-            $user = User::create([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'mobile' => $request->mobile,
-                'role_id' => $request->role_id,
-                'user_type' => $request->user_type,
-                'address' => $request->address,
-                'state_id ' => $request->state_id,
-                'city_id ' => $request->city_id,
-                'pincode' => $request->pincode,
-                'is_active' => $request->is_active,
-                'is_admin ' => $request->is_admin,
-                'email' => $request->email,
-                'password' => $request['password']
-            ]);
-
-
-            return redirect()->back()->with(['success'=>'created']);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
         }
-    }
 
-    public function validateData($request,$type)
-    {
-        if($type == 'create'){
-            $data = Validator::make($request,
-            [
-                'name' => 'required|string',
-                'code' => 'required|unique:products,code',
-                'brand' =>'required',
-                'form' => 'required',
-                'type' =>'required',
-                'packaging_size' =>'required',
-                'description' =>'required',
-            ]);
-        }else{
-            $data = Validator::make($request,
-            [
-                'name' => 'required|string',
-                'brand' =>'required',
-                'form' => 'required',
-                'type' =>'required',
-                'packaging_size' =>'required',
-                'description' =>'required',
-
-            ]);
-
+        if($request->avatar !=null){
+            foreach($request->avatar as $doc){
+                $docs = $this->fileUpload($doc,$product,'local');
+                $docs['document_type']='avatar';
+                $product->images()->create($docs);
+            }
         }
-        return $data;
+
+        return redirect()->back()->with(['success'=>'created']);
     }
 
     public function productList(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::with('image','state','city')->limit(10)->latest();
-            return DataTables::of($users)
+            $products = Product::with('creator')->limit(10)->latest();
+            return DataTables::of($products)
                     ->addIndexColumn()
-                    ->setRowId(function ($user) {
-                        return 'row'.$user->id;
+                    ->setRowId(function ($product) {
+                        return 'row'.$product->id;
                     })
-                    ->setRowId(function ($user) {
-                        return 'SN'.$user->id;
+                    ->addColumn('Product Name', function ($product) {
+                        return $product->name;
                     })
-                    ->addColumn('First Name', function ($user) {
-                        return $user->first_name;
-                    })
-                    ->addColumn('Last Name', function ($user) {
+                    ->addColumn('Product Code', function ($product) {
 
-                        return $user->last_name;
+                        return $product->code;
                     })
-                    ->addColumn('Email', function ($user) {
-                        return $user->email;
+                    ->addColumn('Product Brand', function ($product) {
+                        return $product->brand;
                     })
-                    ->addColumn('Mobile', function ($user) {
-                        return $user->mobile;
+                    ->addColumn('Product Form', function ($product) {
+                        return $product->form;
                     })
-                    ->addColumn('User Type', function ($user) {
-                        return $user->user_type ;
+                    ->addColumn('Created Date', function ($product) {
+                        return $product->created_at;
                     })
-                    ->addColumn('Address', function ($user) {
-                        return $user->address;
+                    ->addColumn('Created By', function ($product) {
+                        return $product->creator->first_name;
                     })
-                    ->addColumn('City', function ($user) {
-                        return $user->city ? $user->city->name : '';
-                    })
-                    ->addColumn('State', function ($user) {
-                        return $user->state ? $user->state->name : '';
-                    })
-                    ->addColumn('Pincode', function ($user) {
-                        return $user->pincode;
-                    })
-                    ->addColumn('Created Date', function ($user) {
-                        return $user->created_at;
-                    })
-                    ->addColumn('Status', function ($user) {
-                        if($user->is_active ==1){
-                            $status ='Activated';
+                    ->addColumn('Status', function ($product) {
+                        $status='';
+                        if($product->is_active ==1){
+                            $status ='Active';
                         }else{
-                            $status= 'Deactivate';
+                            $status= 'Deactive';
                         }
                         return $status;
                     })
 
-                    ->addColumn('action', function($user){
-                        if($user->is_ative ==1){
-                            $status = 'Deactivate';
+                    ->addColumn('action', function($product){
+                        $status='';
+                        if($product->is_active ==1){
+                            $status = 'Deactive';
                         }else{
-                            $status = 'Activate';
+                            $status = 'Active';
                         }
                         return '<div class="dropdown">
                                 <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                                <a class="dropdown-item" href="'.url('admin/user/edit/'.$user->id).'">Edit</a>
-                                <a class="dropdown-item" href="'.url('admin/user/change-status/'.$user->id).'">'.$status.'</a>
+                                <a class="dropdown-item" href="'.url('admin/product-update/'.$product->id).'">Edit</a>
+                                <a class="dropdown-item" href="'.url('admin/product/change-status/'.$product->id).'">'.$status.'</a>
 
                                 </div>
                             </div>';
@@ -176,14 +123,15 @@ class ProductController extends Controller
                     ->make(true);
         }
 
-        return view('admin.pages.users.list');
+        return view('admin.pages.product.list');
     }
 
     public function edit($id){
         if($id!=null){
-            $user = User::find($id);
-            $data['state'] = State::all();
-            $data['user'] = $user;
+            $product = Product::find($id);
+            $data['unit'] = Unit::all();
+            $data['packing_size'] = PackingSize::all();
+            $data['product'] = $product;
             return view('admin.pages.product.edit',['data'=>$data]);
         }
     }
@@ -194,26 +142,39 @@ class ProductController extends Controller
             // $vendor = Vendor::find($request->id);
             $data = $request->except(['avatar']);
             //Validated
-            $validateUser = Validator::make($request->all(),
-            [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'mobile' => 'required|min:10',
+            $request->validate([
+                'name' => 'required|string',
+                'brand' =>'required',
+                'form' => 'required',
+                'packing_type' =>'required',
+                'packaging_size' =>'required',
+                'description' =>'required',
             ]);
 
-            // if($validateUser->fails()){
-            //     return redirect()->back()->with(['error'=>$validateUser->errors()]);
-            // }
-
-            $user = $this->recordSave(User::class,$data,null,null);
-
+            $product = $this->recordSave(Product::class,$data,null,null);
             if($request->avatar !=null){
-                $image = $this->fileUpload($request->avatar,$user,'local');
-                $image['document_type']='avatar';
-                $user->image()->create($image);
+                foreach($request->avatar as $doc){
+                    $docs = $this->fileUpload($doc,$product,'local');
+                    $docs['document_type']='avatar';
+                    $product->images()->create($docs);
+                }
             }
 
             return redirect()->back()->with(['message'=>'success']);
         }
+    }
+
+    public function changeStatus($id)
+    {
+        $product = Product::find($id);
+        $value = !$product->is_active;
+        $product->update([
+            'is_active' => (int) $value,
+        ]);
+        return redirect()->back()->with(['message'=>'success']);
+    }
+
+    public function exportProduct(Request $request){
+        return Excel::download(new ExportProducts, 'products.csv');
     }
 }

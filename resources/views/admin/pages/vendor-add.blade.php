@@ -53,50 +53,52 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Establishment Pan Number</label>
-                                                <input id="pan" type="text" name="pan" class="form-control"/>
+                                                <input id="pan" type="text" name="pan" style="text-transform:uppercase" class="form-control"/>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Establishment Gst Number</label>
-                                                <input id="gst" type="text" name="gst" class="form-control"/>
+                                                <input id="gst" type="text" name="gst" style="text-transform:uppercase" class="form-control"/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="partner"  style="padding:15px;">
                                     <h4>Partner Details</h4>
+
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="col-form-label">Name</label>
-                                                    <input id="partner_details" type="text" name="partner_details[name][]" class="form-control"/>
+                                                    <input id="partner_name" type="text" class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label class="col-form-label">Pan</label>
-                                                    <input id="partner_details" type="text" name="partner_details[pan][]" class="form-control"/>
+                                                    <input id="partner_pan" type="text" style="text-transform:uppercase"  class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label class="col-form-label">DOB</label>
-                                                    <input id="partner_details" type="date" name="partner_details[dob][]" class="form-control"/>
+                                                    <input id="partner_dob" type="date"  class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label class="col-form-label">Anniversary</label>
-                                                    <input id="partner_details" type="date" name="partner_details[anniversary][]" class="form-control"/>
+                                                    <input id="partner_anniversary" type="date"  class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2" style="margin-top: 3.8rem">
                                                 <a id="add_morepartner" class="btn btn-primary mr-2">Add partner</a>
                                             </div>
                                         </div>
+                                        <div class="morepartner">
+                                        </div>
                                     </div>
-                                    <div class="morepartner">
-                                    </div>
+
                                     <h4>Address</h4>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -175,13 +177,13 @@
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label class="col-form-label">Product Name</label>
-                                                <input id="previous_product_details" type="text" name="previous_product_details[name][]" class="form-control"/>
+                                                <input id="previous_product_details_name" type="text"  class="form-control"/>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label class="col-form-label">Brand</label>
-                                                <input id="previous_product_details" type="text" name="previous_product_details[brand][]" class="form-control"/>
+                                                <input id="previous_product_details_brand" type="text"  class="form-control"/>
                                             </div>
                                         </div>
 
@@ -210,7 +212,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-5">
-                                            <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="#" alt="your image" />
+                                            <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="{{ asset('admin/assets/images/accounticon.png')}}" alt="your image" />
                                         </div>
                                     </div>
                                     <label class="col-form-label">Upload Support Documnets</label>

@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers\Admin\Order;
 
+use App\Exports\ExportOrders;
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\PackingSize;
+use App\Models\Product;
 use App\Models\State;
+use App\Models\Unit;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class OrderController extends Controller
@@ -15,146 +24,87 @@ class OrderController extends Controller
     public function index()
     {
         $data['state'] = State::all();
+        $data['vendor'] = Vendor::all();
+        $data['product'] = Product::all();
+        $data['unit'] = Unit::all();
+        $data['packing_size'] = PackingSize::all();
         return view('admin.pages.order.add',['data'=>$data]);
     }
 
      /**
      * Create User
      * @param Request $request
-     * @return User
+     * @return Order
      */
     public function createOrder(Request $request)
     {
-        try {
-            //Validated
-            $validateUser = Validator::make($request->all(),
-            [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'mobile' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required',
-                'password_confirmation' => 'required|same:password',
-            ]);
+        $data = $request->except(['product','product_id','quantity','unit','unit_price','total_price']);
+        $request->validate([
+            'customer_name' => 'required|string',
+            'email' => 'required',
+            'mobile' =>'required',
+            'address' => 'required',
+            'state_id' =>'required',
+            'city_id' =>'required',
+            'pincode' =>'required',
+        ]);
 
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
+        $data['created_by'] = auth()->user()->id;
+        $order = $this->recordSave(Order::class,$data,null,null);
 
-            $request['password'] = Hash::make($request->password);
+        $products = $request->product;
 
-            $user = User::create([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'mobile' => $request->mobile,
-                'role_id' => $request->role_id,
-                'user_type' => $request->user_type,
-                'address' => $request->address,
-                'state_id ' => $request->state_id,
-                'city_id ' => $request->city_id,
-                'pincode' => $request->pincode,
-                'is_active' => $request->is_active,
-                'is_admin ' => $request->is_admin,
-                'email' => $request->email,
-                'password' => $request['password']
-            ]);
-
-
-            return redirect()->back()->with(['success'=>'created']);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
+        foreach($products as $key=> $product){
+            $pos=strpos($product['product_id'],'#');
+            $product_id = substr($product['product_id'],0,$pos);
+            $orderItem = new OrderItem();
+            $product['product_id'] = $product_id;
+            $product['customer_id'] = $request->customer_id??null;
+            $product['order_id'] = $order->id;
+            $orderItem->create($product);
         }
-    }
-
-    public function validateData($request,$type)
-    {
-        if($type == 'create'){
-            $data = Validator::make($request,
-            [
-                'customer_name' => 'required|string',
-                'email' => 'required',
-                'mobile' =>'required',
-                'address' => 'required',
-                'state_id' =>'required',
-                'city_id' =>'required',
-                'pincode' =>'required',
-                'quantity'=>'required',
-                'unit'=>'required',
-                'unit_price'=>'required',
-                'total_price'=>'required',
-
-            ]);
-        }else{
-            $data = Validator::make($request,
-            [
-                'customer_name' => 'required|string',
-                'email' => 'required',
-                'mobile' =>'required',
-                'address' => 'required',
-                'state_id' =>'required',
-                'city_id' =>'required',
-                'pincode' =>'required',
-                'quantity'=>'required',
-                'unit'=>'required',
-                'unit_price'=>'required',
-                'total_price'=>'required',
-
-            ]);
-
-        }
-        return $data;
+        return redirect()->back()->with(['success'=>'created']);
     }
 
     public function orderList(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::with('image','state','city')->limit(10)->latest();
-            return DataTables::of($users)
-                    ->addIndexColumn()
-                    ->setRowId(function ($user) {
-                        return 'row'.$user->id;
-                    })
-                    ->setRowId(function ($user) {
-                        return 'SN'.$user->id;
-                    })
-                    ->addColumn('First Name', function ($user) {
-                        return $user->first_name;
-                    })
-                    ->addColumn('Last Name', function ($user) {
+            $orders = Order::with('customer','state','city','creator','orderItems')->limit(10)->latest();
 
-                        return $user->last_name;
+            return DataTables::of($orders)
+                    ->addIndexColumn()
+                    ->setRowId(function ($order) {
+                        return 'row'.$order->id;
                     })
-                    ->addColumn('Email', function ($user) {
-                        return $user->email;
+                    ->addColumn('Customer Name', function ($order) {
+                        return $order->customer_name;
                     })
-                    ->addColumn('Mobile', function ($user) {
-                        return $user->mobile;
+                    ->addColumn('Order Date', function ($order) {
+                        return $order->created_at;
                     })
-                    ->addColumn('User Type', function ($user) {
-                        return $user->user_type ;
+                    ->addColumn('Email', function ($order) {
+                        return $order->email;
                     })
-                    ->addColumn('Address', function ($user) {
-                        return $user->address;
+                    ->addColumn('Mobile', function ($order) {
+                        return $order->mobile;
                     })
-                    ->addColumn('City', function ($user) {
-                        return $user->city ? $user->city->name : '';
+                    ->addColumn('Address', function ($order) {
+                        return $order->address;
                     })
-                    ->addColumn('State', function ($user) {
-                        return $user->state ? $user->state->name : '';
+                    ->addColumn('City', function ($order) {
+                        return $order->city ? $order->city->name : '';
                     })
-                    ->addColumn('Pincode', function ($user) {
-                        return $user->pincode;
+                    ->addColumn('Pincode', function ($order) {
+                        return $order->pincode;
                     })
-                    ->addColumn('Created Date', function ($user) {
-                        return $user->created_at;
+                    ->addColumn('Is Delivered', function ($order) {
+                        return $order->is_delivered == 1 ? 'Yes' : 'No';
+                    })
+                    ->addColumn('Delivered Date', function ($order) {
+                        return $order->delivered_date??'';
+                    })
+                    ->addColumn('Created By', function ($order) {
+                        return $order->creator->first_name;
                     })
                     ->addColumn('Status', function ($user) {
                         if($user->is_active ==1){
@@ -165,8 +115,8 @@ class OrderController extends Controller
                         return $status;
                     })
 
-                    ->addColumn('action', function($user){
-                        if($user->is_ative ==1){
+                    ->addColumn('action', function($order){
+                        if($order->is_ative ==1){
                             $status = 'Deactivate';
                         }else{
                             $status = 'Activate';
@@ -175,8 +125,10 @@ class OrderController extends Controller
                                 <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                                <a class="dropdown-item" href="'.url('admin/user/edit/'.$user->id).'">Edit</a>
-                                <a class="dropdown-item" href="'.url('admin/user/change-status/'.$user->id).'">'.$status.'</a>
+                                <a class="dropdown-item" onClick="openModel('.$order->id.')" href="#">View Items</a>
+                                <a class="dropdown-item" onClick="deliveredModel('.$order->id.')"  href="#">Delivered</a>
+                                <a class="dropdown-item" href="'.url('admin/order-update/'.$order->id).'">Edit</a>
+                                <a class="dropdown-item" href="'.url('admin/order/change-status/'.$order->id).'">'.$status.'</a>
 
                                 </div>
                             </div>';
@@ -186,14 +138,19 @@ class OrderController extends Controller
                     ->make(true);
         }
 
-        return view('admin.pages.users.list');
+        return view('admin.pages.order.list');
     }
 
     public function edit($id){
         if($id!=null){
-            $user = User::find($id);
+            $order = Order::with('orderItems')->find($id);
             $data['state'] = State::all();
-            $data['user'] = $user;
+            $data['city'] = City::all();
+            $data['vendor'] = Vendor::all();
+            $data['product'] = Product::all();
+            $data['unit'] = Unit::all();
+            $data['packing_size'] = PackingSize::all();
+            $data['order'] = $order;
             return view('admin.pages.order.edit',['data'=>$data]);
         }
     }
@@ -204,27 +161,60 @@ class OrderController extends Controller
             // $vendor = Vendor::find($request->id);
             $data = $request->except(['avatar']);
             //Validated
-            $validateUser = Validator::make($request->all(),
-            [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'mobile' => 'required',
+            $request->validate([
+                'customer_name' => 'required|string',
+                'email' => 'required',
+                'mobile' =>'required',
+                'address' => 'required',
+                'state_id' =>'required',
+                'city_id' =>'required',
+                'pincode' =>'required',
+                'quantity'=>'required',
+                'unit'=>'required',
+                'unit_price'=>'required',
+                'total_price'=>'required',
             ]);
 
-            if($validateUser->fails()){
-                return redirect()->back()->with(['error'=>$validateUser->errors()]);
-            }
-
-            $user = $this->recordSave(User::class,$data,null,null);
-
-            if($request->avatar !=null){
-                $image = $this->fileUpload($request->avatar,$user,'local');
-                $image['document_type']='avatar';
-                $user->image()->create($image);
-            }
+            $order = $this->recordSave(Order::class,$data,null,null);
 
             return redirect()->back()->with(['message'=>'success']);
         }
     }
 
+    //Ajax edit form
+    public function ajaxOrderItemShow($id){
+        $items = OrderItem::where('order_id',$id)->with('customer','product')->get();
+        return response()->json($items);
+    }
+
+    //get details by vendor id
+    public function getVendorId($id)
+    {
+        if($id!=null){
+            $vendor = Vendor::find($id);
+        }
+        return response()->json([
+            'status' => true,
+            'vendor' => $vendor
+        ], 200);
+    }
+
+    public function orderdelivered(Request $request)
+    {
+        if($request->id!=null){
+            $order = Order::find($request->id);
+            $order->update([
+                'is_delivered' => 1,
+                'delivered_date' => $request->delivered_date,
+            ]);
+        }
+        return redirect()->back()->with(['message'=>'success']);
+    }
+
+
+
+
+    public function exportOrder(Request $request){
+        return Excel::download(new ExportOrders, 'orders.csv');
+    }
 }

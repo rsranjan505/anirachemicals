@@ -26,3 +26,29 @@ if (!function_exists('cities')) {
         }
     }
 }
+
+if (!function_exists('units')) {
+    function units(): array
+    {
+        try {
+            $path = base_path('storage/josn/units.json');
+            $json = file_get_contents($path);
+            return json_decode($json, true);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+}
+
+if (!function_exists('packingSizes')) {
+    function packingSizes(): array
+    {
+        try {
+            $path = base_path('storage/josn/packingSize.json');
+            $json = file_get_contents($path);
+            return json_decode($json, true);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+}

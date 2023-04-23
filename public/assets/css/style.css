@@ -1330,3 +1330,10 @@ span.product {
       display: none !important;
     }
   }
+
+/* custom */
+a.admin-login {
+    margin-left: 10px;
+    text-align: center;
+    padding: 8px;
+}
