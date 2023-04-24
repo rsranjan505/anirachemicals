@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->dropColumn('packing_type');
+            $table->dropColumn('type');
             $table->dropColumn('advantages');
             $table->dropColumn('quantity');
             $table->dropColumn('unit');
