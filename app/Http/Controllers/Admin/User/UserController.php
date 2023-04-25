@@ -56,8 +56,10 @@ class UserController extends Controller
                 'password' => $request['password']
             ]);
 
-
-            return redirect()->back()->with(['success'=>'created']);
+            if(auth()->user()->user_type == 'admin'){
+                return redirect()->back()->with(['success'=>'created']);
+            }
+            return redirect()->back()->with(['success'=>'You Do Have permission ']);
 
         } catch (\Throwable $th) {
             return response()->json([
