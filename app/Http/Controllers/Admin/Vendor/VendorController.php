@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\State;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -64,7 +65,13 @@ class VendorController extends Controller
     public function vendorList(Request $request)
     {
         if ($request->ajax()) {
-            $vendors = Vendor::with('getState','getCity','creator')->limit(10)->latest();
+
+            if(auth()->user()->user_type == 'admin'){
+                $vendors = Vendor::with('getState','getCity','creator')->limit(10)->latest();
+            }else{
+                $vendors = Vendor::where('created_by',auth()->user()->id)->with('getState','getCity','creator')->limit(10)->latest();
+            }
+
             return DataTables::of($vendors)
                     ->addIndexColumn()
                     ->setRowId(function ($vendor) {

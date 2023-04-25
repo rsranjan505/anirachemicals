@@ -70,7 +70,13 @@ class UserController extends Controller
     public function userList(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::with('image','state','city')->limit(10)->latest();
+
+            if(auth()->user()->user_type == 'admin'){
+                $users = User::with('image','state','city')->limit(10)->latest();
+            }else{
+                $users = User::where('id',auth()->user()->id)->with('image','state','city')->limit(10)->latest();
+            }
+
             return DataTables::of($users)
                     ->addIndexColumn()
                     ->setRowId(function ($user) {

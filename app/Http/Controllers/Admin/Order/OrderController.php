@@ -69,7 +69,11 @@ class OrderController extends Controller
     public function orderList(Request $request)
     {
         if ($request->ajax()) {
-            $orders = Order::with('customer','state','city','creator','orderItems')->limit(10)->latest();
+            if(auth()->user()->user_type == 'admin'){
+                $orders = Order::with('customer','state','city','creator','orderItems')->limit(10)->latest();
+            }else{
+                $orders = Order::where('created_by',auth()->user()->id)->with('customer','state','city','creator','orderItems')->limit(10)->latest();
+            }
 
             return DataTables::of($orders)
                     ->addIndexColumn()

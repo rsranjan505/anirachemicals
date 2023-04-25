@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Order\OrderController;
 use App\Http\Controllers\Admin\Product\ProductController;
+use App\Http\Controllers\Admin\ResetPasswordRequestController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Vendor\VendorController;
 use App\Http\Controllers\CareerController;
@@ -60,6 +61,13 @@ Route::get('/config-cache', function() {
 Route::post('/register', [AuthController::class, 'createUser'])->name('register');
 Route::get('/login', [AuthController::class, 'loginview'])->name('user-login');
 Route::post('/login', [AuthController::class, 'loginUser'])->name('login');
+
+Route::get('/request-password', [ResetPasswordRequestController::class, 'reqForgotPasswordView'])->name("request-password-view");
+Route::post('/request-password', [ResetPasswordRequestController::class, 'reqForgotPassword'])->name("request-password");
+Route::get('/reset-password/{token}', [ResetPasswordRequestController::class, 'resetPasswordView'])->name("reset-password-view");
+Route::post('/reset-password', [ResetPasswordRequestController::class, 'updateForgotPassword'])->name("reset-password");
+Route::get('/{token}/get-email-token', [ResetPasswordRequestController::class, 'getEmailFromToken'])->name("get-email-token");
+Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
 
 
 

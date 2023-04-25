@@ -57,15 +57,15 @@ class DearlershipController extends Controller
     }
 
 
-   public function basic_email($message) {
+//    public function basic_email($message) {
 
-    $data = array('name'=>"Virat Gandhi");
+//     $data = array('name'=>"Virat Gandhi");
 
-    Mail::send(['text'=>'pages.mail'], $data, function($message) {
-       $message->to(config('mail.mailers.smtp.username',null), 'Tutorials Point')->subject
-          ('Laravel Basic Testing Mail');
-       $message->from('xyz@gmail.com','Virat Gandhi');
-    });
-    echo "Basic Email Sent. Check your inbox.";
- }
+//     Mail::send(['text'=>'pages.mail'], $data, function($message) {
+//        $message->to(config('mail.mailers.smtp.username',null), 'Tutorials Point')->subject
+//           ('Laravel Basic Testing Mail');
+//        $message->from('xyz@gmail.com','Virat Gandhi');
+//     });
+//     echo "Basic Email Sent. Check your inbox.";
+//  }
 }
