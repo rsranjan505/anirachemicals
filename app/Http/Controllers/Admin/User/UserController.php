@@ -59,7 +59,7 @@ class UserController extends Controller
             if(auth()->user()->user_type == 'admin'){
                 return redirect()->back()->with(['success'=>'created']);
             }
-            return redirect()->back()->with(['success'=>'You Do Have permission ']);
+            return redirect()->back()->with(['success'=>'You do not have permission ']);
 
         } catch (\Throwable $th) {
             return response()->json([
