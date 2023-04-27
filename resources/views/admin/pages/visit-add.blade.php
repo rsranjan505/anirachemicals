@@ -139,6 +139,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
+                                        <p>To find Latitude and Longitude you have to Click shop image from your mobile with GPS/Location tag Enable setting then, you will get latitude and longitude of in image description</p>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Latitude</label>
