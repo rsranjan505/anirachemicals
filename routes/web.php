@@ -16,6 +16,7 @@ use App\Http\Controllers\DearlershipController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\Admin\VisitController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -123,6 +124,14 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
 
     Route::get('order-items/{id}', [OrderController::class, 'ajaxOrderItemShow'])->name('order.items-show');
     Route::post('order-delivered', [OrderController::class, 'orderdelivered'])->name('order.delivered');
+
+     //Visit
+     Route::get('visit', [VisitController::class, 'visitList'])->name('visit');
+     Route::get('visit-add', [VisitController::class, 'index'])->name('visit-add');
+     Route::post('visit-add', [VisitController::class, 'createVisit'])->name('visit-save');
+     Route::get('visit-update/{id?}', [VisitController::class, 'edit'])->name('visit-edit-view');
+     Route::post('visit-update', [VisitController::class, 'update'])->name('visit-update');
+     Route::get('visit-status-change/{id?}', [VisitController::class, 'statusChange'])->name('visit-status-change');
 
 
 });

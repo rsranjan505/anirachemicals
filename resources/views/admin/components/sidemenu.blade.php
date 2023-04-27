@@ -7,6 +7,19 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#visit" aria-expanded="false" aria-controls="ui-order">
+                <i class="icon-stack menu-icon"></i>
+                <span class="menu-title">Visit</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="visit">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('visit') }}">Visit</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('visit-add') }}"> Create Visit</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#vendor" aria-expanded="false" aria-controls="ui-order">
                 <i class="icon-stack menu-icon"></i>
                 <span class="menu-title">Vendor</span>
@@ -19,6 +32,7 @@
                 </ul>
             </div>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#order" aria-expanded="false" aria-controls="ui-order">
                 <i class="icon-inbox menu-icon"></i>
