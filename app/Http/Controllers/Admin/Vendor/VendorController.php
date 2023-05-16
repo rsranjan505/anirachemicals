@@ -78,7 +78,7 @@ class VendorController extends Controller
                         return 'row'.$vendor->id;
                     })
                     ->addColumn('Image', function ($vendor) {
-                        $img = $vendor->image !=null ? $vendor->image->url : '';
+                        $img = $vendor->image !=null ? $vendor->image->url : 'http://anirachemicals.com/admin/assets/images/accounticon.png';
                         return ' <td class="py-1">
                                     <img id="imgV" onclick="imageView()" src="'.$img.'" alt="image" data-mdb-img="'.$img.'"
                                     alt="visiting image"

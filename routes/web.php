@@ -135,6 +135,9 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
      Route::get('visit-update/{id?}', [VisitController::class, 'edit'])->name('visit-edit-view');
      Route::post('visit-update', [VisitController::class, 'update'])->name('visit-update');
      Route::get('visit-status-change/{id?}', [VisitController::class, 'statusChange'])->name('visit-status-change');
+     Route::get('visit/export', [VisitController::class, 'exportVisit'])->name('visit-export');
+
+
 
       //Location District
     Route::prefix('districts')->middleware('auth','web')->group(function(){

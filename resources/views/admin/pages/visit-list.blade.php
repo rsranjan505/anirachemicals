@@ -11,7 +11,7 @@
                 <div class="card">
                     @include('admin/components/header-nav/visit-nav',['activeTab' => 'list'] )
                     <div class="card-body">
-                        <a href="{{ url('admin/vendor/export')}}" style="float:right;" class="btn btn-success btn-rounded btn-icon-text"> <i class="ti-file btn-icon-prepend"></i></i>Export</a>
+                        <a href="{{ url('admin/visit/export')}}" style="float:right;" class="btn btn-success btn-rounded btn-icon-text"> <i class="ti-file btn-icon-prepend"></i></i>Export</a>
                         <div class="row w-100 mx-0">
                             <h4 class="card-title">Visiting List</h4>
 

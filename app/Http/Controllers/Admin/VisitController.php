@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ExportOrders;
+use App\Exports\ExportVisits;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Order;
@@ -78,7 +79,7 @@ class VisitController extends Controller
                         return 'row'.$vendor->id;
                     })
                     ->addColumn('Image', function ($vendor) {
-                        $img = $vendor->image !=null ? $vendor->image->url : '';
+                        $img = $vendor->image !=null ? $vendor->image->url : 'http://anirachemicals.com/admin/assets/images/accounticon.png';
                         return ' <td class="py-1">
                                     <img id="imgV" onclick="imageView()" src="'.$img.'" alt="image" data-mdb-img="'.$img.'"
                                     alt="visiting image"
@@ -200,7 +201,7 @@ class VisitController extends Controller
         }
     }
 
-    public function exportOrder(Request $request){
-        return Excel::download(new ExportOrders, 'visits.csv');
+    public function exportVisit(Request $request){
+        return Excel::download(new ExportVisits, 'visits.csv');
     }
 }

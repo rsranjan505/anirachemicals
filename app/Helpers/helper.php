@@ -23,3 +23,18 @@ function getEstablishmentType($id){
     }
     return null;
 }
+
+function getVisitStatus($id){
+    if($id!=null){
+        if($id == 1){
+            return 'Open - Not Contacted';
+        }elseif($id == 2){
+            return 'Working - Contacted';
+        }elseif($id == 3){
+            return 'Closed - Converted';
+        }elseif($id == 4){
+            return'Closed - Not Converted';
+        }
+    }
+    return null;
+}

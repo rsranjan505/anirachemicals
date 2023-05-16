@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Order;
+use App\Models\Visit;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ExportOrders implements FromCollection, WithHeadings, WithEvents
+class ExportVisits implements FromCollection, WithHeadings, WithEvents
 {
     protected  $selects;
     protected  $row_count;
@@ -20,7 +20,7 @@ class ExportOrders implements FromCollection, WithHeadings, WithEvents
 
     public function __construct()
     {
-        $this->column_count=5;//number of columns to be auto sized
+        $this->column_count=12;//number of columns to be auto sized
     }
 
     /**
@@ -28,22 +28,28 @@ class ExportOrders implements FromCollection, WithHeadings, WithEvents
     */
     public function collection()
     {
-        $orders = Order::with('state','city','creator')->get();
+        $visits = Visit::with('state','city','creator')->get();
+
         $row=[];
-        foreach($orders as $key => $order){
+        foreach($visits as $index=>$visit){
             $row[]=[
-                ++$key,
-                $order['customer_name'],
-                $order['email']??'',
-                $order['mobile']??'',
-                $order['address']??'',
-                $order->state !=null ? $order->state->name :'',
-                $order->city !=null ? $order->city->name : '',
-                $order['pincode'],
-                $order['bill_amount'],
-                $order['is_delivered'] == 1 ? 'Yes' :'No',
-                $order['delivered_date']??'',
-                $order->creator->first_name,
+                ++$index,
+                $visit['name_of_establishment'],
+                getEstablishmentType($visit['establishment_type']),
+                $visit['key_person'],
+                $visit['email'],
+                $visit['mobile'],
+                $visit['address'],
+                $visit->state !=null ? $visit->state->name : '',
+                $visit->city ? $visit->city->name : '',
+                $visit['pincode'],
+                getVisitStatus($visit['status']),
+                $visit['source'],
+                $visit['latitude'],
+                $visit['longitude'],
+                $visit['description'],
+                $visit['created_at'],
+                $visit->creator->first_name,
 
             ];
         }
@@ -51,6 +57,7 @@ class ExportOrders implements FromCollection, WithHeadings, WithEvents
         $data =[
             $row,
         ];
+
         return collect($data);
     }
 
@@ -58,17 +65,22 @@ class ExportOrders implements FromCollection, WithHeadings, WithEvents
     {
         return [
             'SN',
-            'Customer Name',
+            'Establishment Name',
+            'Establishment Type',
+            'Key Person',
             'Email',
             'Mobile',
             'Address',
-            'City',
             'State',
+            'City',
             'Pincode',
-            'Bill Amount',
-            'Is Delivered',
-            'Delivered Date',
-            'Created By'
+            'Status',
+            'Source',
+            'Latitude',
+            'Longitude',
+            'Description',
+            'Date',
+            'Created By',
         ];
     }
 
@@ -83,12 +95,15 @@ class ExportOrders implements FromCollection, WithHeadings, WithEvents
 
             $sheet = $event->sheet->getDelegate();
 
-            $sheet->getStyle('0')->getFont()->setSize(12)
+            $sheet->getStyle('1')->getFont()->setSize(12)
                     ->setBold(true);
             // $sheet->getStyle('1')->getFill();
             // $sheet->getStyle('A')->getBorders()->getAllBorders()
             //     ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
 
+                // $sheet->getStyle(1, function($row) {
+                //     $row->setBackground('#CCCCCC');
+                // });
 
                 for ($i = 1; $i <= $this->column_count; $i++) {
                     $column = Coordinate::stringFromColumnIndex($i);
