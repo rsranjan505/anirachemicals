@@ -246,5 +246,26 @@ $('#customer_id').on('change', function () {
         });
     }
 
+    //Modal image
+    function imageView() {
+        var modal = document.getElementById("modalImg");
+
+        var img = document.getElementById("imgV");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+
+        modal.style.display = "block";
+        modalImg.src = img.src;
+        captionText.innerHTML = img.alt;
+        // alert(img);
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("modalImg");
+        modal.style.display = "none";
+    }
+
+
+
 
 

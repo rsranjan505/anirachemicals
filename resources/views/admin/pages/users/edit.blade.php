@@ -16,7 +16,7 @@
                     </div>
                 @endif
                 @if (isset($data['user']))
-                <form method="POST" action="{{ route('user-update') }}">
+                <form method="POST" action="{{ route('user-update') }}" enctype="multipart/form-data">
                     @csrf
                     <input id="id" type="hidden" name="id" value="{{ $data['user']->id }}" class="form-control"/>
                     <div class="row mb-3">
@@ -114,7 +114,7 @@
 
                         </div>
                     </div>
-                    <div class="row mb-3">
+                    {{-- <div class="row mb-3">
                         <label for="is_active" class="col-md-4 col-form-label text-md-end">{{ __('Is Active') }}</label>
                         <div class="col-md-6">
                             <select  id="is_active" type="text" name="is_active" class="form-control" required>
@@ -123,10 +123,26 @@
                             </select>
 
                         </div>
+                    </div> --}}
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="col-form-label">Upload your image </label>
+                                <input type="file" id="avatar"  name="avatar" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            @if ($data['user']->image !=null)
+                                <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="{{ $data['user']->image->url}}" alt="your image" />
+                            @else
+                                <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="{{ asset('admin/assets/images/accounticon.png')}}" alt="your image" />
+                            @endif
+
+                        </div>
                     </div>
 
                     <div class="row mb-0">
-                        <div class="col-md-6 offset-md-4">
+                        <div class="col-md-6 ">
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Save') }}
                             </button>

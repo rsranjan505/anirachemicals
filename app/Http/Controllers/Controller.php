@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssetFile;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -90,6 +91,15 @@ class Controller extends BaseController
             return [];
         }
     }
+
+    // public function downloadfile($id)
+    // {
+    //     $file = AssetFile::where('id',$id)->first();
+    //     // return $file;
+    //     $myfile = public_path('PG/doc/',$file->id,'/',$file->multiple_doc);
+    //     dd($myfile);
+    //     return response()->download($myfile);
+    // }
 
     public function toastrMsg($id=null)
     {

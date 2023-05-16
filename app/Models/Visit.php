@@ -12,9 +12,9 @@ class Visit extends Model
 	protected $dates = ['created_at', 'updated_at'];
 
     //here is many to one polymorph
-    public function document()
+    public function image()
     {
-        return $this->morphOne(AssetFile::class, 'pictureable','model_type', 'model_id');
+        return $this->morphOne(AssetFile::class, 'pictureable','model_type', 'model_id')->where('document_type','avatar');
     }
     public function state(){
         return $this->belongsTo(State::class,'state_id');

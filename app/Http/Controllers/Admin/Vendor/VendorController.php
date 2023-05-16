@@ -67,15 +67,23 @@ class VendorController extends Controller
         if ($request->ajax()) {
 
             if(auth()->user()->user_type == 'admin'){
-                $vendors = Vendor::with('getState','getCity','creator')->limit(10)->latest();
+                $vendors = Vendor::with('getState','getCity','creator','image')->limit(10)->latest();
             }else{
-                $vendors = Vendor::where('created_by',auth()->user()->id)->with('getState','getCity','creator')->limit(10)->latest();
+                $vendors = Vendor::where('created_by',auth()->user()->id)->with('getState','getCity','creator','image')->limit(10)->latest();
             }
 
             return DataTables::of($vendors)
                     ->addIndexColumn()
                     ->setRowId(function ($vendor) {
                         return 'row'.$vendor->id;
+                    })
+                    ->addColumn('Image', function ($vendor) {
+                        $img = $vendor->image !=null ? $vendor->image->url : '';
+                        return ' <td class="py-1">
+                                    <img id="imgV" onclick="imageView()" src="'.$img.'" alt="image" data-mdb-img="'.$img.'"
+                                    alt="visiting image"
+                                    class="w-100"/>
+                                </td>';
                     })
                     ->addColumn('Business Name', function ($vendor) {
                         return $vendor->name_of_establishment;
@@ -127,12 +135,14 @@ class VendorController extends Controller
                         return $vendor->created_at;
                     })
                     ->addColumn('Status', function ($vendor) {
+
                         if($vendor->is_active ==1){
-                            $status ='Active';
-                        }else{
-                            $status= 'Deactive';
+                            $statucss = '<label class="badge badge-success">Active</label>' ;
+                        }else {
+                            $statucss = '<label class="badge badge-danger">Deactive</label>' ;
                         }
-                        return $status;
+                        return $statucss;
+
                     })
 
                     ->addColumn('action', function($vendor){
@@ -154,7 +164,7 @@ class VendorController extends Controller
                             </div>';
 
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action','Status','Image'])
                     ->make(true);
         }
 
@@ -163,7 +173,7 @@ class VendorController extends Controller
 
     public function edit($id){
         if($id!=null){
-            $vendor = Vendor::find($id);
+            $vendor = Vendor::where('id',$id)->with('getState','getCity','image','document')->first();
             $data['state'] = State::all();
             $data['city'] = City::all();
             $data['vendor'] = $vendor;

@@ -19,6 +19,7 @@
                                     <thead>
                                     <tr>
                                         <th>SL No</th>
+                                        <th>Image</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Email</th>
@@ -67,18 +68,21 @@
                 orderable: false,
                 searchable: false,
             },
-              {data: 'First Name', name: 'First Name'},
-              {data: 'Last Name', name: 'Last Name'},
-              {data: 'Email', name: 'Email'},
-              {data: 'Mobile', name: 'Mobile'},
-              {data: 'User Type', name: 'User Type'},
-              {data: 'Address', name: 'Address'},
-              {data: 'City', name: 'City'},
-              {data: 'State', name: 'State'},
-              {data: 'Pincode', name: 'Pincode'},
-              {data: 'Created Date', name: 'Created Date'},
-              {data: 'Status', name: 'Status'},
-              {data: 'action', name: 'action', orderable: false, searchable: false},
+            {   data: 'Image',
+                name: 'Image',
+            },
+            {data: 'First Name', name: 'First Name'},
+            {data: 'Last Name', name: 'Last Name'},
+            {data: 'Email', name: 'Email'},
+            {data: 'Mobile', name: 'Mobile'},
+            {data: 'User Type', name: 'User Type'},
+            {data: 'Address', name: 'Address'},
+            {data: 'City', name: 'City'},
+            {data: 'State', name: 'State'},
+            {data: 'Pincode', name: 'Pincode'},
+            {data: 'Created Date', name: 'Created Date'},
+            {data: 'Status', name: 'Status'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
           ]
       });
 

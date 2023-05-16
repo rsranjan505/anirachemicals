@@ -14,9 +14,14 @@ class Vendor extends Model
 	protected $dates = ['created_at', 'updated_at'];
 
     //here is many to one polymorph
+    public function image()
+    {
+        return $this->morphOne(AssetFile::class, 'pictureable','model_type', 'model_id')->where('document_type','avatar');
+    }
+
     public function document()
     {
-        return $this->morphOne(AssetFile::class, 'pictureable','model_type', 'model_id');
+        return $this->morphMany(AssetFile::class, 'pictureable','model_type', 'model_id')->where('document_type','support_document');
     }
     public function getState(){
         return $this->belongsTo(State::class,'state');

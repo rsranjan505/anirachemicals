@@ -20,6 +20,7 @@
                                     <thead>
                                     <tr>
                                         <th>SL No</th>
+                                        <th>Image</th>
                                         <th>Business Name</th>
                                         <th>Establishment Type</th>
                                         <th>Pan </th>
@@ -72,6 +73,9 @@ $(function () {
             className: "text-center",
             orderable: false,
             searchable: false,
+        },
+        {   data: 'Image',
+            name: 'Image',
         },
         {data: 'Business Name', name: 'Business Name'},
         {data: 'Establishment Type', name: 'Establishment Type'},

@@ -77,15 +77,19 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#users" aria-expanded="false" aria-controls="users">
             <i class="icon-head menu-icon"></i>
-            <span class="menu-title">Manage Users</span>
+            <span class="menu-title">Settings</span>
             <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="users">
-            <ul class="nav flex-column sub-menu">
+                <ul class="nav flex-column sub-menu">
                     <li class="nav-item"><a class="nav-link" href="{{ route('user-list') }}">User List</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('add-user-view') }}">Add User</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('setting-view') }}">Setting</a></li>
-            </ul>
+{{--
+                    <li class="nav-item"><a class="nav-link" href="{{ route('districts-list') }}">Districts</a></li>
+
+                    <li class="nav-item"><a class="nav-link" href="{{ route('blocks-list') }}">Blocks</a></li> --}}
+                </ul>
             </div>
         </li>
 

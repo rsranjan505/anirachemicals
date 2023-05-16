@@ -63,18 +63,27 @@ class VisitController extends Controller
 
     public function visitList(Request $request)
     {
+
         if ($request->ajax()) {
 
             if(auth()->user()->user_type == 'admin'){
-                $vendors = Visit::with('state','city','creator')->limit(10)->latest();
+                $visits = Visit::with('state','city','creator','image')->limit(10)->latest();
             }else{
-                $vendors = Visit::where('created_by',auth()->user()->id)->with('state','city','creator')->limit(10)->latest();
+                $visits = Visit::where('created_by',auth()->user()->id)->with('state','city','creator','image')->limit(10)->latest();
             }
 
-            return DataTables::of($vendors)
+            return DataTables::of($visits)
                     ->addIndexColumn()
                     ->setRowId(function ($vendor) {
                         return 'row'.$vendor->id;
+                    })
+                    ->addColumn('Image', function ($vendor) {
+                        $img = $vendor->image !=null ? $vendor->image->url : '';
+                        return ' <td class="py-1">
+                                    <img id="imgV" onclick="imageView()" src="'.$img.'" alt="image" data-mdb-img="'.$img.'"
+                                    alt="visiting image"
+                                    class="w-100"/>
+                                </td>';
                     })
                     ->addColumn('Business Name', function ($vendor) {
                         return $vendor->name_of_establishment;
@@ -107,7 +116,17 @@ class VisitController extends Controller
                         return $vendor->key_person;
                     })
                     ->addColumn('Status', function ($vendor) {
-                        return $vendor->status;
+                        if($vendor->status ==1){
+                            $statucss = '<label class="badge badge-warning">Open - Not Contacted</label>' ;
+                        }else if($vendor->status ==2){
+                            $statucss = '<label class="badge badge-info">Working - Contacted</label>' ;
+                        }else if($vendor->status ==3){
+                            $statucss = '<label class="badge badge-success">Closed - Converted</label>' ;
+                        }else if($vendor->status ==4){
+                            $statucss = '<label class="badge badge-danger">Closed - Not Converted</label>' ;
+                        }
+
+                        return $statucss;
                     })
                     ->addColumn('Source', function ($vendor) {
                         return $vendor->source;
@@ -129,16 +148,16 @@ class VisitController extends Controller
                                 <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                                <a class="dropdown-item" onClick="openModelpartner('.$vendor->id.')" href="#">Partner Details</a>
-                                <a class="dropdown-item" onClick="openModelpreProducts('.$vendor->id.')" href="#">Previous Products</a>
-                                <a class="dropdown-item" href="'.url('admin/vendor-update/'.$vendor->id).'">Edit</a>
-                                <a class="dropdown-item" href="'.url('admin/vendor/change-status/'.$vendor->id).'">'.$status.'</a>
+
+                                <a class="dropdown-item" href="'.url('admin/visit-update/'.$vendor->id).'">Edit</a>
+                                <a class="dropdown-item" href="'.url('admin/visit/change-status/'.$vendor->id).'">'.$status.'</a>
 
                                 </div>
                             </div>';
 
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['Image','Status','action'])
+                    // ->rawColumns(['action'])
                     ->make(true);
         }
 
@@ -147,14 +166,10 @@ class VisitController extends Controller
 
     public function edit($id){
         if($id!=null){
-            $order = Order::with('orderItems')->find($id);
+            $visit = Visit::with('state','city','creator','image')->find($id);
             $data['state'] = State::all();
             $data['city'] = City::all();
-            $data['vendor'] = Vendor::all();
-            $data['product'] = Product::all();
-            $data['unit'] = Unit::all();
-            $data['packing_size'] = PackingSize::all();
-            $data['order'] = $order;
+            $data['visit'] = $visit;
             return view('admin.pages.visit-edit',['data'=>$data]);
         }
     }
@@ -166,17 +181,17 @@ class VisitController extends Controller
             $data = $request->except(['avatar']);
             //Validated
             $request->validate([
-                'customer_name' => 'required|string',
-                'email' => 'required',
-                'mobile' =>'required',
+                'name_of_establishment' => 'required',
+                'establishment_type' => 'required',
                 'address' => 'required',
                 'state_id' =>'required',
                 'city_id' =>'required',
-                'pincode' =>'required',
-                'quantity'=>'required',
-                'unit'=>'required',
-                'unit_price'=>'required',
-                'total_price'=>'required',
+                'pincode' =>'required|min:5',
+                'key_person' => 'required',
+                'mobile' => 'required|min:10',
+                'email' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
             ]);
 
             $order = $this->recordSave(Order::class,$data,null,null);

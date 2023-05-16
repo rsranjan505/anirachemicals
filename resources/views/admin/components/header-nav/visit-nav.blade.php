@@ -8,7 +8,7 @@
         </li>
         @if($activeTab == 'edit')
         <li class="nav-item">
-            <a class="nav-link {{ $activeTab == 'edit' ? 'active' : '' }}" id="edit" href="{{ route('visit-update', ['id' => $data['vendor']->id])}}"  aria-controls="edit" aria-selected="false">Edit</a>
+            <a class="nav-link {{ $activeTab == 'edit' ? 'active' : '' }}" id="edit" href="{{ route('visit-update', ['id' => $data['visit']->id])}}"  aria-controls="edit" aria-selected="false">Edit</a>
         </li>
         @endif
     </ul>

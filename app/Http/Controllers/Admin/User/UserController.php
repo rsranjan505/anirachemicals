@@ -39,24 +39,28 @@ class UserController extends Controller
             ]);
 
             $request['password'] = Hash::make($request->password);
-
-            $user = User::create([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'mobile' => $request->mobile,
-                'role_id' => $request->role_id,
-                'user_type' => $request->user_type,
-                'address' => $request->address,
-                'state_id ' => $request->state_id,
-                'city_id ' => $request->city_id,
-                'pincode' => $request->pincode,
-                'is_active' => $request->is_active,
-                'is_admin ' => $request->is_admin,
-                'email' => $request->email,
-                'password' => $request['password']
-            ]);
-
             if(auth()->user()->user_type == 'admin'){
+                $user = User::create([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'mobile' => $request->mobile,
+                    'role_id' => $request->role_id,
+                    'user_type' => $request->user_type,
+                    'address' => $request->address,
+                    'state_id ' => $request->state_id,
+                    'city_id ' => $request->city_id,
+                    'pincode' => $request->pincode,
+                    'is_active' => $request->is_active,
+                    'is_admin ' => $request->is_admin,
+                    'email' => $request->email,
+                    'password' => $request['password']
+                ]);
+                if($request->avatar !=null){
+                    $image = $this->fileUpload($request->avatar,$user,'local');
+                    $image['document_type']='avatar';
+                    $user->image()->create($image);
+                }
+
                 return redirect()->back()->with(['success'=>'created']);
             }
             return redirect()->back()->with(['success'=>'You do not have permission ']);
@@ -74,9 +78,9 @@ class UserController extends Controller
         if ($request->ajax()) {
 
             if(auth()->user()->user_type == 'admin'){
-                $users = User::with('image','state','city')->limit(10)->latest();
+                $users = User::with('image','state','city','image')->limit(10)->latest();
             }else{
-                $users = User::where('id',auth()->user()->id)->with('image','state','city')->limit(10)->latest();
+                $users = User::where('id',auth()->user()->id)->with('image','state','city','image')->limit(10)->latest();
             }
 
             return DataTables::of($users)
@@ -84,7 +88,14 @@ class UserController extends Controller
                     ->setRowId(function ($user) {
                         return 'row'.$user->id;
                     })
-
+                    ->addColumn('Image', function ($user) {
+                        $img = $user->image !=null ? $user->image->url : '';
+                        return ' <td class="py-1">
+                                    <img id="imgV" onclick="imageView()" src="'.$img.'" alt="image" data-mdb-img="'.$img.'"
+                                    alt="visiting image"
+                                    class="w-100"/>
+                                </td>';
+                    })
                     ->addColumn('First Name', function ($user) {
                         return $user->first_name;
                     })
@@ -143,7 +154,7 @@ class UserController extends Controller
                             </div>';
 
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action','Image'])
                     ->make(true);
         }
 

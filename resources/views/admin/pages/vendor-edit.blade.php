@@ -29,44 +29,60 @@
                                             <div class="row">
                                                 <input id="id" type="hidden" name="id" value="{{ $data['vendor']->id }}" class="form-control"/>
                                                 <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="col-form-label">Name Of Establishment</label>
-                                                        <input id="name_of_establishment" type="text" value="{{ $data['vendor']->name_of_establishment }}" name="name_of_establishment" class="form-control"/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="col-form-label">Establishment Type</label>
-                                                        <select id="establishment_type" name="establishment_type" class="form-control">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label">Name Of Establishment</label>
+                                                                <input id="name_of_establishment" type="text" value="{{ $data['vendor']->name_of_establishment }}" name="name_of_establishment" class="form-control"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label">Establishment Type</label>
+                                                                <select id="establishment_type" name="establishment_type" class="form-control">
 
-                                                            <option label="">Select</option>
-                                                            <option value="1" {{ $data['vendor']->establishment_type == 1 ? 'selected' : '' }}>Individual</option>
-                                                            <option value="2" {{ $data['vendor']->establishment_type == 2 ? 'selected' : '' }}>LLP</option>
-                                                            <option value="3" {{ $data['vendor']->establishment_type == 3 ? 'selected' : '' }}>OPC</option>
-                                                            <option value="4" {{ $data['vendor']->establishment_type == 4 ? 'selected' : '' }}>Propietorship</option>
-                                                            <option value="5" {{ $data['vendor']->establishment_type == 5 ? 'selected' : '' }}>Partnership</option>
-                                                            <option value="6" {{ $data['vendor']->establishment_type == 6 ? 'selected' : '' }}>Pvt. Ltd.</option>
-                                                            <option value="7" {{ $data['vendor']->establishment_type == 7 ? 'selected' : '' }}>Ltd.</option>
-                                                            <option value="8" {{ $data['vendor']->establishment_type == 8 ? 'selected' : '' }}>Other</option>
-                                                        </select>
+                                                                    <option label="">Select</option>
+                                                                    <option value="1" {{ $data['vendor']->establishment_type == 1 ? 'selected' : '' }}>Individual</option>
+                                                                    <option value="2" {{ $data['vendor']->establishment_type == 2 ? 'selected' : '' }}>LLP</option>
+                                                                    <option value="3" {{ $data['vendor']->establishment_type == 3 ? 'selected' : '' }}>OPC</option>
+                                                                    <option value="4" {{ $data['vendor']->establishment_type == 4 ? 'selected' : '' }}>Propietorship</option>
+                                                                    <option value="5" {{ $data['vendor']->establishment_type == 5 ? 'selected' : '' }}>Partnership</option>
+                                                                    <option value="6" {{ $data['vendor']->establishment_type == 6 ? 'selected' : '' }}>Pvt. Ltd.</option>
+                                                                    <option value="7" {{ $data['vendor']->establishment_type == 7 ? 'selected' : '' }}>Ltd.</option>
+                                                                    <option value="8" {{ $data['vendor']->establishment_type == 8 ? 'selected' : '' }}>Other</option>
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label">Establishment Pan Number</label>
+                                                                <input id="pan" type="text" value="{{ $data['vendor']->pan }}" name="pan" class="form-control" readonly/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label">Establishment Gst Number</label>
+                                                                <input id="gst" type="text" value="{{ $data['vendor']->gst }}" name="gst" class="form-control" readonly/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div style="border:#000 0.5px solid;margin-left:20%; border-radius:5px;">
+                                                            <img id="imgV" onclick="imageView()" style="" height="200px" src="{{$data['vendor'] !=null ? $data['vendor']->image->url : ''}}" alt="image" data-mdb-img="{{$data['vendor']->image->url}}"
+                                                            alt="visiting image"
+                                                            />
+                                                        </div>
 
                                                     </div>
                                                 </div>
+
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="col-form-label">Establishment Pan Number</label>
-                                                        <input id="pan" type="text" value="{{ $data['vendor']->pan }}" name="pan" class="form-control" readonly/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="col-form-label">Establishment Gst Number</label>
-                                                        <input id="gst" type="text" value="{{ $data['vendor']->gst }}" name="gst" class="form-control" readonly/>
-                                                    </div>
-                                                </div>
-                                            </div>
+
 
                                             <div class="partner" style="padding:15px;">
                                                 <h4>Partner Details</h4>
@@ -235,14 +251,14 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row">
+                                            {{-- <div class="row">
                                                 <div class="col-md-5">
                                                     <div class="form-group">
                                                         <label class="col-form-label">Upload Vendor Photo</label>
                                                         <input type="file" id="avatar"  name="avatar" class="form-control"/>
 
                                                     </div>
-                                                    {{-- <div class="form-group">
+                                                    <div class="form-group">
                                                         <label>File upload</label>
                                                         <input type="file" name="avatar" name="avatar" class="file-upload-default">
                                                         <div class="input-group col-xs-12">
@@ -251,13 +267,13 @@
                                                             <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                                                           </span>
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-5">
                                                     <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="#" alt="your image" />
                                                 </div>
-                                            </div>
-                                            <label class="col-form-label">Upload Support Documnets</label>
+                                            </div> --}}
+                                            {{-- <label class="col-form-label">Upload Support Documnets</label>
                                             <div class="row">
                                                 <div class="col-md-5">
                                                     <div class="form-group">
@@ -269,7 +285,33 @@
                                                 </div>
                                             </div>
                                             <div class="support_document">
-                                            </div>
+                                            </div> --}}
+                                        <hr>
+                                            <h4>Supported documents</h4>
+                                            <table class="table">
+                                                <thead>
+                                                    <th>SN</th>
+                                                    <th>Document</th>
+                                                    <th>Action</th>
+                                                </thead>
+                                                <tbody>
+                                                    @if ($data['vendor']->document !=null && $data['vendor']->document)
+                                                        @foreach ( $data['vendor']->document as $index => $document)
+                                                        <tr>
+                                                            <td>{{$index + 1}}</td>
+                                                            <td>
+                                                                <img id="imgV" onclick="imageView()" src="{{$document->url}}" alt="image" data-mdb-img="{{$document->url}}"
+                                                                alt="visiting image"
+                                                                />
+                                                            </td>
+                                                            {{-- <td> <a href="#" download="{{$document->url}}"> Download</td> --}}
+                                                            <td> <a href="#" download="{{ asset('storage/images/vendors/'. $document->filename)}}"> Download</td>
+
+                                                        </tr>
+                                                        @endforeach
+                                                    @endif
+                                                </tbody>
+                                            </table>
 
                                             <hr>
                                             <button type="submit" class="btn btn-success mr-2">Save</button>

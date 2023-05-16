@@ -17,6 +17,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\Admin\VisitController;
+use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\GalleryController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +45,7 @@ Route::get('/product', [ProductsController::class, 'index'])->name('/product');
 Route::get('/details/{name?}', [ProductDetailsController::class, 'index'])->name('/details/{name?}');
 Route::get('/dealership', [DearlershipController::class, 'index'])->name('/dealership');
 Route::get('/client', [ClientController::class, 'index'])->name('/client');
+Route::get('/gallery', [GalleryController::class, 'index'])->name('/gallery');
 Route::get('/career', [CareerController::class, 'index'])->name('/career');
 Route::get('/contact', [ContactController::class, 'index'])->name('/contact');
 
@@ -132,6 +135,17 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
      Route::get('visit-update/{id?}', [VisitController::class, 'edit'])->name('visit-edit-view');
      Route::post('visit-update', [VisitController::class, 'update'])->name('visit-update');
      Route::get('visit-status-change/{id?}', [VisitController::class, 'statusChange'])->name('visit-status-change');
+
+      //Location District
+    Route::prefix('districts')->middleware('auth','web')->group(function(){
+        Route::get('/', [DistrictController::class, 'visitList'])->name('districts');
+        Route::get('add', [DistrictController::class, 'index'])->name('districts-add');
+        Route::post('add', [DistrictController::class, 'createVisit'])->name('districts-save');
+        Route::get('update/{id?}', [DistrictController::class, 'edit'])->name('districts-edit-view');
+        Route::post('update', [DistrictController::class, 'update'])->name('districts-update');
+        Route::get('status-change/{id?}', [DistrictController::class, 'statusChange'])->name('districts-status-change');
+    });
+
 
 
 });

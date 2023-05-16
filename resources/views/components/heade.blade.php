@@ -33,6 +33,7 @@
             <li><a class="nav-link scrollto {{Request::is('product','details/'.request()->route('name')) ? 'active' : ''}}" href="{{ route('/product') }}">Products</a></li>
             <li><a class="nav-link scrollto {{Request::is('dealership') ? 'active' : ''}}" href="{{ route('/dealership') }}">Dealership Enquiry</a></li>
             <li><a class="nav-link scrollto {{Request::is('client') ? 'active' : ''}}" href="{{ route('/client') }}">Client</a></li>
+            <li><a class="nav-link scrollto {{Request::is('gallery') ? 'active' : ''}}" href="{{ route('/gallery') }}">Gallery</a></li>
 		    <li><a class="nav-link scrollto {{Request::is('career') ? 'active' : ''}}" href="{{ route('/career') }}">Careers</a></li>
             <li><a class="nav-link scrollto {{Request::is('contact') ? 'active' : ''}}" href="{{ route('/contact') }}">Contact</a></li>
 

@@ -21,7 +21,8 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/js/select.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/vertical-layout-light/style.css')}}">
-
+    {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/> --}}
+    <link  rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/anira.css')}}"/>
 </head>
 
 <body>
@@ -43,6 +44,7 @@
 
         @endauth
 
+        @include('admin.components.modalImage')
 
     </div>
     {{-- <script src="{{ asset('admin/assets/js/jquery.min.js')}}"></script> --}}
@@ -59,6 +61,7 @@
     <script src="{{ asset('admin/assets/js/tabs.js')}}"></script>
     <!-- Custom js for this page-->
     <script src="{{ asset('admin/assets/js/dashboard.js')}}"></script>
+    <script src="{{ asset('admin/assets/js/anira.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     @stack('scripts')
