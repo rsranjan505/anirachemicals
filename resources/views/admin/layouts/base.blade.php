@@ -28,6 +28,8 @@
 <body>
     <div class="container-scroller">
         {{-- header --}}
+        {{-- @include('admin\components\toast') --}}
+
         @auth
             @include('admin.components.header')
             {{-- sidemenu --}}
@@ -65,7 +67,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     @stack('scripts')
-    {{-- {!! Toastr::message() !!} --}}
+    {!! Toastr::message() !!}
     {{-- <script>
         toastr.options = {
             "closeButton": true,

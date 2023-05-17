@@ -144,13 +144,13 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
 
 
       //Location District
-    Route::prefix('districts')->middleware('auth','web')->group(function(){
-        Route::get('/', [DistrictController::class, 'visitList'])->name('districts');
-        Route::get('add', [DistrictController::class, 'index'])->name('districts-add');
-        Route::post('add', [DistrictController::class, 'createVisit'])->name('districts-save');
-        Route::get('update/{id?}', [DistrictController::class, 'edit'])->name('districts-edit-view');
-        Route::post('update', [DistrictController::class, 'update'])->name('districts-update');
-        Route::get('status-change/{id?}', [DistrictController::class, 'statusChange'])->name('districts-status-change');
+    Route::prefix('cities')->group(function(){
+        Route::get('/', [CityController::class, 'cityList'])->name('cities-list');
+        Route::get('add', [CityController::class, 'index'])->name('cities-add');
+        Route::post('add', [CityController::class, 'createVisit'])->name('cities-save');
+        Route::get('update/{id?}', [CityController::class, 'edit'])->name('cities-edit-view');
+        Route::post('update', [CityController::class, 'update'])->name('cities-update');
+        Route::get('status-change/{id?}', [CityController::class, 'statusChange'])->name('cities-status-change');
     });
 
 

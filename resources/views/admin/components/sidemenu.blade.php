@@ -21,7 +21,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#vendor" aria-expanded="false" aria-controls="ui-order">
-                <i class="icon-stack menu-icon"></i>
+                <i class="icon-head menu-icon"></i>
                 <span class="menu-title">Vendor</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -48,7 +48,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#product" aria-expanded="false" aria-controls="product">
-                <i class="icon-grid-2 menu-icon"></i>
+                <i class="mdi mdi-cards menu-icon"></i>
                 <span class="menu-title">Product</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -76,7 +76,7 @@
     @if (Auth::user()->is_admin==1)
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#users" aria-expanded="false" aria-controls="users">
-            <i class="icon-head menu-icon"></i>
+            <i class="mdi mdi-settings menu-icon"></i>
             <span class="menu-title">Settings</span>
             <i class="menu-arrow"></i>
             </a>
@@ -85,8 +85,9 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('user-list') }}">User List</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('add-user-view') }}">Add User</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('setting-view') }}">Setting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('cities-list') }}">Add City</a></li>
 {{--
-                    <li class="nav-item"><a class="nav-link" href="{{ route('districts-list') }}">Districts</a></li>
+
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('blocks-list') }}">Blocks</a></li> --}}
                 </ul>

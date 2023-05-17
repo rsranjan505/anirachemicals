@@ -73,7 +73,7 @@
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div style="border:#000 0.5px solid;margin-left:20%; border-radius:5px;">
-                                                            <img id="imgV" onclick="imageViewEle(this);" style="" height="200px" src="{{$data['vendor'] !=null ? $data['vendor']->image->url : ''}}" alt="image" data-mdb-img="{{$data['vendor']->image->url}}"
+                                                            <img id="imgV{{$data['vendor']->id}}" onclick="imageView({{$data['vendor']->id}});" style="" height="200px" src="{{$data['vendor'] !=null ? $data['vendor']->image->url : ''}}" alt="image" data-mdb-img="{{$data['vendor']->image->url}}"
                                                             alt="visiting image"
                                                             />
                                                         </div>
@@ -303,7 +303,7 @@
                                                         <tr>
                                                             <td>{{$index + 1}}</td>
                                                             <td>
-                                                                <img id="imgV" onclick="imageView()" src="{{$document->url}}" alt="image" data-mdb-img="{{$document->url}}"
+                                                                <img id="imgV{{$index}}" onclick="imageView({{$index}})" src="{{$document->url}}" alt="image" data-mdb-img="{{$document->url}}"
                                                                 alt="visiting image"
                                                                 />
                                                             </td>

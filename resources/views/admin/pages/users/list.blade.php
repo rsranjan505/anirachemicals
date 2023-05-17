@@ -59,6 +59,7 @@
       var table = $('.user-table').DataTable({
           processing: true,
           serverSide: true,
+          destroy: true,
           ajax: "{{ route('user-list') }}",
           columns: [
             {

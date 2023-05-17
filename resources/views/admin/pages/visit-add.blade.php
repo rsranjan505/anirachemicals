@@ -29,13 +29,18 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Name Of Establishment</label>
-                                                <input id="name_of_establishment" type="text" name="name_of_establishment" class="form-control"/>
+                                                <input id="name_of_establishment" type="text" name="name_of_establishment" class="form-control @error('name_of_establishment') is-invalid @enderror"/>
                                             </div>
+                                            @error('name_of_establishment')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Establishment Type</label>
-                                                <select id="establishment_type" name="establishment_type" class="form-control">
+                                                <select id="establishment_type" name="establishment_type" class="form-control  @error('establishment_type') is-invalid @enderror">
                                                     <option label="">Select</option>
                                                     <option value="1">Individual</option>
                                                     <option value="2">LLP</option>
@@ -47,6 +52,11 @@
                                                     <option value="8">Other</option>
                                                 </select>
                                             </div>
+                                            @error('establishment_type')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -57,8 +67,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Key Person Name</label>
-                                                <input id="key_person" type="text" name="key_person" class="form-control"/>
+                                                <input id="key_person" type="text" name="key_person" class="form-control  @error('key_person') is-invalid @enderror"/>
                                             </div>
+                                            @error('key_person')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
