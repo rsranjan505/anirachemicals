@@ -257,7 +257,20 @@ $('#customer_id').on('change', function () {
         modal.style.display = "block";
         modalImg.src = img.src;
         captionText.innerHTML = img.alt;
-        // alert(img);
+
+    }
+
+    function imageViewEle(this) {
+        var modal = document.getElementById("modalImg");
+
+        var img = document.getElementById("imgV");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+        // alert(this);
     }
 
     function closeModal() {

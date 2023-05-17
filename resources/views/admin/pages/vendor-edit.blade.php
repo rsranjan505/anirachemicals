@@ -73,7 +73,7 @@
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div style="border:#000 0.5px solid;margin-left:20%; border-radius:5px;">
-                                                            <img id="imgV" onclick="imageView()" style="" height="200px" src="{{$data['vendor'] !=null ? $data['vendor']->image->url : ''}}" alt="image" data-mdb-img="{{$data['vendor']->image->url}}"
+                                                            <img id="imgV" onclick="imageViewEle(this);" style="" height="200px" src="{{$data['vendor'] !=null ? $data['vendor']->image->url : ''}}" alt="image" data-mdb-img="{{$data['vendor']->image->url}}"
                                                             alt="visiting image"
                                                             />
                                                         </div>
@@ -88,15 +88,18 @@
                                                 <h4>Partner Details</h4>
                                                 @if (isset($data['partner']))
                                                 <div class="row">
-                                                    @foreach ( $data['partner']['name'] as  $key0 => $value)
-                                                        @foreach ( $data['partner'] as  $key => $partner)
-                                                            <div class="col-md-{{$key == 'name' ? '4' : '2'}}">
-                                                                <div class="form-group">
-                                                                    <input id="partner_details" value="{{ $key == 'dob' && 'anniversary' ? date('d-m-Y', strtotime($data['partner'][$key][$key0])): $data['partner'][$key][$key0]}}"  type="text" name="partner_details[{{$key}}][]" class="form-control"/>
+                                                    @if ($data['partner'] !=null)
+                                                        @foreach ( $data['partner']['name'] as  $key0 => $value)
+                                                            @foreach ( $data['partner'] as  $key => $partner)
+                                                                <div class="col-md-{{$key == 'name' ? '4' : '2'}}">
+                                                                    <div class="form-group">
+                                                                        <input id="partner_details" value="{{ $key == 'dob' && 'anniversary' ? date('d-m-Y', strtotime($data['partner'][$key][$key0])): $data['partner'][$key][$key0]}}"  type="text" name="partner_details[{{$key}}][]" class="form-control"/>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            @endforeach
                                                         @endforeach
-                                                    @endforeach
+                                                    @endif
+
                                                 </div>
                                                 @endif
                                                 <div class="row">
@@ -304,8 +307,9 @@
                                                                 alt="visiting image"
                                                                 />
                                                             </td>
+
                                                             {{-- <td> <a href="#" download="{{$document->url}}"> Download</td> --}}
-                                                            <td> <a href="#" download="{{ asset('storage/images/vendors/'. $document->filename)}}"> Download</td>
+                                                            <td> <a href="{{ route('download-image',$document->id)}}" target="_blank"> Download</td>
 
                                                         </tr>
                                                         @endforeach

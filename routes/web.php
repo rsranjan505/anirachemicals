@@ -17,6 +17,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\Admin\VisitController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\GalleryController;
 use Illuminate\Support\Facades\Artisan;
@@ -78,6 +79,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/city/{stateId}', [CityController::class, 'getCity'])->name('city-list');
+
+Route::get('/download-image/{id}', [Controller::class, 'downloadImage'])->name('download-image');
+
 
 Route::prefix('admin/')->middleware('auth','web')->group(function(){
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

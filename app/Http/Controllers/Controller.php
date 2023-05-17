@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AssetFile;
+use App\Models\Product;
+use App\Models\User;
+use App\Models\Vendor;
+use App\Models\Visit;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -92,14 +96,26 @@ class Controller extends BaseController
         }
     }
 
-    // public function downloadfile($id)
-    // {
-    //     $file = AssetFile::where('id',$id)->first();
-    //     // return $file;
-    //     $myfile = public_path('PG/doc/',$file->id,'/',$file->multiple_doc);
-    //     dd($myfile);
-    //     return response()->download($myfile);
-    // }
+    public function downloadImage($id)
+    {
+        $file = AssetFile::where('id',$id)->first();
+        // return $file;
+        $subpath='';
+        if($file->model_type == Vendor::class){
+            $subpath ='vendors';
+        } else if($file->model_type == Visit::class){
+            $subpath ='visits';
+        } else if($file->model_type == User::class){
+            $subpath ='users';
+        } else if($file->model_type == Product::class){
+            $subpath ='products';
+        }
+
+        $imagePath = Storage::url('images/'.$subpath.'/'.$file->filename);
+
+        return response()->download(public_path($imagePath));
+
+    }
 
     public function toastrMsg($id=null)
     {
