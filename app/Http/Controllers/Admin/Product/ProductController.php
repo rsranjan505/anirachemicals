@@ -66,7 +66,7 @@ class ProductController extends Controller
     public function productList(Request $request)
     {
         if ($request->ajax()) {
-            $products = Product::with('creator')->limit(10)->latest();
+            $products = Product::with('creator')->latest();
             return DataTables::of($products)
                     ->addIndexColumn()
                     ->setRowId(function ($product) {

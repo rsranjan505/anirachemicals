@@ -67,9 +67,9 @@ class VendorController extends Controller
         if ($request->ajax()) {
 
             if(auth()->user()->user_type == 'admin'){
-                $vendors = Vendor::with('getState','getCity','creator','image')->limit(10)->latest();
+                $vendors = Vendor::with('getState','getCity','creator','image')->latest();
             }else{
-                $vendors = Vendor::where('created_by',auth()->user()->id)->with('getState','getCity','creator','image')->limit(10)->latest();
+                $vendors = Vendor::where('created_by',auth()->user()->id)->with('getState','getCity','creator','image')->latest();
             }
 
             return DataTables::of($vendors)

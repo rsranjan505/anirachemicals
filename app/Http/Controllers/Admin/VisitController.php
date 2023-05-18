@@ -68,9 +68,9 @@ class VisitController extends Controller
         if ($request->ajax()) {
 
             if(auth()->user()->user_type == 'admin'){
-                $visits = Visit::with('state','city','creator','image')->limit(10)->latest();
+                $visits = Visit::with('state','city','creator','image')->latest();
             }else{
-                $visits = Visit::where('created_by',auth()->user()->id)->with('state','city','creator','image')->limit(10)->latest();
+                $visits = Visit::where('created_by',auth()->user()->id)->with('state','city','creator','image')->latest();
             }
 
             return DataTables::of($visits)

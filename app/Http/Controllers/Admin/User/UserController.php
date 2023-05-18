@@ -78,9 +78,9 @@ class UserController extends Controller
         if ($request->ajax()) {
 
             if(auth()->user()->user_type == 'admin'){
-                $users = User::with('image','state','city','image')->limit(10)->latest();
+                $users = User::with('image','state','city','image')->latest();
             }else{
-                $users = User::where('id',auth()->user()->id)->with('image','state','city','image')->limit(10)->latest();
+                $users = User::where('id',auth()->user()->id)->with('image','state','city','image')->latest();
             }
 
             return DataTables::of($users)
