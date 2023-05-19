@@ -59,7 +59,7 @@ class VendorController extends Controller
 
         }
 
-        return redirect()->back()->with(['message'=>'success']);
+        return redirect()->back()->with(['success'=>'Vendor has been successfully created']);
     }
 
     public function vendorList(Request $request)
@@ -228,7 +228,7 @@ class VendorController extends Controller
                 }
             }
 
-            return redirect()->back()->with(['message'=>'success']);
+            return redirect()->back()->with(['success'=>'Vendor has been successfully updated']);
         }
     }
 
@@ -240,7 +240,7 @@ class VendorController extends Controller
             'is_active' => (int) $value,
         ]);
 
-        return redirect()->back()->with(['message'=>'success']);
+        return redirect()->back()->with(['success'=>'Vendor status has been successfully changed.']);
     }
 
     public function exportVendor(Request $request){

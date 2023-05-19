@@ -147,7 +147,7 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
     Route::prefix('cities')->group(function(){
         Route::get('/', [CityController::class, 'cityList'])->name('cities-list');
         Route::get('add', [CityController::class, 'index'])->name('cities-add');
-        Route::post('add', [CityController::class, 'createVisit'])->name('cities-save');
+        Route::post('add', [CityController::class, 'createCity'])->name('cities-save');
         Route::get('update/{id?}', [CityController::class, 'edit'])->name('cities-edit-view');
         Route::post('update', [CityController::class, 'update'])->name('cities-update');
         Route::get('status-change/{id?}', [CityController::class, 'statusChange'])->name('cities-status-change');

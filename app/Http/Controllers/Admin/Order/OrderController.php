@@ -63,7 +63,7 @@ class OrderController extends Controller
             $product['order_id'] = $order->id;
             $orderItem->create($product);
         }
-        return redirect()->back()->with(['success'=>'created']);
+        return redirect()->back()->with(['success'=>'Order has been successfully created']);
     }
 
     public function orderList(Request $request)
@@ -181,7 +181,7 @@ class OrderController extends Controller
 
             $order = $this->recordSave(Order::class,$data,null,null);
 
-            return redirect()->back()->with(['message'=>'success']);
+            return redirect()->back()->with(['success'=>'Order has been successfully updated']);
         }
     }
 
@@ -212,7 +212,7 @@ class OrderController extends Controller
                 'delivered_date' => $request->delivered_date,
             ]);
         }
-        return redirect()->back()->with(['message'=>'success']);
+        return redirect()->back()->with(['success'=>'Order Status has been successfully changed']);
     }
 
 

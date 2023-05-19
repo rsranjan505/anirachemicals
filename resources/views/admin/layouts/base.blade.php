@@ -23,12 +23,19 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/css/vertical-layout-light/style.css')}}">
     {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/> --}}
     <link  rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/anira.css')}}"/>
+
+	<link rel="stylesheet" type="text/css"
+     href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
 </head>
 
 <body>
     <div class="container-scroller">
         {{-- header --}}
-        {{-- @include('admin\components\toast') --}}
+        @include('admin\components\toast')
 
         @auth
             @include('admin.components.header')
@@ -67,28 +74,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     @stack('scripts')
-    {!! Toastr::message() !!}
-    {{-- <script>
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        toastr.warning("Hello World!");
-
-        </script> --}}
+    {{-- {!! Toastr::message() !!} --}}
 
 </body>
 

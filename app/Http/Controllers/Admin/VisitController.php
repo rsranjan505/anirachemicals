@@ -59,7 +59,7 @@ class VisitController extends Controller
             $visit->document()->create($image);
         }
 
-        return redirect()->back()->with(['success'=>'created']);
+        return redirect()->back()->with(['success'=>'Visit has been successfully created']);
     }
 
     public function visitList(Request $request)

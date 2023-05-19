@@ -67,25 +67,24 @@ class CityController extends Controller
 
     }
 
-    public function save(Request $request)
-    {
-        if($request->id !=null){
-            $request->validate([
-                'name' => 'required|unique:cities,name,'.$request->id.',id',
-            ]);
-        }else{
-            $request->validate([
-                'name' => 'required|unique:cities,name',
-            ]);
-        }
+    // public function createCity(Request $request)
+    // {
+    //     if($request->id !=null){
+    //         $request->validate([
+    //             'name' => 'required|unique:cities,name,'.$request->id.',id',
+    //         ]);
+    //     }else{
+    //         $request->validate([
+    //             'name' => 'required|unique:cities,name',
+    //         ]);
+    //     }
 
-
-        $this->recordSave(City::class,$request->all(),null,null);
-        if($request->id !=null){
-            return redirect()->back()->with(['success'=>'Designation Has been updated successfully.']);
-        }
-        return redirect()->back()->with(['success'=>'Designation Has been created successfully.']);
-    }
+    //     $this->recordSave(City::class,$request->all(),null,null);
+    //     if($request->id !=null){
+    //         return redirect()->back()->with(['success'=>'City Has been updated successfully.']);
+    //     }
+    //     return redirect()->back()->with(['success'=>'City Has been created successfully.']);
+    // }
 
     public function index()
     {
@@ -98,7 +97,7 @@ class CityController extends Controller
      * @param Request $request
      * @return Order
      */
-    public function createVisit(Request $request)
+    public function createCity(Request $request)
     {
 
         $request->validate([
@@ -110,18 +109,18 @@ class CityController extends Controller
 
         $this->recordSave(City::class,$data,null,null);
 
-        return redirect()->back()->with(['success'=>'created']);
+        return redirect()->back()->with(['success'=>'City Has been successfully added']);
     }
 
-    public function edit($id){
-        if($id!=null){
-            $visit = City::with('state','city','creator','image')->find($id);
-            $data['state'] = State::all();
-            $data['city'] = City::all();
-            $data['visit'] = $visit;
-            return view('admin.pages.visit-edit',['data'=>$data]);
-        }
-    }
+    // public function edit($id){
+    //     if($id!=null){
+    //         $visit = City::with('state','city','creator','image')->find($id);
+    //         $data['state'] = State::all();
+    //         $data['city'] = City::all();
+    //         $data['visit'] = $visit;
+    //         return view('admin.pages.city.edit',['data'=>$data]);
+    //     }
+    // }
 
     public function update(Request $request){
 
@@ -136,7 +135,7 @@ class CityController extends Controller
 
             $order = $this->recordSave(Order::class,$data,null,null);
 
-            return redirect()->back()->with(['message'=>'success']);
+            return view('admin.pages.city.add')->with(['success'=>'City Has been updated successfully']);
         }
     }
 
@@ -148,7 +147,7 @@ class CityController extends Controller
             'is_active' => (int) $value,
         ]);
 
-        return redirect()->back()->with(['success'=>'city status change successfully.']);
+        return view('admin.pages.city.list')->with(['success'=>'city status change successfully.']);
     }
 
 }

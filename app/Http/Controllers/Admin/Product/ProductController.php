@@ -60,7 +60,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->back()->with(['success'=>'created']);
+        return redirect()->back()->with(['success'=>'Product has been successfully created']);
     }
 
     public function productList(Request $request)
@@ -160,7 +160,7 @@ class ProductController extends Controller
                 }
             }
 
-            return redirect()->back()->with(['message'=>'success']);
+            return redirect()->back()->with(['success'=>'Product has been successfully updated']);
         }
     }
 
@@ -171,7 +171,7 @@ class ProductController extends Controller
         $product->update([
             'is_active' => (int) $value,
         ]);
-        return redirect()->back()->with(['message'=>'success']);
+        return redirect()->back()->with(['success'=>'Product status has been successfully changed']);
     }
 
     public function exportProduct(Request $request){
