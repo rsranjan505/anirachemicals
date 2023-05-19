@@ -35,7 +35,7 @@
 <body>
     <div class="container-scroller">
         {{-- header --}}
-        @include('admin\components\toast')
+        @include('admin.components.toast')
 
         @auth
             @include('admin.components.header')
