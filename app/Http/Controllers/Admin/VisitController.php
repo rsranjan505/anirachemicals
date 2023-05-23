@@ -42,10 +42,11 @@ class VisitController extends Controller
             'address' => 'required',
             'state_id' =>'required',
             'city_id' =>'required',
-            'pincode' =>'required|min:5',
+            'pincode' =>'required',
             'key_person' => 'required',
             'mobile' => 'required|min:10',
             'email' => 'required',
+            'status' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
         ]);
@@ -191,6 +192,7 @@ class VisitController extends Controller
                 'key_person' => 'required',
                 'mobile' => 'required|min:10',
                 'email' => 'required',
+                'status' => 'required',
                 'latitude' => 'required',
                 'longitude' => 'required',
             ]);

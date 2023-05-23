@@ -29,7 +29,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Name Of Establishment</label>
-                                                <input id="name_of_establishment" type="text" name="name_of_establishment" class="form-control @error('name_of_establishment') is-invalid @enderror"/>
+                                                <input id="name_of_establishment" type="text" name="name_of_establishment"  value="{{ old('name_of_establishment') }}"  class="form-control @error('name_of_establishment') is-invalid @enderror"/>
                                             </div>
                                             @error('name_of_establishment')
                                                 <span class="invalid-feedback" role="alert">
@@ -41,7 +41,7 @@
                                             <div class="form-group">
                                                 <label class="col-form-label">Establishment Type</label>
                                                 <select id="establishment_type" name="establishment_type" class="form-control  @error('establishment_type') is-invalid @enderror">
-                                                    <option label="">Select</option>
+                                                    <option value="">Select</option>
                                                     <option value="1">Individual</option>
                                                     <option value="2">LLP</option>
                                                     <option value="3">OPC</option>
@@ -67,7 +67,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Key Person Name</label>
-                                                <input id="key_person" type="text" name="key_person" class="form-control  @error('key_person') is-invalid @enderror"/>
+                                                <input id="key_person" type="text" name="key_person"  value="{{ old('key_person') }}"  class="form-control  @error('key_person') is-invalid @enderror"/>
                                             </div>
                                             @error('key_person')
                                                 <span class="invalid-feedback" role="alert">
@@ -78,16 +78,20 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Address</label>
-                                                <input id="address" type="text" name="address" class="form-control"/>
+                                                <input id="address" type="text" name="address" value="{{ old('address') }}"  class="form-control @error('address') is-invalid @enderror"/>
                                             </div>
                                         </div>
-
+                                        @error('address')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="col-form-label">State</label>
-                                                <select id="state" type="text" name="state_id" class="form-control">
+                                                <select id="state" type="text" name="state_id" class="form-control  @error('address') is-invalid @enderror">
                                                     <option  >Select State</option>
                                                     @foreach ($data['state'] as $state)
                                                         <option value="{{$state->id}}">{{ $state->name}}</option>
@@ -95,42 +99,67 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        @error('state_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="col-form-label">City</label>
-                                                <select id="city" type="text" name="city_id" class="form-control">
+                                                <select id="city" type="text" name="city_id" class="form-control  @error('address') is-invalid @enderror">
                                                     <option value="0" >Select State First</option>
                                                 </select>
                                             </div>
                                         </div>
+                                        @error('city_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="col-form-label">Pincode</label>
-                                                <input id="pincode" type="number" name="pincode" class="form-control"/>
+                                                <input id="pincode" type="number" name="pincode" class="form-control  @error('address') is-invalid @enderror"/>
                                             </div>
                                         </div>
+                                        @error('pincode')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Email</label>
-                                                <input id="email" type="email" name="email" class="form-control"/>
+                                                <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control  @error('address') is-invalid @enderror"/>
                                             </div>
                                         </div>
+                                        @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Mobile</label>
-                                                <input id="mobile" type="number" name="mobile" class="form-control"/>
+                                                <input id="mobile" type="number" name="mobile" value="{{ old('mobile') }}" class="form-control  @error('address') is-invalid @enderror"/>
                                             </div>
                                         </div>
+                                        @error('mobile')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Status</label>
-                                                <select id="status" name="status" class="form-control">
-                                                    <option label="">Select</option>
+                                                <select id="status" name="status" class="form-control  @error('address') is-invalid @enderror">
+                                                    <option value="">Select</option>
                                                     <option value="1">Open - Not Contacted</option>
                                                     <option value="2">Working - Contacted</option>
                                                     <option value="3">Closed - Converted</option>
@@ -138,12 +167,17 @@
 
                                                 </select>
                                             </div>
+                                            @error('status')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Source</label>
                                                 <select id="source" name="source" class="form-control">
-                                                    <option label="">Select</option>
+                                                    <option value="">Select</option>
                                                     <option value="Website">Website</option>
                                                     <option value="Phone Inquiry">Phone Inquiry</option>
                                                     <option value="Partner Referal">Partner Referal</option>
@@ -158,21 +192,31 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Latitude</label>
-                                                <input id="latitude" type="decimal" name="latitude" class="form-control"/>
+                                                <input id="latitude" type="decimal" name="latitude" value="{{ old('latitude') }}" class="form-control  @error('address') is-invalid @enderror"/>
                                             </div>
+                                            @error('latitude')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Longitude</label>
-                                                <input id="longitude" type="decimal" name="longitude" class="form-control"/>
+                                                <input id="longitude" type="decimal" name="longitude"  value="{{ old('longitude') }}" class="form-control  @error('address') is-invalid @enderror"/>
                                             </div>
+                                            @error('longitude')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="col-form-label">Description</label>
-                                                <textarea id="description" type="text" row="4" name="description" class="form-control"></textarea>
+                                                <textarea id="description" type="text" row="4" name="description" class="form-control"> {{ old('description') }} </textarea>
                                             </div>
                                         </div>
 
