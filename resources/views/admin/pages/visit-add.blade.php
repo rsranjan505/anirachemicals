@@ -11,7 +11,7 @@
                     <div class="col-md-12 grid-margin mx-auto">
                         <div class="card">
                             <div class="card-body">
-                                @if (count($errors) > 0)
+                                {{-- @if (count($errors) > 0)
                                     <div class="alert alert-danger">
                                         <ul>
                                             @foreach ($errors->all() as $error)
@@ -19,8 +19,8 @@
                                             @endforeach
                                         </ul>
                                     </div>
-                                @endif
-                                <form class="form-sample" method="POST" action="{{ route('visit-save') }}" enctype="multipart/form-data">
+                                @endif --}}
+                                <form id="visit-form-add" class="visit-form" method="POST" action="{{ route('visit-save') }}" enctype="multipart/form-data">
                                     @csrf
                                     <p class="card-description">
                                         Create Visit
@@ -91,7 +91,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="col-form-label">State</label>
-                                                <select id="state" type="text" name="state_id" class="form-control  @error('address') is-invalid @enderror">
+                                                <select id="state" type="text" name="state_id" class="form-control  @error('state_id') is-invalid @enderror">
                                                     <option  >Select State</option>
                                                     @foreach ($data['state'] as $state)
                                                         <option value="{{$state->id}}">{{ $state->name}}</option>
@@ -107,7 +107,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="col-form-label">City</label>
-                                                <select id="city" type="text" name="city_id" class="form-control  @error('address') is-invalid @enderror">
+                                                <select id="city" type="text" name="city_id" class="form-control  @error('city_id') is-invalid @enderror">
                                                     <option value="0" >Select State First</option>
                                                 </select>
                                             </div>
@@ -120,7 +120,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="col-form-label">Pincode</label>
-                                                <input id="pincode" type="number" name="pincode" class="form-control  @error('address') is-invalid @enderror"/>
+                                                <input id="pincode" type="number" name="pincode" class="form-control  @error('pincode') is-invalid @enderror"/>
                                             </div>
                                         </div>
                                         @error('pincode')
@@ -248,6 +248,10 @@
     </div>
 </div>
 
+{{-- <script src="{{ asset('admin/assets/vendors/jquery-validation/jquery.validate.min.js')}}"></script> --}}
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+
 <script src="{{ asset('admin/assets/js/anira.js')}}"></script>
 
 <script>
@@ -257,6 +261,149 @@
             avatarPreview.src = URL.createObjectURL(file)
         }
     }
-</script>
+
+        //Visit entry form
+
+    $('#visit-form-add').validate({
+      rules: {
+        name_of_establishment: {
+            required: true,
+            name_of_establishment: true,
+        },
+        establishment_type: {
+            required: true,
+            establishment_type: true,
+        },
+        key_person: {
+            required: true,
+            key_person: true,
+        },
+        address: {
+            required: true,
+            address: true,
+        },
+        // state_id: {
+        //     required: true,
+        //     state_id: true,
+        // },
+        // city_id: {
+        //     required: true,
+        //     city_id: true,
+        // },
+        pincode: {
+            required: true,
+            pincode: true,
+        },
+        email: {
+            required: true,
+            email: true,
+        },
+        mobile: {
+            required: true,
+            mobile: true,
+        },
+        status: {
+            required: true,
+            status: true,
+        },
+        source: {
+            required: true,
+            source: true,
+        },
+        latitude: {
+            required: true,
+            latitude: true,
+        },
+        longitude: {
+            required: true,
+            longitude: true,
+        },
+
+      },
+      messages: {
+        name_of_establishment: {
+            required: "Please enter a name ",
+            name_of_establishment: "Please enter a valid name"
+        },
+        establishment_type: {
+            required: "Please enter a name ",
+            establishment_type: "Please select a valid type"
+        },
+        key_person: {
+            required: "Please enter a name ",
+            key_person: "Please enter a valid name"
+        },
+        address: {
+            required: "Please enter a address ",
+            address: "Please enter a valid address"
+        },
+        // state_id: {
+        //     required: "Please select a state ",
+        //     state_id: "Please select a valid state"
+        // },
+        // city_id: {
+        //     required: "Please select a city ",
+        //     city_id: "Please select a valid city"
+        // },
+        pincode: {
+            required: "Please enter a pincode ",
+            pincode: "Please enter a valid pincode"
+        },
+        email: {
+            required: "Please enter a email ",
+            email: "Please enter a valid email"
+        },
+        mobile: {
+            required: "Please enter a mobile ",
+            mobile: "Please enter a valid mobile"
+        },
+        status: {
+            required: "Please select a status ",
+            status: "Please select a valid status"
+        },
+        source: {
+            required: "Please select a source ",
+            source: "Please select a valid source"
+        },
+        latitude: {
+            required: "Please enter a latitude ",
+            latitude: "Please enter a valid latitude"
+        },
+        longitude: {
+            required: "Please enter a longitude ",
+            longitude: "Please enter a valid longitude"
+        },
+      },
+      errorElement: 'span',
+      errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+      }
+    });
+
+
+    //geo location
+
+    getLocation();
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+        $('#latitude').val(position.coords.latitude);
+        $('#longitude').val(position.coords.longitude);
+    }
+    </script>
 
 @endsection

@@ -75,7 +75,7 @@
                                             <div class="form-group">
                                                 <label class="col-form-label">State</label>
                                                 <select id="state" type="text" name="state_id" class="form-control"  required>
-                                                    <option  >Select State</option>
+                                                    <option value="" >Select State</option>
                                                     @foreach ($data['state'] as $state)
                                                         <option value="{{$state->id}}"  {{ $data['visit']->state_id == $state->id ? 'selected' :'' }}>{{ $state->name}}</option>
                                                     @endforeach
@@ -86,7 +86,7 @@
                                             <div class="form-group">
                                                 <label class="col-form-label">City</label>
                                                 <select id="city" type="text" name="city_id" class="form-control" required>
-                                                    <option value="0" >Select State First</option>
+                                                    <option value="{{$data['visit']->city_id }}" >{{$data['visit']->city->name }}</option>
                                                 </select>
                                             </div>
                                         </div>

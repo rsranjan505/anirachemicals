@@ -57,8 +57,9 @@
     $(function () {
 
       var table = $('.user-table').DataTable({
-          processing: true,
-          serverSide: true,
+        processing: true,
+        serverSide: false,
+        paging: true,
           destroy: true,
           ajax: "{{ route('user-list') }}",
           columns: [

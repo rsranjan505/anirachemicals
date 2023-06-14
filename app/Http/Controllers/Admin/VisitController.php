@@ -15,8 +15,10 @@ use App\Models\Unit;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Models\Visit;
+use Geocoder\Exception\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -36,6 +38,7 @@ class VisitController extends Controller
     public function createVisit(Request $request)
     {
         $data = $request->except(['avatar']);
+
         $request->validate([
             'name_of_establishment' => 'required',
             'establishment_type' => 'required',
@@ -47,8 +50,6 @@ class VisitController extends Controller
             'mobile' => 'required|min:10',
             'email' => 'required',
             'status' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
         ]);
 
         $data['created_by'] = auth()->user()->id;
@@ -80,7 +81,7 @@ class VisitController extends Controller
                         return 'row'.$vendor->id;
                     })
                     ->addColumn('Image', function ($vendor) {
-                        $img = $vendor->image !=null ? $vendor->image->url : 'http://anirachemicals.com/admin/assets/images/accounticon.png';
+                        $img = $vendor->image !=null ? $vendor->image->url : 'http://anirachemicals.com/admin/assets/images/visit.png';
                         return ' <td class="py-1">
                                     <img id="imgV'.$vendor->id.'" onclick="imageView('.$vendor->id.')" src="'.$img.'" alt="image" data-mdb-img="'.$img.'"
                                     alt="visiting image"
@@ -206,4 +207,5 @@ class VisitController extends Controller
     public function exportVisit(Request $request){
         return Excel::download(new ExportVisits, 'visits.csv');
     }
+
 }

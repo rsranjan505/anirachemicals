@@ -60,7 +60,8 @@ $(function () {
 
     var table = $("#vendor-table").DataTable({
     processing: true,
-    serverSide: true,
+    serverSide: false,
+    paging: true,
     ajax: "{{ route('vendor-list') }}",
     language:
     {

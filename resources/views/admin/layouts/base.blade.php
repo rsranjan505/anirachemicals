@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="{{ asset('admin/assets/js/jquery.min.js')}}"></script>
+
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> --}}
+
     <link rel="stylesheet" href="{{ asset('admin/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/js/select.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/vertical-layout-light/style.css')}}">

@@ -15,7 +15,7 @@
             <div class="collapse" id="visit">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"><a class="nav-link" href="{{ route('visit') }}">Visit</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('visit-add') }}"> Create Visit</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('visit-add') }}"> Add New</a></li>
                 </ul>
             </div>
         </li>

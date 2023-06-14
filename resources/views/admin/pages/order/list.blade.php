@@ -90,8 +90,9 @@
     $(function () {
 
       var table = $('.order-table').DataTable({
-          processing: true,
-          serverSide: true,
+        processing: true,
+        serverSide: false,
+        paging: true,
           ajax: "{{ route('order-list') }}",
           columns: [
             {

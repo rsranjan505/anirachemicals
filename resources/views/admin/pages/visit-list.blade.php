@@ -54,7 +54,8 @@ $(function () {
 
     var table = $("#visit-table").DataTable({
     processing: true,
-    serverSide: true,
+    serverSide: false,
+    paging: true,
     ajax: "{{ route('visit') }}",
     language:
     {

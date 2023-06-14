@@ -53,8 +53,9 @@
     $(function () {
 
       var table = $('.product-table').DataTable({
-          processing: true,
-          serverSide: true,
+        processing: true,
+        serverSide: false,
+        paging: true,
           ajax: "{{ route('product-list') }}",
           columns: [
             {
