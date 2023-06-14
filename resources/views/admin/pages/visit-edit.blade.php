@@ -189,7 +189,7 @@
                                             @if ($data['visit']->image !=null)
                                                 <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="{{ $data['visit']->image->url}}" alt="your image" />
                                             @else
-                                                <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="{{ asset('admin/assets/images/accounticon.png')}}" alt="your image" />
+                                                <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="{{ asset('admin/assets/images/visit.png')}}" alt="your image" />
                                             @endif
 
                                         </div>

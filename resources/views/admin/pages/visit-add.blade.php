@@ -232,7 +232,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-5">
-                                            <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="{{ asset('admin/assets/images/accounticon.png')}}" alt="your image" />
+                                            <img id="avatarPreview" style="border:0.1px solid #000;" width="100px"  height="120px" src="{{ asset('admin/assets/images/visit.png')}}" alt="your image" />
                                         </div>
                                     </div>
                                     <hr>
