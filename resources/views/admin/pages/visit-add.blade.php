@@ -389,7 +389,12 @@
 
 
     //geo location
-
+    $("#latitude").focus(function(){
+        getLocation();
+    });
+    $("#latitude").blur(function(){
+        getLocation();
+    });
     getLocation();
 
     function getLocation() {
