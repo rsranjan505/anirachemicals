@@ -387,10 +387,11 @@
       }
     });
 
+</script>
 
+
+<script>
     //geo location
-
-
 
     function getLocation() {
         alert('dd');
