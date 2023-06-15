@@ -394,7 +394,6 @@
     //geo location
 
     function getLocation() {
-        alert('dd');
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition, showError);
       } else {
