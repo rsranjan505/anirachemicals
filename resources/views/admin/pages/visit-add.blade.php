@@ -408,16 +408,16 @@
     function showError(error) {
         switch (error.code) {
             case error.TIMEOUT:
-            x.innerHTML = "Timeout occurred, please check your network connection and try again.";
+            alert("Timeout occurred, please check your network connection and try again.");
             break;
             case error.POSITION_UNAVAILABLE:
-            x.innerHTML = "Position is not available, please check your network connection and try again.";
+            alert("Position is not available, please check your network connection and try again.");
             break;
             case error.PERMISSION_DENIED:
-            x.innerHTML = "Permission to access location was denied, please check your browser settings and try again.";
+            alert("Permission to access location was denied, please check your browser settings and try again.");
             break;
             default:
-            x.innerHTML = "An unknown error occurred, please try again.";
+           alert("An unknown error occurred, please try again.");
         }
     }
 
