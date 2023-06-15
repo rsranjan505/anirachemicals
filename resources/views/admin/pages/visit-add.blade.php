@@ -393,10 +393,11 @@
 
 
     function getLocation() {
+        alert('dd');
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition, showError);
       } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
+        alert("Geolocation is not supported by this browser.");
       }
     }
 
