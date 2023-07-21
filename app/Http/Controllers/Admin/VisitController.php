@@ -138,7 +138,8 @@ class VisitController extends Controller
                         return $vendor->creator->first_name;
                     })
                     ->addColumn('Created Date', function ($vendor) {
-                        return $vendor->created_at;
+
+                        return $vendor->created_at->format('d-m-Y g:i A');
                     })
 
                     ->addColumn('action', function($vendor){

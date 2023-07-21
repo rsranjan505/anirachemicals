@@ -125,7 +125,7 @@ class UserController extends Controller
                         return $user->pincode;
                     })
                     ->addColumn('Created Date', function ($user) {
-                        return $user->created_at;
+                        return $user->created_at->format('d-m-Y g:i A');
                     })
                     ->addColumn('Status', function ($user) {
                         $status='';

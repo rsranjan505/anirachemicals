@@ -26,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // \URL::forceScheme('https');
         Schema::defaultStringLength(191);
+        date_default_timezone_set('Asia/Calcutta');
     }
 }

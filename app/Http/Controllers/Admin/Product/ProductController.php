@@ -86,7 +86,7 @@ class ProductController extends Controller
                         return $product->form;
                     })
                     ->addColumn('Created Date', function ($product) {
-                        return $product->created_at;
+                        return $product->created_at->format('d-m-Y g:i A');
                     })
                     ->addColumn('Created By', function ($product) {
                         return $product->creator->first_name;
