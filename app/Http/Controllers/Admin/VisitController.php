@@ -58,9 +58,11 @@ class VisitController extends Controller
         if($request->avatar !=null){
             $image = $this->fileUpload($request->avatar,$visit,'local');
             $image['document_type']='avatar';
-            $visit->document()->create($image);
+            $visit->image()->create($image);
         }
-
+        if($request->has('id')){
+            return redirect()->back()->with(['success'=>'Visit has been successfully updated']);
+        }
         return redirect()->back()->with(['success'=>'Visit has been successfully created']);
     }
 

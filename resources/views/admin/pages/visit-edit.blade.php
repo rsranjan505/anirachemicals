@@ -25,6 +25,7 @@
                                     <p class="card-description">
                                         Create Visit
                                     </p>
+                                    <input id="id" type="hidden" value="{{ $data['visit']->id }}"  name="id" class="form-control"/>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -196,7 +197,7 @@
                                     </div>
                                     <hr>
                                     <button type="submit" class="btn btn-success mr-2">Save</button>
-                                    <button class="btn btn-light">Cancel</button>
+                                    <a href="{{ route('visit')}}"  class="btn btn-light">Cancel</a>
                                 </form>
                             </div>
                         </div>
