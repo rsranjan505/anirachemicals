@@ -61,7 +61,7 @@
     </div>
     {{-- <script src="{{ asset('admin/assets/js/jquery.min.js')}}"></script> --}}
     <script src="{{ asset('admin/assets/vendors/js/vendor.bundle.base.js')}}"></script>
-	<script src="{{ asset('admin/assets/vendors/chart.js/Chart.min.js')}}"></script>
+
 	<script src="{{ asset('admin/assets/vendors/datatables.net/jquery.dataTables.js')}}"></script>
     <script src="{{ asset('admin/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js')}}"></script>
     <script src="{{ asset('admin/assets/js/dataTables.select.min.js')}}"></script>
