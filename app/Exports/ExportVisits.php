@@ -48,7 +48,8 @@ class ExportVisits implements FromCollection, WithHeadings, WithEvents
                 $visit['latitude'],
                 $visit['longitude'],
                 $visit['description'],
-                $visit['created_at'],
+                $visit['created_at']->format('d-m-Y'),
+                $visit['created_at']->format('h:i:s A'),
                 $visit->creator->first_name,
 
             ];
@@ -80,6 +81,7 @@ class ExportVisits implements FromCollection, WithHeadings, WithEvents
             'Longitude',
             'Description',
             'Date',
+            'Time',
             'Created By',
         ];
     }
