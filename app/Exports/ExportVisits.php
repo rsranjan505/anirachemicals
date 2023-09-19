@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Visit;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -28,37 +29,43 @@ class ExportVisits implements FromCollection, WithHeadings, WithEvents
     */
     public function collection()
     {
-        $visits = Visit::with('state','city','creator')->get();
 
-        $row=[];
-        foreach($visits as $index=>$visit){
-            $row[]=[
-                ++$index,
-                $visit['name_of_establishment'],
-                getEstablishmentType($visit['establishment_type']),
-                $visit['key_person'],
-                $visit['email'],
-                $visit['mobile'],
-                $visit['address'],
-                $visit->state !=null ? $visit->state->name : '',
-                $visit->city ? $visit->city->name : '',
-                $visit['pincode'],
-                getVisitStatus($visit['status']),
-                $visit['source'],
-                $visit['latitude'],
-                $visit['longitude'],
-                $visit['description'],
-                $visit['created_at']->format('d-m-Y'),
-                $visit['created_at']->format('h:i:s A'),
-                $visit->creator->first_name,
+        if(Auth::check()){
+            $visits = Visit::with('state','city','creator')->get();
+            if(auth()->user()->user_type != 'admin' ){
+                $visits = Visit::where('created_by',auth()->user()->id)->with('state','city','creator')->get();
+            }
 
-            ];
-        }
+            $row=[];
+            foreach($visits as $index=>$visit){
+                $row[]=[
+                    ++$index,
+                    $visit['name_of_establishment'],
+                    getEstablishmentType($visit['establishment_type']),
+                    $visit['key_person'],
+                    $visit['email'],
+                    $visit['mobile'],
+                    $visit['address'],
+                    $visit->state !=null ? $visit->state->name : '',
+                    $visit->city ? $visit->city->name : '',
+                    $visit['pincode'],
+                    getVisitStatus($visit['status']),
+                    $visit['source'],
+                    $visit['latitude'],
+                    $visit['longitude'],
+                    $visit['description'],
+                    $visit['created_at']->format('d-m-Y'),
+                    $visit['created_at']->format('h:i:s A'),
+                    $visit->creator->first_name,
+
+                ];
+            }
+
 
         $data =[
             $row,
         ];
-
+    }
         return collect($data);
     }
 
