@@ -24,53 +24,69 @@
         <meta property="og:image" content="http://anirachemicals.com/public/assets/img/logo-name.png" />
 
         <!-- Favicons -->
-        <link href="{{$publicurl}}assets/img/favicon.png" rel="icon">
-        <link href="{{$publicurl}}assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+        <link href="{{ asset("assets/img/favicon.png")}}" rel="icon">
+        <link href="{{ asset("assets/img/apple-touch-icon.png")}}" rel="apple-touch-icon">
 
         <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
+        {{-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet"> --}}
 
         <!-- Vendor CSS Files -->
-        <link href="{{ asset($publicurl.'assets/vendor/aos/aos.css')}}" rel="stylesheet">
+        {{-- <link href="{{ asset($publicurl.'assets/vendor/aos/aos.css')}}" rel="stylesheet">
         <link href="{{ asset($publicurl.'assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
         <link href="{{ asset($publicurl.'assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
         <link href="{{ asset($publicurl.'assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
         <link href="{{ asset($publicurl.'assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
         <link href="{{ asset($publicurl.'assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
-
-        <!-- Template Main CSS File -->
         <link href="{{ asset($publicurl.'assets/css/style.css')}}" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> --}}
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="{{ asset("assets/css/bootstrap.min.css")}}">
+        <!-- All Icons -->
+        <link rel="stylesheet" href="{{ asset("assets/all-icons/myicon.css")}}">
+        <!-- Plugin -->
+        <link rel="stylesheet" href="{{ asset("assets/css/plugins.min.css")}}">
+        <!-- Style -->
+        <link rel="stylesheet" href="{{ asset("assets/css/style.min.css")}}">
+        <!-- Responsive -->
+        <link rel="stylesheet" href="{{ asset("assets/css/responsive.min.css")}}">
+
+        <link rel="stylesheet" href="{{ asset("assets/css/custom.css")}}">
 
     </head>
     <body>
+        <div id="main-wrapper">
+            {{-- header --}}
+            <x-heade publicurl={{$publicurl}}></x-heade>
 
-        {{-- header --}}
+            <main id="main">
+                @if (Request::is('/') )
+                    <x-hero_section publicurl={{$publicurl}} />
+                @else
+                   @include('components.bread-cumb')
+                @endif
 
-        <x-heade publicurl={{$publicurl}}></x-heade>
-        {{-- @extends('components.heade',['publicurl' => $publicurl]) --}}
-        {{-- hero section --}}
-        <x-hero_section publicurl={{$publicurl}} />
-        {{-- @extends('components.hero_section',['publicurl' => $publicurl]) --}}
+                @yield('content')
+            </main>
 
-
-        <main id="main">
-        @yield('content')
-        </main>
-
-        <x-footer />
-
+            <x-footer />
+        </div>
         <!-- Vendor JS Files -->
-    <script src="{{ asset($publicurl.'assets/vendor/aos/aos.js')}}"></script>
+    {{-- <script src="{{ asset($publicurl.'assets/vendor/aos/aos.js')}}"></script>
     <script src="{{ asset($publicurl.'assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{ asset($publicurl.'assets/vendor/glightbox/js/glightbox.min.js')}}"></script>
     <script src="{{ asset($publicurl.'assets/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
     <script src="{{ asset($publicurl.'assets/vendor/php-email-form/validate.js')}}"></script>
     <script src="{{ asset($publicurl.'assets/vendor/swiper/swiper-bundle.min.js')}}"></script>
+    <script src="{{ asset($publicurl.'assets/js/main.js')}}"></script> --}}
 
-    <!-- Template Main JS File -->
-    <script src="{{ asset($publicurl.'assets/js/main.js')}}"></script>
+    <!-- jQuery -->
+    <script src="{{ asset("assets/js/jquery-3.7.0.min.js")}}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset("assets/js/bootstrap.min.js")}}"></script>
+    <!-- Plugins -->
+    <script src="{{ asset("assets/js/plugins.min.js")}}"></script>
+    <!-- Index -->
+    <script src="{{ asset("assets/js/index.min.js")}}"></script>
 
     </body>
 </html>

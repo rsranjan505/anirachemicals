@@ -40,15 +40,15 @@ Route::get('/', function () {
 });
 
 //pages
-Route::get('/', [HomeController::class, 'index'])->name('/home');
-Route::get('/about', [AboutController::class, 'index'])->name('/about');
-Route::get('/product', [ProductsController::class, 'index'])->name('/product');
-Route::get('/details/{name?}', [ProductDetailsController::class, 'index'])->name('/details/{name?}');
-Route::get('/dealership', [DearlershipController::class, 'index'])->name('/dealership');
-Route::get('/client', [ClientController::class, 'index'])->name('/client');
-Route::get('/gallery', [GalleryController::class, 'index'])->name('/gallery');
-Route::get('/career', [CareerController::class, 'index'])->name('/career');
-Route::get('/contact', [ContactController::class, 'index'])->name('/contact');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/product', [ProductsController::class, 'index'])->name('product');
+Route::get('/details/{name?}', [ProductDetailsController::class, 'index'])->name('details/{name?}');
+Route::get('/dealership', [DearlershipController::class, 'index'])->name('dealership');
+Route::get('/client', [ClientController::class, 'index'])->name('client');
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
+Route::get('/career', [CareerController::class, 'index'])->name('career');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 Route::POST('/enquiry', [DearlershipController::class, 'enquiryForm'])->name('enquiry');
 Route::POST('/contact/mail', [ContactController::class, 'contactEmail'])->name('contact/mail');

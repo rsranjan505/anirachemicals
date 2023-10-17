@@ -7,7 +7,7 @@
           <p class="cta-text"> Whether it’s to join us, to know us, to question us, or to help us serve you better, we’d love to hear what’s on your mind. </p>
         </div>
         <div class="col-lg-3 cta-btn-container text-center">
-          <a class="cta-btn align-middle" href="{{ route('/dealership') }}">Request a quote</a>
+          <a class="cta-btn align-middle" href="{{ route('dealership') }}">Request a quote</a>
         </div>
       </div>
     </div>

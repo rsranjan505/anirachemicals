@@ -1,23 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-
-    <!-- ======= Breadcrumbs Section ======= -->
-    <section class="breadcrumbs">
-        <div class="container">
-
-            <div class="d-flex justify-content-between align-items-center">
-
-            <ol>
-                <li><a href="{{ route('/home') }}">Home</a></li>
-                <li>Gallery</li>
-            </ol>
-            </div>
-
-        </div>
-    </section><!-- End Breadcrumbs Section -->
-
-    <section id="about">
+    {{-- <section id="about">
         <div class="container" data-aos="fade-up">
             <div class="row">
                 <div class="col-lg-6 about-img">
@@ -45,11 +29,171 @@
             </div>
 
         </div>
-    </section><!-- End About Section -->
+    </section> --}}
 
 
 
-
-    @include('components.requestcontent')
+    <section class="projects-gallery v1 box-shuffle">
+        <div class="container">
+            <h4>Industrial Markets</h4>
+            <div class="gallery-btns v1 btns-center">
+                <ul>
+                    <li><button data-target="gallery-item" class="active">Show All</button></li>
+                    <li><button data-target="farming">Waterproofing System</button></li>
+                    <li><button data-target="horticulture">Flooring & Coatings</button></li>
+                    <li><button data-target="agriculture-world">Repair and Restoration</button></li>
+                    <li><button data-target="countrylife">Grouts and Anchors</button></li>
+                    <li><button data-target="countrylife">Buildings and Joint Sealants</button></li>
+                    <li><button data-target="countrylife">Concrete Admixture</button></li>
+                </ul>
+            </div>
+            <div class="row gallery-items align-items-center justify-content-center">
+                <div class="col-md-6 col-lg-4" data-groups='["gallery-item","farming","horticulture"]'>
+                    <div class="gallery-card">
+                        <div class="gallery-img">
+                            <a href="projects-details.html">
+                                <img src="assets/img/projects-gallery/v1/box-gallery-1.jpg" alt="gallery-card">
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-text">
+                                <h6><a href="projects-details.html">Planting Project</a></h6>
+                                <p>Business Growth</p>
+                            </div>
+                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-groups='["gallery-item","countrylife"]'>
+                    <div class="gallery-card">
+                        <div class="gallery-img">
+                            <a href="projects-details.html">
+                                <img src="assets/img/projects-gallery/v1/box-gallery-2.jpg" alt="gallery-card">
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-text">
+                                <h6><a href="projects-details.html">Planting Project</a></h6>
+                                <p>Business Growth</p>
+                            </div>
+                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-groups='["gallery-item","farming","agriculture-world"]'>
+                    <div class="gallery-card">
+                        <div class="gallery-img">
+                            <a href="projects-details.html">
+                                <img src="assets/img/projects-gallery/v1/box-gallery-3.jpg" alt="gallery-card">
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-text">
+                                <h6><a href="projects-details.html">Planting Project</a></h6>
+                                <p>Business Growth</p>
+                            </div>
+                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-groups='["gallery-item","farming"]'>
+                    <div class="gallery-card">
+                        <div class="gallery-img">
+                            <a href="projects-details.html">
+                                <img src="assets/img/projects-gallery/v1/box-gallery-4.jpg" alt="gallery-card">
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-text">
+                                <h6><a href="projects-details.html">Planting Project</a></h6>
+                                <p>Business Growth</p>
+                            </div>
+                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-groups='["gallery-item","horticulture"]'>
+                    <div class="gallery-card">
+                        <div class="gallery-img">
+                            <a href="projects-details.html">
+                                <img src="assets/img/projects-gallery/v1/box-gallery-5.jpg" alt="gallery-card">
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-text">
+                                <h6><a href="projects-details.html">Planting Project</a></h6>
+                                <p>Business Growth</p>
+                            </div>
+                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-groups='["gallery-item","farming","agriculture-world"]'>
+                    <div class="gallery-card">
+                        <div class="gallery-img">
+                            <a href="projects-details.html">
+                                <img src="assets/img/projects-gallery/v1/box-gallery-6.jpg" alt="gallery-card">
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-text">
+                                <h6><a href="projects-details.html">Planting Project</a></h6>
+                                <p>Business Growth</p>
+                            </div>
+                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-groups='["gallery-item","countrylife"]'>
+                    <div class="gallery-card">
+                        <div class="gallery-img">
+                            <a href="projects-details.html">
+                                <img src="assets/img/projects-gallery/v1/box-gallery-7.jpg" alt="gallery-card">
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-text">
+                                <h6><a href="projects-details.html">Planting Project</a></h6>
+                                <p>Business Growth</p>
+                            </div>
+                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-groups='["gallery-item","horticulture"]'>
+                    <div class="gallery-card">
+                        <div class="gallery-img">
+                            <a href="projects-details.html">
+                                <img src="assets/img/projects-gallery/v1/box-gallery-8.jpg" alt="gallery-card">
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-text">
+                                <h6><a href="projects-details.html">Planting Project</a></h6>
+                                <p>Business Growth</p>
+                            </div>
+                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-groups='["gallery-item","countrylife","agriculture-world"]'>
+                    <div class="gallery-card">
+                        <div class="gallery-img">
+                            <a href="projects-details.html">
+                                <img src="assets/img/projects-gallery/v1/box-gallery-9.jpg" alt="gallery-card">
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-text">
+                                <h6><a href="projects-details.html">Planting Project</a></h6>
+                                <p>Business Growth</p>
+                            </div>
+                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 @endsection

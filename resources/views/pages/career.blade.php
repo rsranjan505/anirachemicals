@@ -2,25 +2,6 @@
 
 
 @section('content')
-   <!-- ======= Breadcrumbs Section ======= -->
-   <section class="breadcrumbs">
-    <div class="container">
-
-      <div class="d-flex justify-content-between align-items-center">
-
-        <ol>
-          <li><a href="{{ route('/home') }}">Home</a></li>
-          <li>Career</li>
-        </ol>
-      </div>
-
-    </div>
-  </section><!-- End Breadcrumbs Section -->
-
-
-
-
-      <!-- ======= About Section ======= -->
   <section id="about">
     <div class="container" data-aos="fade-up">
       <div class="row">

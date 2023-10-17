@@ -16,7 +16,7 @@ trait HelperTrait
 
     public function send_email($data, $type) {
 
-        $this->adminemail = config('mail.mailers.smtp.username',null);
+        $this->adminemail = "contact@anirachemicals.com";
         if( $type == 'contact'){
             $this->data = $data;
 
