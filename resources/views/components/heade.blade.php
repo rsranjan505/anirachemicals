@@ -58,7 +58,7 @@
                         <a href="{{ route('home') }}"><img src="{{asset('assets/img/logo-name.png')}}" alt="Logo"></a>
                     </div>
                 </div>
-                <div class="col-xl-8 p-xl-0">z
+                <div class="col-xl-8 p-xl-0">
                     <div class="top-bar-info">
                         <div class="top-info d-none d-lg-flex">
                             {{-- <p>Give Food Energy to World</p> --}}
