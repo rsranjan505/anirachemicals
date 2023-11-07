@@ -1,19 +1,22 @@
-<div class="card py-2">
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link {{ $activeTab == 'list' ? 'active' : '' }} " id="add-tab"  href="{{ route('user-list')}}"  aria-controls="list" aria-selected="true">List</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ $activeTab == 'add' ? 'active' : '' }}" id="list-tab"  href="{{ route('add-user-view')}}"  aria-controls="add" aria-selected="false">Add New</a>
-        </li>
-        @if($activeTab == 'edit')
-        <li class="nav-item">
-            <a class="nav-link {{ $activeTab == 'edit' ? 'active' : '' }}" id="edit" href="{{ route('user-edit-view')}}"  aria-controls="edit" aria-selected="false">Edit</a>
-        </li>
-        @endif
-        <li class="nav-item">
-            <a class="nav-link {{ $activeTab == 'setting' ? 'active' : '' }}" id="setting-tab"  href="{{ route('setting-view') }}"  aria-controls="setting" aria-selected="false">Setting</a>
-        </li>
-
-    </ul>
-</div>
+<nav class="navbar navbar-example navbar-expand-lg bg-light">
+    <div class="nav-align-top">
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item">
+                <a href="{{ route('admin-user-list')}}" class="nav-link {{ $activeTab == 'list' ? 'active' : '' }}" aria-selected="true">User List</a>
+            </li>
+            @if($activeTab == 'edit')
+            <li class="nav-item">
+                <a href="{{ route('admin-user-edit')}}" class="nav-link {{ $activeTab == 'edit' ? 'active' : '' }}" role="tab" >Edit</a>
+            </li>
+            @endif
+            @if($activeTab == 'add')
+                <li class="nav-item">
+                    <a href="{{ route('admin-user-add')}}" class="nav-link {{ $activeTab == 'add' ? 'active' : '' }}" role="tab" >Create</a>
+                </li>
+            @endif
+        </ul>
+    </div>
+    @if($activeTab != 'add')
+        <a class="btn btn-outline-primary" style="float: right;position:absolute;right:15px;left:auto;" href="{{ route('admin-user-add')}}">Create New</a>
+    @endif
+</nav>

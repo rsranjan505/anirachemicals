@@ -27,4 +27,14 @@ class Visit extends Model
     public function creator(){
         return $this->belongsTo(User::class,'created_by');
     }
+
+    public function statuslog()
+    {
+        return $this->morphOne(StatusLog::class, 'logable','model_type', 'model_id');
+    }
+
+    public function statuslogs()
+    {
+        return $this->morphMany(StatusLog::class, 'logable','model_type', 'model_id');
+    }
 }

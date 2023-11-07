@@ -1,40 +1,66 @@
-@extends('admin.layouts.base')
+
+@extends('admin/layouts/blankLayout')
+
+@section('title', 'Forgot Password Basic - Pages')
+
+@section('page-style')
+<!-- Page -->
+<link rel="stylesheet" href="{{asset('admin/assets/vendor/css/pages/page-auth.css')}}">
+@endsection
 
 @section('content')
+<div class="container-xxl">
+  <div class="authentication-wrapper authentication-basic container-p-y">
+    <div class="authentication-inner py-4">
 
+      <!-- Forgot Password -->
+      <div class="card">
+        <div class="card-body">
+          <!-- Logo -->
+          <div class="app-brand justify-content-center">
+            <a href="{{url('/')}}" class="app-brand-link gap-2">
+              <span class="app-brand-logo demo">@include('_partials.macros',['width'=>25,'withbg' => "#696cff"])</span>
+              <span class="app-brand-text demo text-body fw-bolder">{{ config('variables.productName') }}</span>
+            </a>
+          </div>
+          <!-- /Logo -->
+          @if (isset($message) )
+          <div class="mb-3">
+            <span class="alert-success bx-sm" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          </div>
+          @else
+          <h4 class="mb-2">Forgot Password? 🔒</h4>
+          <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
+          <form id="formAuthentication" class="mb-3" action="{{ route('request-password') }}" method="POST">
 
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-4 mx-auto">
-            <div class="card-header">{{ __('Forget Password') }}</div>
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <div class="brand-logo">
-                {{-- <img src="{{ asset('assets/img/logo.png')}}" style="width: 50px;" alt="logo"> --}}
-                @if (isset($message))
-                    <h4 class="danger">{{ $message }}</h4>
-                @endif
-              </div>
-              <h6 class="font-weight-light"></h6>
-                <form method="POST" action="{{ route('request-password') }}" class="pt-3">
-                    @csrf
-                    <div class="form-group">
-                        <input class="form-control form-control-lg @error('email') is-invalid @enderror" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="User Name">
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <div class="mt-3">
-                        <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" name="submit" id="submit">{{ __('Submit') }}</button>
-                    </div>
-                </form>
+            @csrf
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control  @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter your email" autofocus>
+              @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
             </div>
+            <button class="btn btn-primary d-grid w-100" name="submit" id="submit">Send Reset Link</button>
+          </form>
+
+          @endif
+
+          <div class="text-center">
+            <a href="{{ route('login')}}" class="d-flex align-items-center justify-content-center">
+              <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
+              Back to login
+            </a>
           </div>
         </div>
       </div>
-      <!-- content-wrapper ends -->
+      <!-- /Forgot Password -->
     </div>
-
+  </div>
+</div>
 @endsection
+

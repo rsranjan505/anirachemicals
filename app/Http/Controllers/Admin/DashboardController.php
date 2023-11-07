@@ -25,4 +25,9 @@ class DashboardController extends Controller
         return view('admin.auth.login');
     }
 
+    public function index_demo()
+    {
+        return view('admin.dashboards-analytics');
+    }
+
 }

@@ -51,144 +51,144 @@
                 <div class="col-md-6 col-lg-4" data-groups='["gallery-item","farming","horticulture"]'>
                     <div class="gallery-card">
                         <div class="gallery-img">
-                            <a href="projects-details.html">
-                                <img src="assets/img/projects-gallery/v1/box-gallery-1.jpg" alt="gallery-card">
+                            <a href="#">
+                                <img src="{{ asset('assets/img/products/product1.jpg')}}" alt="gallery-card">
                             </a>
                         </div>
                         <div class="card-info">
                             <div class="info-text">
-                                <h6><a href="projects-details.html">Planting Project</a></h6>
-                                <p>Business Growth</p>
+                                {{-- <h6><a href="#">Planting Project</a></h6>
+                                <p>Business Growth</p> --}}
                             </div>
-                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                            {{-- <a href="#" class="info-link"><span class="my-icon icon-plus"></span></a> --}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-groups='["gallery-item","countrylife"]'>
                     <div class="gallery-card">
                         <div class="gallery-img">
-                            <a href="projects-details.html">
-                                <img src="assets/img/projects-gallery/v1/box-gallery-2.jpg" alt="gallery-card">
+                            <a href="#">
+                                <img src="{{ asset('assets/img/products/product2.jpg')}}" alt="gallery-card">
                             </a>
                         </div>
                         <div class="card-info">
                             <div class="info-text">
-                                <h6><a href="projects-details.html">Planting Project</a></h6>
-                                <p>Business Growth</p>
+                                {{-- <h6><a href="#">Planting Project</a></h6>
+                                <p>Business Growth</p> --}}
                             </div>
-                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                            {{-- <a href="#" class="info-link"><span class="my-icon icon-plus"></span></a> --}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-groups='["gallery-item","farming","agriculture-world"]'>
                     <div class="gallery-card">
                         <div class="gallery-img">
-                            <a href="projects-details.html">
-                                <img src="assets/img/projects-gallery/v1/box-gallery-3.jpg" alt="gallery-card">
+                            <a href="#">
+                                <img src="{{ asset('assets/img/products/product3.jpg')}}" alt="gallery-card">
                             </a>
                         </div>
                         <div class="card-info">
                             <div class="info-text">
-                                <h6><a href="projects-details.html">Planting Project</a></h6>
-                                <p>Business Growth</p>
+                                {{-- <h6><a href="#">Planting Project</a></h6>
+                                <p>Business Growth</p> --}}
                             </div>
-                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                            {{-- <a href="#" class="info-link"><span class="my-icon icon-plus"></span></a> --}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-groups='["gallery-item","farming"]'>
                     <div class="gallery-card">
                         <div class="gallery-img">
-                            <a href="projects-details.html">
-                                <img src="assets/img/projects-gallery/v1/box-gallery-4.jpg" alt="gallery-card">
+                            <a href="#">
+                                <img src="{{ asset('assets/img/products/product4.jpg')}}" alt="gallery-card">
                             </a>
                         </div>
                         <div class="card-info">
                             <div class="info-text">
-                                <h6><a href="projects-details.html">Planting Project</a></h6>
-                                <p>Business Growth</p>
+                                {{-- <h6><a href="#">Planting Project</a></h6>
+                                <p>Business Growth</p> --}}
                             </div>
-                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                            {{-- <a href="#" class="info-link"><span class="my-icon icon-plus"></span></a> --}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-groups='["gallery-item","horticulture"]'>
                     <div class="gallery-card">
                         <div class="gallery-img">
-                            <a href="projects-details.html">
-                                <img src="assets/img/projects-gallery/v1/box-gallery-5.jpg" alt="gallery-card">
+                            <a href="#">
+                                <img src="{{ asset('assets/img/products/product_bond.jpg')}}" alt="gallery-card">
                             </a>
                         </div>
                         <div class="card-info">
                             <div class="info-text">
-                                <h6><a href="projects-details.html">Planting Project</a></h6>
-                                <p>Business Growth</p>
+                                {{-- <h6><a href="#">Planting Project</a></h6>
+                                <p>Business Growth</p> --}}
                             </div>
-                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                            {{-- <a href="#" class="info-link"><span class="my-icon icon-plus"></span></a> --}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-groups='["gallery-item","farming","agriculture-world"]'>
                     <div class="gallery-card">
                         <div class="gallery-img">
-                            <a href="projects-details.html">
-                                <img src="assets/img/projects-gallery/v1/box-gallery-6.jpg" alt="gallery-card">
+                            <a href="#">
+                                <img src="{{ asset('assets/img/products/product_lw.jpg')}}" alt="gallery-card">
                             </a>
                         </div>
                         <div class="card-info">
                             <div class="info-text">
-                                <h6><a href="projects-details.html">Planting Project</a></h6>
-                                <p>Business Growth</p>
+                                {{-- <h6><a href="#">Planting Project</a></h6>
+                                <p>Business Growth</p> --}}
                             </div>
-                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                            {{-- <a href="#" class="info-link"><span class="my-icon icon-plus"></span></a> --}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-groups='["gallery-item","countrylife"]'>
                     <div class="gallery-card">
                         <div class="gallery-img">
-                            <a href="projects-details.html">
-                                <img src="assets/img/projects-gallery/v1/box-gallery-7.jpg" alt="gallery-card">
+                            <a href="#">
+                                <img src="{{ asset('assets/img/products/product1.jpg')}}" alt="gallery-card">
                             </a>
                         </div>
                         <div class="card-info">
                             <div class="info-text">
-                                <h6><a href="projects-details.html">Planting Project</a></h6>
-                                <p>Business Growth</p>
+                                {{-- <h6><a href="#">Planting Project</a></h6>
+                                <p>Business Growth</p> --}}
                             </div>
-                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                            <a href="#" class="info-link"><span class="my-icon icon-plus"></span></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-groups='["gallery-item","horticulture"]'>
                     <div class="gallery-card">
                         <div class="gallery-img">
-                            <a href="projects-details.html">
-                                <img src="assets/img/projects-gallery/v1/box-gallery-8.jpg" alt="gallery-card">
+                            <a href="#">
+                                <img src="{{ asset('assets/img/products/product1.jpg')}}" alt="gallery-card">
                             </a>
                         </div>
                         <div class="card-info">
                             <div class="info-text">
-                                <h6><a href="projects-details.html">Planting Project</a></h6>
-                                <p>Business Growth</p>
+                                {{-- <h6><a href="#">Planting Project</a></h6>
+                                <p>Business Growth</p> --}}
                             </div>
-                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                            {{-- <a href="#" class="info-link"><span class="my-icon icon-plus"></span></a> --}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-groups='["gallery-item","countrylife","agriculture-world"]'>
                     <div class="gallery-card">
                         <div class="gallery-img">
-                            <a href="projects-details.html">
-                                <img src="assets/img/projects-gallery/v1/box-gallery-9.jpg" alt="gallery-card">
+                            <a href="#">
+                                <img src="{{ asset('assets/img/products/product1.jpg')}}" alt="gallery-card">
                             </a>
                         </div>
                         <div class="card-info">
                             <div class="info-text">
-                                <h6><a href="projects-details.html">Planting Project</a></h6>
-                                <p>Business Growth</p>
+                                {{-- <h6><a href="#">Planting Project</a></h6>
+                                <p>Business Growth</p> --}}
                             </div>
-                            <a href="projects-details.html" class="info-link"><span class="my-icon icon-plus"></span></a>
+                            {{-- <a href="#" class="info-link"><span class="my-icon icon-plus"></span></a> --}}
                         </div>
                     </div>
                 </div>

@@ -4,33 +4,63 @@ namespace App\Http\Controllers\Admin\Vendor;
 
 use App\Exports\ExportVendors;
 use App\Http\Controllers\Controller;
-use App\Models\City;
 use App\Models\State;
 use App\Models\Vendor;
+use App\Services\VendorService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
-use Yajra\DataTables\Facades\DataTables;
 
 class VendorController extends Controller
 {
-    public function index(){
-
-        $data['state'] = State::all();
-        return view('admin.pages.vendor-add',['data'=>$data]);
+    public VendorService $vendorService;
+    public function __construct(VendorService $vendorService)
+    {
+        $this->vendorService = $vendorService;
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $vendors = $this->vendorService->getAllvendors();
+        $states = State::all();
+        if($request->ajax()){
+            $vendors = $this->vendorService->getvendorsByFilter($request);
+            return view('admin.pages.vendor.filter-vendor', compact('vendors','states'))->render();
+        }
+        return view('admin.pages.vendor.list',compact('vendors','states'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $states = State::all();
+        return view('admin.pages.vendor.add',compact('states'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $data = $request->except(['avatar','document']);
         $request->validate([
             'name_of_establishment' => 'required',
             'establishment_type' => 'required',
             'pan' =>'required|unique:vendors,pan',
             'address' => 'required',
-            'state' =>'required',
-            'city' =>'required',
+            'state_id' =>'required',
+            'city_id' =>'required',
             'pincode' =>'required|min:5',
             'key_person' => 'required',
             'dob' => 'required|date',
@@ -38,212 +68,91 @@ class VendorController extends Controller
             'email' => 'required',
         ]);
 
+        $data = $request->except(['avatar','document']);
         $data['partner_details'] = json_encode($request->partner_details,true);
         $data['previous_product_details'] = json_encode($request->previous_product_details,true);
-        $data['created_by'] = auth('web')->user()->id;
 
-        $vendor = $this->recordSave(Vendor::class,$data,null,null);
+        $data['created_by'] = auth()->user()->id;
 
-        if($request->avatar !=null){
-            $image = $this->fileUpload($request->avatar,$vendor,'local');
-            $image['document_type']='avatar';
-            $vendor->document()->create($image);
-        }
+        $vendor = new Vendor();
+        $vendor = $vendor->create($data);
 
-        if($request->document !=null){
-            foreach($request->document as $doc){
-                $docs = $this->fileUpload($doc,$vendor,'local');
-                $docs['document_type']='support_document';
-                $vendor->document()->create($docs);
-            }
-
-        }
-
-        return redirect()->back()->with(['success'=>'Vendor has been successfully created']);
-    }
-
-    public function vendorList(Request $request)
-    {
-        if ($request->ajax()) {
-
-            if(auth()->user()->user_type == 'admin'){
-                $vendors = Vendor::with('getState','getCity','creator','image')->latest();
-            }else{
-                $vendors = Vendor::where('created_by',auth()->user()->id)->with('getState','getCity','creator','image')->latest();
-            }
-
-            return DataTables::of($vendors)
-                    ->addIndexColumn()
-                    ->setRowId(function ($vendor) {
-                        return 'row'.$vendor->id;
-                    })
-                    ->addColumn('Image', function ($vendor) {
-                        $img = $vendor->image !=null ? $vendor->image->url : 'http://anirachemicals.com/admin/assets/images/accounticon.png';
-                        return ' <td class="py-1">
-                                    <img id="imgV'.$vendor->id.'" onclick="imageView('.$vendor->id.')" src="'.$img.'" alt="image" data-mdb-img="'.$img.'"
-                                    alt="visiting image"
-                                    class="w-100"/>
-                                </td>';
-                    })
-                    ->addColumn('Business Name', function ($vendor) {
-                        return $vendor->name_of_establishment;
-                    })
-                    ->addColumn('Establishment Type', function ($vendor) {
-                        $type = getEstablishmentType($vendor->establishment_type);
-                        return $type;
-                    })
-                    ->addColumn('Pan', function ($vendor) {
-                        return $vendor->pan ;
-                    })
-                    ->addColumn('Gst', function ($vendor) {
-                        return $vendor->gst;
-                    })
-                    ->addColumn('Address', function ($vendor) {
-                        return $vendor->address;
-                    })
-                    ->addColumn('Address', function ($vendor) {
-                        return $vendor->address;
-                    })
-                    ->addColumn('City', function ($vendor) {
-                        return $vendor->getCity ? $vendor->getCity->name : '';
-                    })
-                    ->addColumn('State', function ($vendor) {
-                        return $vendor->getState ? $vendor->getState->name : '';
-                    })
-                    ->addColumn('Pincode', function ($vendor) {
-                        return $vendor->pincode;
-                    })
-                    ->addColumn('Email', function ($vendor) {
-                        return $vendor->email;
-                    })
-                    ->addColumn('Mobile', function ($vendor) {
-                        return $vendor->mobile;
-                    })
-                    ->addColumn('Key Person', function ($vendor) {
-                        return $vendor->key_person;
-                    })
-                    ->addColumn('DOB', function ($vendor) {
-                        return $vendor->dob;
-                    })
-                    ->addColumn('Marriage Aniversory', function ($vendor) {
-                        return $vendor->marriage_aniversory;
-                    })
-                    ->addColumn('Created By', function ($vendor) {
-                        return $vendor->creator->first_name;
-                    })
-                    ->addColumn('Created Date', function ($vendor) {
-                        return $vendor->created_at->format('d-m-Y g:i A');
-                    })
-                    ->addColumn('Status', function ($vendor) {
-
-                        if($vendor->is_active ==1){
-                            $statucss = '<label class="badge badge-success">Active</label>' ;
-                        }else {
-                            $statucss = '<label class="badge badge-danger">Deactive</label>' ;
-                        }
-                        return $statucss;
-
-                    })
-
-                    ->addColumn('action', function($vendor){
-                        if($vendor->is_active ==1){
-                            $status = 'Deactivate';
-                        }else{
-                            $status = 'Activate';
-                        }
-                        return '<div class="dropdown">
-                                <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                                <a class="dropdown-item" onClick="openModelpartner('.$vendor->id.')" href="#">Partner Details</a>
-                                <a class="dropdown-item" onClick="openModelpreProducts('.$vendor->id.')" href="#">Previous Products</a>
-                                <a class="dropdown-item" href="'.url('admin/vendor-update/'.$vendor->id).'">Edit</a>
-                                <a class="dropdown-item" href="'.url('admin/vendor/change-status/'.$vendor->id).'">'.$status.'</a>
-
-                                </div>
-                            </div>';
-
-                    })
-                    ->rawColumns(['action','Status','Image'])
-                    ->make(true);
-        }
-
-        return view('admin.pages.vendor-list');
-    }
-
-    public function edit($id){
-        if($id!=null){
-            $vendor = Vendor::where('id',$id)->with('getState','getCity','image','document')->first();
-            $data['state'] = State::all();
-            $data['city'] = City::all();
-            $data['vendor'] = $vendor;
-            $data['partner'] = (array)json_decode($vendor->partner_details);
-            $data['previous_product'] =  (array)json_decode($vendor->previous_product_details);
-            return view('admin.pages.vendor-edit',['data'=>$data]);
-        }
-    }
-
-    public function update(Request $request){
-
-        if($request->id !=null){
-            // $vendor = Vendor::find($request->id);
-            $data = $request->except(['avatar','document']);
-            $request->validate([
-                'name_of_establishment' => 'required',
-                'establishment_type' => 'required',
-                'address' => 'required',
-                'state' =>'required',
-                'city' =>'required',
-                'pincode' =>'required|min:5',
-                'key_person' => 'required',
-                'dob' => 'required|date',
-                'mobile' => 'required|min:10',
-                'email' => 'required',
-            ]);
-
-            $vendor = Vendor::find($request->id);
-
-            $prevpartnerdata = json_decode($vendor->partner_details);
-            $newpartnerdata = array_merge((array) $prevpartnerdata,$request->partner_details);
-
-            $prevproductdata = json_decode($vendor->previous_product_details);
-            $newproductdata = array_merge((array) $prevproductdata,$request->previous_product_details);
-
-            $data['partner_details'] = json_encode($newpartnerdata,true);
-            $data['previous_product_details'] = json_encode($newproductdata,true);
-
-            $vendor = $this->recordSave(Vendor::class,$data,null,null);
-
+        if($vendor){
             if($request->avatar !=null){
                 $image = $this->fileUpload($request->avatar,$vendor,'local');
                 $image['document_type']='avatar';
-                $vendor->document()->create($image);
+                $vendor->image()->create($image);
             }
+            return redirect()->route('vendor.index')->with('success','Vendor added Successfully');
+        }
+    }
 
-            if($request->document !=null){
-                foreach($request->document as $doc){
-                    $docs = $this->fileUpload($doc,$vendor,'local');
-                    $docs['document_type']='support_document';
-                    $vendor->document()->create($docs);
-                }
-            }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
-            return redirect()->back()->with(['success'=>'Vendor has been successfully updated']);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $vendor = Vendor::findOrFail($id);
+        if($vendor){
+            $vendor->delete();
+            return ok($vendor,'Vendor Deleted successfully');
         }
     }
 
     public function changeStatus($id)
     {
-        $vendor = Vendor::find($id);
+        $vendor = Vendor::findOrFail($id);
         $value = !$vendor->is_active;
         $vendor->update([
             'is_active' => (int) $value,
         ]);
 
-        return redirect()->back()->with(['success'=>'Vendor status has been successfully changed.']);
+        return ok($vendor,'Status Changed successfully');
     }
 
-    public function exportVendor(Request $request){
-        return Excel::download(new ExportVendors, 'vendors.csv');
+    //Export data
+    public function exportVisit(Request $request){
+        // return Json(new { Result = "true", Message = "Success", FileName = fname,Entity=entityvalue });
+        if(Auth::check()){
+            return Excel::download(new ExportVendors($request,$this->vendorService), 'vendors.csv');
+        }
+        return redirect()->route('vendor.index')->with('danger','Unauthorized access');
     }
 }

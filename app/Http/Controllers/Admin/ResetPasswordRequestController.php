@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -26,11 +27,14 @@ class ResetPasswordRequestController extends Controller
 
     public function reqForgotPassword(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            ]);
         if(!$this->validEmail($request->email)) {
             return view('admin.auth.forget-password')->with(['message' => 'Email not found']);
         } else {
             $this->sendEmail($request->email);
-            return view('admin.auth.login')->with(['message' => 'We’ve sent you an email with a link to finish resetting your password.']);
+            return view('admin.auth.forget-password')->with(['message' => 'We’ve sent you an email with a link to finish resetting your password.']);
         }
 
     }
@@ -41,7 +45,7 @@ class ResetPasswordRequestController extends Controller
         $token = $this->createToken($email);
         dispatch(new \App\Jobs\ForgotPasswordJobs($email, $token));
         // $token = $this->createToken($email);
-        // Mail::to($email)->send(new ForgotPasswordMail($token));
+        // Mail::to($email)->send(new ForgetPasswordMail($token));
     }
 
     public function validEmail($email)
@@ -71,16 +75,12 @@ class ResetPasswordRequestController extends Controller
 
     public function updateForgotPassword(Request $request)
     {
-        $validateUser = Validator::make($request->all(),
-            [
-                'email' => 'required|email',
-                'password' => 'required',
-                'confirm-password' => 'required|same:password'
-            ]);
 
-            if($validateUser->fails()){
-                return redirect()->route('login');
-            }
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required',
+            'confirm-password' => 'required|same:password'
+            ]);
 
         return $this->validateToken($request)->count() > 0 ? $this->changePassword($request) : $this->noToken();
     }
@@ -110,7 +110,7 @@ class ResetPasswordRequestController extends Controller
           'password'=>Hash::make($request->password)
         ]);
         $this->validateToken($request)->delete();
-        return view('admin.auth.login')->with(['message' => 'Password changed successfully. Please Login']);
+        return view('admin.auth.reset-password')->with(['message' => 'Password changed successfully. Please Login']);
     }
 
     public function getEmailFromToken(Request $request)

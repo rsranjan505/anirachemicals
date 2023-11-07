@@ -4,19 +4,25 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Models\Department;
+use App\Models\Designation;
+use App\Models\Role;
 use App\Models\State;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
     public function index()
     {
         $data['state'] = State::all();
-
+        $data['roles']  = Role::all();
+        $data['departments']  = Department::all();
+        $data['designations']  = Designation::all();
         return view('admin.pages.users.add',['data'=>$data]);
     }
 
@@ -27,8 +33,6 @@ class UserController extends Controller
      */
     public function createUser(Request $request)
     {
-        try {
-            //Validated
             $request->validate([
                 'first_name' => 'required',
                 'last_name' => 'required',
@@ -39,7 +43,6 @@ class UserController extends Controller
             ]);
 
             $request['password'] = Hash::make($request->password);
-            if(auth()->user()->user_type == 'admin'){
                 $user = User::create([
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
@@ -47,142 +50,108 @@ class UserController extends Controller
                     'role_id' => $request->role_id,
                     'user_type' => $request->user_type,
                     'address' => $request->address,
-                    'state_id ' => $request->state_id,
-                    'city_id ' => $request->city_id,
+                    'state_id' => $request->state_id,
+                    'city_id' => $request->city_id,
                     'pincode' => $request->pincode,
-                    'is_active' => $request->is_active,
-                    'is_admin ' => $request->is_admin,
+                    'is_active' => 1,
+                    'is_admin' => $request->is_admin,
                     'email' => $request->email,
-                    'password' => $request['password']
+                    'password' => $request['password'],
+                    'roles' => 'required',
                 ]);
+
+                $user->assignRole($request->input('roles'));
+
                 if($request->avatar !=null){
                     $image = $this->fileUpload($request->avatar,$user,'local');
                     $image['document_type']='avatar';
                     $user->image()->create($image);
                 }
-
-                return redirect()->back()->with(['success'=>'created']);
-            }
-            return redirect()->back()->with(['success'=>'You do not have permission ']);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
-        }
+                return redirect()->route('user-list')->with('success','User created Successfully');
     }
 
     public function userList(Request $request)
     {
-        if ($request->ajax()) {
+        $users = User::with('image','state','city','image','team','department','designation')->latest()->paginate(5);
+        $teams = Team::with('leader')->latest()->get();
+        $departments  = Department::all();
+        $designations  = Designation::all();
+        $roles  = Role::all();
+        // $cities  = City::all();
+        if($request->ajax()){
+            $users = User::with('image','state','city','image','team','department','designation')
+                        ->where( function($q)use($request){
+                            if($request->seach_term !='' && $request->seach_term){
+                                $q->where('first_name', 'like', '%'.$request->seach_term.'%')
+                                ->orWhere('email', 'like', '%'.$request->seach_term.'%')
+                                ->orWhere('mobile', 'like', '%'.$request->seach_term.'%')
+                                ->orWhere('pincode', 'like', '%'.$request->seach_term.'%');
+                            }
+                            else if($request->filter_item !='' && $request->filter_item && $request->type !=null ){
+                                if($request->type == 'team'){
+                                    $q->where('team_id',$request->filter_item);
+                                }else if($request->type == 'department'){
+                                    $q->where('department_id',$request->filter_item);
+                                }else if($request->type == 'designation'){
+                                    $q->where('designation_id',$request->filter_item);
+                                }else if($request->type == 'joining_date'){
+                                    $q->whereDate('joining_date','>',$request->filter_item);
+                                }
+                            }
 
-            if(auth()->user()->user_type == 'admin'){
-                $users = User::with('image','state','city','image')->latest();
-            }else{
-                $users = User::where('id',auth()->user()->id)->with('image','state','city','image')->latest();
-            }
 
-            return DataTables::of($users)
-                    ->addIndexColumn()
-                    ->setRowId(function ($user) {
-                        return 'row'.$user->id;
-                    })
-                    ->addColumn('Image', function ($user) {
-                        $img = $user->image !=null ? $user->image->url : 'http://anirachemicals.com/admin/assets/images/accounticon.png';
-                        return ' <td class="py-1">
-                                    <img id="imgV'.$user->id.'" onclick="imageView('.$user->id.')" src="'.$img.'" alt="image" data-mdb-img="'.$img.'"
-                                    alt="visiting image"
-                                    class="w-100"/>
-                                </td>';
-                    })
-                    ->addColumn('First Name', function ($user) {
-                        return $user->first_name;
-                    })
-                    ->addColumn('Last Name', function ($user) {
-
-                        return $user->last_name;
-                    })
-                    ->addColumn('Email', function ($user) {
-                        return $user->email;
-                    })
-                    ->addColumn('Mobile', function ($user) {
-                        return $user->mobile;
-                    })
-                    ->addColumn('User Type', function ($user) {
-                        return $user->user_type ;
-                    })
-                    ->addColumn('Address', function ($user) {
-                        return $user->address;
-                    })
-                    ->addColumn('City', function ($user) {
-                        return $user->city ? $user->city->name : '';
-                    })
-                    ->addColumn('State', function ($user) {
-                        return $user->state ? $user->state->name : '';
-                    })
-                    ->addColumn('Pincode', function ($user) {
-                        return $user->pincode;
-                    })
-                    ->addColumn('Created Date', function ($user) {
-                        return $user->created_at->format('d-m-Y g:i A');
-                    })
-                    ->addColumn('Status', function ($user) {
-                        $status='';
-                        if($user->is_active ==1){
-                            $status ='Active';
-                        }else{
-                            $status= 'Deactive';
-                        }
-                        return $status;
-                    })
-
-                    ->addColumn('action', function($user){
-                        if($user->is_active ==1){
-                            $status = 'Deactivate';
-                        }else{
-                            $status = 'Activate';
-                        }
-                        return '<div class="dropdown">
-                                <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                                <a class="dropdown-item" href="'.url('admin/user-update/'.$user->id).'">Edit</a>
-                                <a class="dropdown-item" href="'.url('admin/user/change-status/'.$user->id).'">'.$status.'</a>
-
-                                </div>
-                            </div>';
-
-                    })
-                    ->rawColumns(['action','Image'])
-                    ->make(true);
+                        })
+                        ->paginate(5);
+            return view('admin.pages.users.filter-user',compact('users','teams','departments','designations','roles'))->render();
         }
+        return view('admin.pages.users.list', compact('users','teams','departments','designations','roles'));
+    }
 
-        return view('admin.pages.users.list');
+    public function show($id){
+        if($id!=null){
+            $user = User::find($id);
+            $data['state'] = State::all();
+            $data['city'] = City::where('state_id',$user->state_id)->get();
+            $data['user'] = $user;
+            $data['roles']  = Role::all();
+            $data['departments']  = Department::all();
+            $data['designations']  = Designation::all();
+            return view('admin.pages.users.show',['data'=>$data]);
+        }
     }
 
     public function edit($id){
         if($id!=null){
             $user = User::find($id);
             $data['state'] = State::all();
-            $data['city'] = City::all();
+            $data['city'] = City::where('state_id',$user->state_id)->get();
             $data['user'] = $user;
+            $data['roles']  = Role::all();
+            $data['departments']  = Department::all();
+            $data['designations']  = Designation::all();
             return view('admin.pages.users.edit',['data'=>$data]);
         }
     }
 
     public function update(Request $request){
-
         if($request->id !=null){
-            $data = $request->except(['avatar']);
             //Validated
             $request->validate([
                 'first_name' => 'required',
                 'last_name' => 'required',
+                'email' => 'required|email|unique:users,email,'.$request->id,
                 'mobile' => 'required|min:10',
+                'state_id' => 'numeric',
+                'city_id' => 'numeric',
+                'roles' => 'required',
             ]);
+            $data = $request->except(['avatar','roles']);
+            $user = User::findOrFail($request->id);
+            $user->update($data);
 
-            $user = $this->recordSave(User::class,$data,null,null);
+            DB::table('model_has_roles')->where('model_id',$user->id)->delete();
+
+            $user->assignRole($request->input('roles'));
 
             if($request->avatar !=null){
                 $image = $this->fileUpload($request->avatar,$user,'local');
@@ -190,7 +159,7 @@ class UserController extends Controller
                 $user->image()->create($image);
             }
 
-            return redirect()->back()->with(['message'=>'success']);
+            return redirect()->route('admin-user-list')->with('success','Record updated Successfully');
         }
     }
 
@@ -202,12 +171,12 @@ class UserController extends Controller
             'is_active' => (int) $value,
         ]);
 
-        return redirect()->back()->with(['message'=>'success']);
+        return ok($user,'Status Changed successfully');
     }
 
     public function settingView()
     {
-        return view('admin.pages.users.setting');
+        return view('admin.pages.users.change-password');
     }
 
     public function changePassword(Request $request)
@@ -223,6 +192,34 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->back()->with(['message'=>'Password Updated']);
+        return redirect()->back()->with('success','Password updated Successfully');
+    }
+
+    public function deleteUser($id){
+
+        $user = User::findOrFail($id);
+        $user->delete();
+        return ok($user,'User Deleted successfully');
+    }
+
+    public function profile()
+    {
+        if(Auth::check()){
+            $data['state'] = State::all();
+            $data['city'] = City::all();
+            $data['roles']  = Role::all();
+            $data['user'] = auth()->user();
+            $data['departments']  = Department::all();
+            $data['designations']  = Designation::all();
+            return view('admin.pages.users.profile',['data'=>$data]);
+        }
+    }
+
+    public function assigendTeam(Request $request){
+
+        if($this->assignedTeam($request->all())){
+            return redirect()->route('admin-user-list')->with('success','Team Assigned Successfully');
+        }
+        return redirect()->route('admin-user-list')->with('warning','Something Error!!');
     }
 }

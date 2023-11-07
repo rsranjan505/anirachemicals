@@ -3,6 +3,9 @@
 namespace App\Exports;
 
 use App\Models\Visit;
+use App\Services\VisitService;
+use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -18,10 +21,14 @@ class ExportVisits implements FromCollection, WithHeadings, WithEvents
     protected  $selects;
     protected  $row_count;
     protected  $column_count;
+    protected $request;
+    protected VisitService $visitService;
 
-    public function __construct()
+    public function __construct(HttpRequest $request,VisitService $visitService)
     {
         $this->column_count=12;//number of columns to be auto sized
+        $this->request = $request;
+        $this->visitService = $visitService;
     }
 
     /**
@@ -29,13 +36,7 @@ class ExportVisits implements FromCollection, WithHeadings, WithEvents
     */
     public function collection()
     {
-
-        if(Auth::check()){
-            $visits = Visit::with('state','city','creator')->get();
-            if(auth()->user()->user_type != 'admin' ){
-                $visits = Visit::where('created_by',auth()->user()->id)->with('state','city','creator')->get();
-            }
-
+            $visits = $this->visitService->visitExportData($this->request);
             $row=[];
             foreach($visits as $index=>$visit){
                 $row[]=[
@@ -65,7 +66,7 @@ class ExportVisits implements FromCollection, WithHeadings, WithEvents
         $data =[
             $row,
         ];
-    }
+
         return collect($data);
     }
 

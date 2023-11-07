@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Services\ProductService;
 use Illuminate\Support\Facades\Mail;
 
 trait HelperTrait
@@ -9,6 +10,12 @@ trait HelperTrait
     //
     public $publucUrl;
     public $adminemail ;
+
+    public ProductService $productService;
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
 
     public function getPublicUrl(){
         return config('app.env') == 'local' ? '' : 'public/';
@@ -38,26 +45,11 @@ trait HelperTrait
 
             return true;
         }
-
-
-
-
-        // $data = array('name'=>"Virat Gandhi");
-
-        // Mail::send(['text'=>'pages.mail'], $data, function($message) {
-        //    $message->to(config('mail.mailers.smtp.username',null), 'Tutorials Point')->subject
-        //       ('Laravel Basic Testing Mail');
-        //    $message->from('xyz@gmail.com','Virat Gandhi');
-        // });
    }
 
-   public function contact_email($data) {
-    $data = array('name'=>"Virat Gandhi");
-    Mail::send('mail', $data, function($message) {
-       $message->to('abc@gmail.com', 'Tutorials Point')->subject
-          ('Laravel HTML Testing Mail');
-       $message->from('xyz@gmail.com','Virat Gandhi');
-    });
-    echo "HTML Email Sent. Check your inbox.";
- }
+   //products list for header
+
+   public function productsList(){
+    return $this->productService->getProducts();
+   }
 }

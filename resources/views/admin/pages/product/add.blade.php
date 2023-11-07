@@ -1,4 +1,156 @@
-@extends('admin.layouts.base')
+@extends('admin.layouts.contentNavbarLayout')
+
+@section('title', 'Add Products - Anira Chemicals')
+
+@section('content')
+<div class="row">
+    @include('admin.components.header-nav.product-nav',['activeTab' => 'add'] )
+    <hr>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+            </div>
+            <div class="card-body">
+            <form method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="card-body">
+                    <div class="d-flex align-items-start align-items-sm-center gap-4" >
+                        <img style="width: 100px;" class="d-block rounded" id="avatarPreview" src="{{ asset('assets/img/logo.png')}}" alt="your image" />
+
+                        <div class="button-wrapper">
+                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                            <span class="d-none d-sm-block">Upload product image</span>
+                            <i class="bx bx-upload d-block d-sm-none"></i>
+                            <input type="file" id="upload"  name="avatar[]" multiple class="account-file-input @error('avatar') is-invalid @enderror" hidden accept="image/png, image/jpeg" />
+                            </label>
+                            {{-- <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p> --}}
+                        </div>
+                        @if($errors->has('avatar'))
+                            <strong class="alert-danger">{{ $errors->first('avatar') }}</strong>
+                        @endif
+                    </div>
+                </div>
+                <hr class="my-0">
+                <div class="row">
+                    <div class="col-xl-6 col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Product Name</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Product Name" />
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="code">Product Code</label>
+                            <input type="text" class="form-control @error('code') is-invalid @enderror" id="code" name="code" value="{{ old('code') }}" placeholder="Product Code" />
+                            @error('code')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4 col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="brand">Product Brand</label>
+                            <input type="text" class="form-control @error('brand') is-invalid @enderror" id="brand" name="brand" value="RCON" placeholder="Product Brand" />
+                            @error('brand')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="code">Product Form</label>
+                            <select id="product_form" name="product_form" class="form-select @error('product_form') is-invalid @enderror">
+                                <option value="">Select Form</option>
+                                <option value="liquid" {{ old('product_form') == 'liquid' ? 'selected' : ''}}>Liquid</option>
+                                <option value="powder" {{ old('product_form') == 'powder' ? 'selected' : ''}}>Powder</option>
+                                <option value="other" {{ old('product_form') == 'other' ? 'selected' : ''}}>Other</option>
+                            </select>
+                            @error('product_form')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="type">Product Type</label>
+                            <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" value="{{ old('type') }}" placeholder="Product Type" />
+                            @error('type')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="dosage">Dosage</label>
+                    <textarea id="dosage" name="dosage" class="form-control @error('dosage') is-invalid @enderror" placeholder="Dosage">{{ old('dosage') }}</textarea>
+                    @error('dosage')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Product Description</label>
+                    <textarea id="description" rows="4" name="description" class="form-control @error('description') is-invalid @enderror" placeholder="Product Description">{{ old('description') }}</textarea>
+                    @error('description')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="advantages">Product Advantages</label>
+                    <textarea id="advantages" rows="4" name="advantages" class="form-control @error('advantages') is-invalid @enderror" placeholder="Product Advantages">{{ old('advantages') }}</textarea>
+                    @error('advantages')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="uses">Uses</label>
+                    <textarea id="uses" rows="4" name="uses" class="form-control @error('uses') is-invalid @enderror" placeholder="Uses">{{ old('uses') }}</textarea>
+                    @error('uses')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" rows="4" for="other_details">Other Details</label>
+                    <textarea id="other_details" name="other_details" class="form-control @error('other_details') is-invalid @enderror" placeholder="Other Details">{{ old('other_details') }}</textarea>
+                    @error('other_details')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+{{-- @extends('admin.layouts.base')
 
 @section('content')
 
@@ -146,9 +298,8 @@
 <script src="{{ asset('admin/assets/js/anira.js')}}"></script>
 
 <script>
-        $(document).ready(function() {
+$(document).ready(function() {
 
-// Denotes total number of rows
 var rowIdx = 0;
 var billAmount = 0;
 
@@ -179,8 +330,6 @@ $('#addBtn').on('click', function () {
         // $('#product_error').removeAttr("style");
     }
 
-
-// Adding a row inside the tbody.
 $('#tbody').append(`<tr id="R${++rowIdx}" class="table-success">
     <td>
         <input id="packing_type" type="text" name="product_items[${rowIdx}][packing_type]" value="${packing_type}" class="form-control"/>
@@ -236,10 +385,8 @@ child.each(function () {
   $(this).attr('id', `R${dig - 1}`);
 });
 
-// Removing the current row.
 $(this).closest('tr').remove();
 
-// Decreasing total number of rows by 1.
 rowIdx--;
 });
 
@@ -253,4 +400,4 @@ rowIdx--;
     }
 </script>
 
-@endsection
+@endsection --}}

@@ -1,8 +1,113 @@
-@extends('admin.layouts.base')
+@extends('admin.layouts.contentNavbarLayout')
+
+@section('title', 'City - Anira Chemicals')
 
 @section('content')
-{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"> --}}
+<div class="row">
+    @include('admin/components/header-nav/city-nav',['activeTab' => 'list'] )
+    <hr>
+
+    <div class="card mb-4">
+        <div class="card-body">
+        <div class="card-body">
+            <div class="row gy-3">
+            <div class="col-md">
+                <div class="form-check mt-3">
+                    <label for="defaultSelect" class="form-label">Search city</label>
+                    <input class="form-control" id="search" type="search" placeholder="Search ..." id="html5-search-input" />
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-check mt-3">
+                    <label for="defaultSelect" class="form-label">Filter</label>
+                    <select class="form-select" id="state_id" aria-label="Default select example">
+                        <option value="" selected>Select State</option>
+                        @foreach ($states as $item)
+                            <option value="{{$item->id}}">{{ $item->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            </div>
+        </div>
+        <hr class="m-0" />
+            <div class="table-responsive ">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>City Name</th>
+                    <th>State</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @include('admin.pages.city.filter-city')
+                </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+  <script type="text/javascript">
+        $('#state_id').on('click', function(event){
+            $('#search').val("");
+        });
+        $('#search').on('click', function(event){
+            $('#state_id').val("");
+        });
+        $(document).ready(function(){
+        const fetch_data = (page, state_id, seach_term) => {
+            if(state_id === undefined){
+                state_id = "";
+            }
+            if(seach_term === undefined){
+                seach_term = "";
+            }
+            $.ajax({
+                url:"city/?page="+page+"&state_id="+state_id+"&seach_term="+seach_term,
+                success:function(data){
+                    console.log(data);
+                    $('tbody').html('');
+                    $('tbody').html(data);
+                }
+            })
+        }
+
+        $('body').on('keyup', '#search', function(){
+            var state_id = $('#state_id').val();
+            var seach_term = $('#search').val();
+            var page = $('#hidden_page').val();
+            fetch_data(page, state_id, seach_term);
+        });
+
+        $('body').on('change', '#state_id', function(){
+            var state_id = $('#state_id').val();
+            var seach_term = $('#search').val();
+            var page = $('#hidden_page').val();
+            fetch_data(page, state_id, seach_term);
+        });
+
+        $('body').on('click', '.pagination a', function(event){
+            event.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
+            $('#hidden_page').val(page);
+            var state_id = $('#state_id').val();
+            var seach_term = $('#search').val();
+
+            fetch_data(page,state_id, seach_term);
+        });
+    });
+
+    </script>
+@endsection
+
+
+{{-- @extends('admin.layouts.base')
+
+@section('content')
 
 <div class="main-panel">
     <div class="content-wrapper">
@@ -36,7 +141,6 @@
                                             <th>SL No</th>
                                             <th>State</th>
                                             <th>City Name</th>
-                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                 </table>
@@ -50,12 +154,7 @@
 </div>
 
 
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-{{-- <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script> --}}
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -69,7 +168,6 @@ $(document).ready(function() {
             ajax: {
                 url: "{{ route('cities-list') }}",
                 data: {
-                    // _token: $('input[name="_token"]').val(),
                     state_id: state_id,
                 },
                 type: 'get',
@@ -93,7 +191,6 @@ $(document).ready(function() {
                     name: 'State',
                 },
                 {data: 'City Name', name: 'City Name'},
-                // {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
     });
@@ -105,4 +202,4 @@ $(document).ready(function() {
 });
   </script>
 
-@endsection
+@endsection --}}

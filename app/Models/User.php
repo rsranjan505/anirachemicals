@@ -8,10 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
         'user_type',
         'department_id',
         'designation_id',
+        'joining_date',
         'address',
         'state_id',
         'city_id',
@@ -37,18 +40,30 @@ class User extends Authenticatable implements JWTSubject
     ];
 
      //here is many to one polymorph
-     public function image()
+    public function image()
      {
-         return $this->morphOne(AssetFile::class, 'pictureable','model_type', 'model_id');
+         return $this->morphOne(AssetFile::class, 'pictureable','model_type', 'model_id')->latestOfMany();
      }
 
-     public function state(){
+    public function state(){
          return $this->belongsTo(State::class,'state_id');
      }
 
-     public function city(){
+    public function city(){
          return $this->belongsTo(City::class,'city_id');
      }
+
+    public function team(){
+        return $this->belongsTo(Team::class,'team_id');
+    }
+
+    public function designation(){
+        return $this->belongsTo(Designation::class,'designation_id');
+    }
+
+    public function department(){
+        return $this->belongsTo(Department::class,'department_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

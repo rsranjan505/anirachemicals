@@ -113,24 +113,52 @@
             <h2>We Can take your <br> business to growth</h2>
             {{-- <p>For your car we will do everything  advice, repairs and maintenance. We are the some preferred choice by many car owners because our experience and knowledge is selfe vident.For your car.</p> --}}
         </div>
-        <form action="{{ route('contact/mail')}}" method="POST" class="message-form v3 php-email-form">
-            @csrf
+        <form action="{{ route('enquiry.store')}}" method="POST" id="enquiry_form" class="message-form v3 ">
+            {{-- @csrf --}}
             <div class="group-box">
                 <input type="text" name="name" placeholder="Your Name" required>
                 <input type="email" name="email" placeholder="Your Email" required>
-                <input type="text" name="subject" placeholder="Subject" required>
+                <input type="text" name="mobile" placeholder="Mobile" required>
             </div>
+
+                <input type="text" style="width:100%;margin-top:10px;" name="subject" placeholder="Subject" required>
+
             <textarea name="message" placeholder="Message"></textarea>
             <button type="submit" class="btn-anime v1 submit-btn">submit now</button>
             {{-- <div class="my-3">
                 <div class="loading">Loading</div>
                 <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
+
             </div> --}}
-            <p class="response"></p>
+            <div id="message" class="sent-message"></div>
         </form>
     </div>
 </section>
 
+<script>
+    $('form#enquiry_form').on('submit',function(e){
+        e.preventDefault();
+        var form = $(this);
+        var actionUrl = form.attr('action');
+        $.ajax({
+            url:actionUrl,
+            type: "POST",
+            data:   form.serialize(),
+            dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                console.log(data.message);
+                $("#message").html(data.message);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr);
+            },
 
-    @endsection
+        });
+    });
+</script>
+
+
+@endsection

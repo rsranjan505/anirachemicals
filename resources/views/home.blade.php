@@ -128,8 +128,8 @@
         </div>
     </section>
 
-
-    <section class="services v1">
+    @include('pages.products.list')
+    {{-- <section class="services v1">
         <div class="container">
             <div class="section-title-center">
                 <h6>we provide</h6>
@@ -185,7 +185,7 @@
         <div class="bg-shap bg-shap-3" data-background="assets/img/services/v1/shap-3.svg"></div>
         <div class="bg-shap bg-shap-4" data-background="assets/img/services/v1/shap-4.svg"></div>
         <div class="bg-shap bg-shap-5" data-background="assets/img/services/v1/shap-5.svg"></div>
-    </section>
+    </section> --}}
 
 
     {{-- <section class="projects-gallery v1 box-shuffle">

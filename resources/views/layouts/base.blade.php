@@ -38,8 +38,8 @@
         <link href="{{ asset($publicurl.'assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
         <link href="{{ asset($publicurl.'assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
         <link href="{{ asset($publicurl.'assets/css/style.css')}}" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> --}}
-
+         --}}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <link rel="stylesheet" href="{{ asset("assets/css/bootstrap.min.css")}}">
         <!-- All Icons -->
         <link rel="stylesheet" href="{{ asset("assets/all-icons/myicon.css")}}">
@@ -56,7 +56,8 @@
     <body>
         <div id="main-wrapper">
             {{-- header --}}
-            <x-heade publicurl={{$publicurl}}></x-heade>
+            {{-- <x-heade products={{$products}}></x-heade> --}}
+            @include('components.heade')
 
             <main id="main">
                 @if (Request::is('/') )

@@ -3,6 +3,7 @@
 @section('content')
     @include('pages.products.list')
 
+
     <section id="about">
         <div class="container" data-aos="fade-up">
 

@@ -117,12 +117,61 @@ class Controller extends BaseController
 
     }
 
-    public function toastrMsg($id=null)
+
+    //Team Assigned
+    public function assignedTeam($data)
     {
-        if($id!=null){
-            echo Toastr::success("A new record has been updated successfully", "", ["positionClass" => "toast-top-right","progressBar"=>true,"timeOut"=>"5000"]);
-        }else{
-            echo Toastr::success("A new record has been inserted successfully", "", ["positionClass" => "toast-top-right","progressBar"=>true,"timeOut"=>"5000"]);
+        $user = User::findOrFail($data['id']);
+        $user->team_id = $data['team_id'];
+        if($user->save()){
+            return true;
         }
+        return false;
+    }
+
+    //Fetch Geo Tag from images
+    function triphoto_getGPS($fileName)
+    {
+    //get the EXIF all metadata from Images
+        try{
+            $exif = exif_read_data($fileName);
+
+            if(isset($exif["GPSLatitudeRef"])) {
+                $LatM = 1; $LongM = 1;
+                if($exif["GPSLatitudeRef"] == 'S') {
+                    $LatM = -1;
+                }
+                if($exif["GPSLongitudeRef"] == 'W') {
+                    $LongM = -1;
+                }
+
+                //get the GPS data
+                $gps['LatDegree']=$exif["GPSLatitude"][0];
+                $gps['LatMinute']=$exif["GPSLatitude"][1];
+                $gps['LatgSeconds']=$exif["GPSLatitude"][2];
+                $gps['LongDegree']=$exif["GPSLongitude"][0];
+                $gps['LongMinute']=$exif["GPSLongitude"][1];
+                $gps['LongSeconds']=$exif["GPSLongitude"][2];
+
+                //convert strings to numbers
+                foreach($gps as $key => $value){
+                    $pos = strpos($value, '/');
+                    if($pos !== false){
+                        $temp = explode('/',$value);
+                        $gps[$key] = $temp[0] / $temp[1];
+                    }
+                }
+
+                //calculate the decimal degree
+                $result['latitude']  = $LatM * ($gps['LatDegree'] + ($gps['LatMinute'] / 60) + ($gps['LatgSeconds'] / 3600));
+                $result['longitude'] = $LongM * ($gps['LongDegree'] + ($gps['LongMinute'] / 60) + ($gps['LongSeconds'] / 3600));
+                $result['datetime']  = $exif["FileDateTime"];
+
+                return $result;
+            }
+        }catch(Exception $e){
+            return [];
+        }
+
     }
 }

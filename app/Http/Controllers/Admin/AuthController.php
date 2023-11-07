@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -60,18 +61,6 @@ class AuthController extends Controller
                 'password_confirmation' => 'required|same:password',
             ]);
 
-            // if($validateUser->fails()){
-            //     return response()->json($validateUser->errors());
-            // }
-
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
             $request['password'] = Hash::make($request->password);
 
             $user = User::create([
@@ -110,54 +99,30 @@ class AuthController extends Controller
      */
     public function loginUser(Request $request)
     {
-        try {
+            $request->validate([
+                'email' => 'required|email|exists:users,email',
+                'password' => 'required',
+                ]);
 
-            $validateUser = Validator::make($request->all(),
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
-
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
+            $credentials = $request->only('email', 'password');
+            $remember = $request->has('remember_me') ? true : false;
+            $user = User::where(['email'=> $request->email,'is_active' =>1])->first();
+            if(!$user){
+                return redirect()->route('login')->withErrors(['error' => 'Your Account has been inactive. Please contact admin']);
             }
-
-            $credentials =$request->only('email', 'password');
-
-
-
-            if(!Auth::attempt($credentials)){
-                // return redirect()->intended('dashboard');
-                // $this->toastrMsg('Email & Password does not match with our record.');
-                return view('admin.auth.login')->with(['message' => 'Email & Password does not match with our record.']);
-            }
-
-            $user = User::where('email', $request->email)->first();
-
-            if($user){
+            if(Auth::attempt($credentials)){
+                Auth::login($user,$remember);
                 return redirect($this->redirectTo);
             }
+            return redirect()->route('login')->withErrors(['error' => 'Invalid Credentials']);
 
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
-        }
     }
 
     public function logout()
     {
         Auth::logout();
         return redirect('/login');
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'Successfully logged out',
-        // ]);
+
     }
 
     public function refresh()

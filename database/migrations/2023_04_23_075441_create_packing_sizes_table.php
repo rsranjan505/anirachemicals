@@ -15,10 +15,20 @@ return new class extends Migration
     {
         Schema::create('packing_sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('sku');
-            $table->string('name');
+            $table->unsignedBigInteger('product_id');
+            $table->enum('packing',['box','bucket','set'])->default('box');
+            $table->integer('internal_qty');
+            $table->integer('internal_size');
+            $table->unsignedBigInteger('unit_id');
+            $table->decimal('volume');
+            $table->unsignedBigInteger('created_by');
+            $table->tinyInteger('is_active')->default(1);
             $table->timestamp('created_at')->nullable();
 			$table->timestamp('updated_at')->nullable();
+
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

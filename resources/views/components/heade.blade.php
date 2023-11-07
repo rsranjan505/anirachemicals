@@ -55,10 +55,10 @@
             <div class="row align-items-center">
                 <div class="col-lg-2 d-none d-xl-block">
                     <div class="top-bar-logo">
-                        <a href="{{ route('home') }}"><img src="assets/img/logo-name.png" alt="Logo"></a>
+                        <a href="{{ route('home') }}"><img src="{{asset('assets/img/logo-name.png')}}" alt="Logo"></a>
                     </div>
                 </div>
-                <div class="col-xl-8 p-xl-0">
+                <div class="col-xl-8 p-xl-0">z
                     <div class="top-bar-info">
                         <div class="top-info d-none d-lg-flex">
                             {{-- <p>Give Food Energy to World</p> --}}
@@ -89,17 +89,21 @@
         <div class="container">
             <div class="menu-bar-content">
                 <nav class="main-menu">
+
                     <ul>
                         <li class=" {{Request::is('/') ? 'active' : ''}}">
-                            <a href="{{ route('home') }}">Home</a>
+                            <a class="active" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="{{Request::is('about') ? 'active' : ''}}"><a href="{{ route('about') }}">About Us</a></li>
                         <li class="has-dropdown {{Request::is('product') ? 'active' : ''}}">
                             <a href="{{ route('product') }}">Products</a>
-                            {{-- <ul>
-                                <li><a href="service.html">Service</a></li>
-                                <li><a href="service-details.html">Service Details</a></li>
-                            </ul> --}}
+                            <ul>
+                                @if (isset($products))
+                                    @foreach ($products as $product)
+                                        <li><a href="{{route('product.details',['name' => $product->slug])}}">{{ ucfirst($product->name)}}</a></li>
+                                    @endforeach
+                                @endif
+                            </ul>
                         </li>
                         <li class="{{Request::is('dealership') ? 'active' : ''}}">
                             <a href="{{ route('dealership') }}">Dealership</a>
@@ -111,7 +115,7 @@
                         <li class=" {{Request::is('client') ? 'active' : ''}}">
                             <a href="{{ route('client') }}">Clients</a>
                         </li>
-                        <li class="has-dropdown {{Request::is('gallery') ? 'active' : ''}}">
+                        <li class=" {{Request::is('gallery') ? 'active' : ''}}">
                             <a href="{{ route('gallery') }}">Media & Gallery</a>
                             {{-- <ul>
                                 <li><a href="blog.html">Media & Gallery</a></li>

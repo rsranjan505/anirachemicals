@@ -38,19 +38,6 @@
     <section class="about-us v1">
         <div class="container">
             <div class="row align-items-center">
-                {{-- <div class="col-lg-6">
-                    <div class="about-us-img">
-                        <div class="count-shap">
-                            <h2><span class="counter" data-count-min="10" data-count-max="20" data-count-duration="1000" data-count-delay="200">20</span>+</h2>
-                            <h6>Clients</h6>
-                        </div>
-                        <div class="about-profile">
-                            <img src="assets/img/about-us/v1/about-img.png" alt="about-img">
-                            <div class="img-shap-left" data-background="assets/img/about-us/v1/img-shap-left.svg"></div>
-                            <div class="img-shap-right" data-background="assets/img/about-us/v1/img-shap-right.svg"></div>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="col-lg-12">
                     <div class="about-us-content">
                         <div class="section-title">

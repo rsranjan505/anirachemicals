@@ -24,7 +24,8 @@ class ContactController extends Controller
             'keywords'    => $keywords,
             'og_type'     => $og_type,
             'og_url'     => $og_url,
-            'publicurl'   => $this->getPublicUrl()
+            'publicurl'   => $this->getPublicUrl(),
+            'products' => $this->productsList()
         ]);
     }
 

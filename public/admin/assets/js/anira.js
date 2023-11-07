@@ -9,7 +9,7 @@ $("#add_morepartner").click(
         var partner_dob = $('#partner_dob').val();
         var partner_anniversary = $('#partner_anniversary').val();
 
-        let template = '<div id="partner" class="row"><div class="col-md-4"><div class="form-group"><input id="partner_details" type="text" name="partner_details['+PartnerRow+'][name]" value="'+partner_name+'" class="form-control" readonly/></div></div><div class="col-md-2"><div class="form-group"><input id="partner_details" type="text"  value="'+partner_pan+'" name="partner_details['+PartnerRow+'][pan]" class="form-control" readonly/></div></div><div class="col-md-2"><div class="form-group"><input id="partner_details" type="date"  value="'+partner_dob+'" name="partner_details['+PartnerRow+'][dob]" class="form-control" readonly/></div></div><div class="col-md-2"><div class="form-group"><input id="partner_details" type="date"  value="'+partner_anniversary+'" name="partner_details['+PartnerRow+'][anniversary]" class="form-control" readonly/></div></div><div class="col-md-2" ><a id="Deleteparter" class="btn btn-danger mr-2">X</a></div></div>';
+        let template = '<div id="partner" class="row"><div class="col-md-4"><div class="mb-3"><input id="partner_details" type="text" name="partner_details['+PartnerRow+'][name]" value="'+partner_name+'" class="form-control" readonly/></div></div><div class="col-md-2"><div class="mb-3"><input id="partner_details" type="text"  value="'+partner_pan+'" name="partner_details['+PartnerRow+'][pan]" class="form-control" readonly/></div></div><div class="col-md-2"><div class="mb-3"><input id="partner_details" type="date"  value="'+partner_dob+'" name="partner_details['+PartnerRow+'][dob]" class="form-control" readonly/></div></div><div class="col-md-2"><div class="mb-3"><input id="partner_details" type="date"  value="'+partner_anniversary+'" name="partner_details['+PartnerRow+'][anniversary]" class="form-control" readonly/></div></div><div class="col-md-2" ><button type="button" id="Deleteparter" class="btn btn-danger mr-2">X</button></div></div>';
 
         $(".morepartner").append(template);
 
@@ -33,7 +33,7 @@ $("#add_item").click(
         var name = $('#previous_product_details_name').val();
         var brand = $('#previous_product_details_brand').val();
 
-        let template = '<div id="product" class="row"> <div class="col-md-5"><div class="form-group"><input id="previous_product_details" type="text" name="previous_product_details['+PreProductRow+'][name]"  value="'+name+'" class="form-control" readonly/></div></div><div class="col-md-5"><div class="form-group"><input id="previous_product_details" type="text" name="previous_product_details['+PreProductRow+'][brand]"  value="'+brand+'" class="form-control" readonly/></div></div><div class="col-md-2" style="margin-top: 3.8rem"><a id="Deleteproduct" class="btn btn-danger mr-2">Remove</a></div></div>';
+        let template = '<div id="product" class="row"> <div class="col-md-5"><div class="mb-3"><input id="previous_product_details" type="text" name="previous_product_details['+PreProductRow+'][name]"  value="'+name+'" class="form-control" readonly/></div></div><div class="col-md-5"><div class="mb-3"><input id="previous_product_details" type="text" name="previous_product_details['+PreProductRow+'][brand]"  value="'+brand+'" class="form-control" readonly/></div></div><div class="col-md-2"><button type="button" id="Deleteproduct" class="btn btn-danger">X</button></div></div>';
 
         $(".previous_productitems").append(template);
 
@@ -64,35 +64,35 @@ $("body").on("click", "#Deletedocument", function () {
 
 
 //state change
-$('#state').on('change', function () {
-    let state_id = this.value;
-    $.ajax({
-        url: "/city/"+state_id,
-        type: "get",
+// $('#state').on('change', function () {
+//     let state_id = this.value;
+//     $.ajax({
+//         url: "city/"+state_id,
+//         type: "get",
 
-        success: function (res) {
-            let html = "";
-            html += '<select id="city" type="text" name="city" search class="form-control">';
-            res.forEach((val, key) => {
-                html += "<option value=" + val.id + ">" + val.name + "</option>";
-            });
-            html += '</select>';
-            $("#city").html("");
-            $("#city").html(html);
-        },
-    });
-});
+//         success: function (res) {
+//             let html = "";
+//             html += '<select id="city" type="text" name="city" search class="form-control">';
+//             res.forEach((val, key) => {
+//                 html += "<option value=" + val.id + ">" + val.name + "</option>";
+//             });
+//             html += '</select>';
+//             $("#city").html("");
+//             $("#city").html(html);
+//         },
+//     });
+// });
 
 //state change
 $('#state_id').on('change', function () {
     let state_id = this.value;
     $.ajax({
-        url: "/city/"+state_id,
+        url: "/admin/city/"+state_id,
         type: "get",
 
         success: function (res) {
             let html = "";
-            html += '<select id="city_id" type="text" name="city_id" search class="form-control">';
+            html += '<select id="city_id" type="text" name="city_id" class="form-control">';
             res.forEach((val, key) => {
                 html += "<option value=" + val.id + ">" + val.name + "</option>";
             });
@@ -113,56 +113,6 @@ $('#establishment_type').on('change', function () {
          $('.partner').removeAttr('style');
     }
 });
-
-
-
-///Vendors List
-// $('#vendor-table').DataTable({
-//     processing: true,
-//     serverSide: true,
-//     language:
-//     {
-//         "processing": "<i class='fa-solid fa-spinner fa-4x'></i>",
-//     },
-//     ajax: "{{ route('vendor-list') }}",
-//     columns: [
-//       {
-//           data: "DT_RowIndex",
-//           name: "SL No",
-//           className: "text-center",
-//           orderable: false,
-//           // searchable: false,
-//       },
-//       {data: 'Business Name', name: 'Business Name'},
-//       {data: 'Establishment Type', name: 'Establishment Type'},
-//       {data: 'Pan', name: 'Pan'},
-//       {data: 'Gst', name: 'Gst'},
-//       {data: 'Address', name: 'Address'},
-//       {data: 'City', name: 'City'},
-//       {data: 'State', name: 'State'},
-//       {data: 'Pincode', name: 'Pincode'},
-//       {data: 'Email', name: 'Email'},
-//       {data: 'Mobile', name: 'Mobile'},
-//       {data: 'Key Person', name: 'Key Person'},
-//       {data: 'DOB', name: 'DOB'},
-//       {data: 'Marriage Aniversory', name: 'Marriage Aniversory'},
-//       {data: 'Created By', name: 'Created By'},
-//       {data: 'Created Date', name: 'Created Date'},
-//       {data: 'Status', name: 'Status'},
-//       {data: 'action', name: 'action', orderable: false, searchable: false},
-//     ],
-//     columnDefs: [
-//         {
-//             targets: 0, // your case first column
-//             className: "text-center",
-//             width: "8%",
-//         },
-//     ],
-
-// });
-
-
-
 
 
 //add order page
@@ -265,6 +215,234 @@ $('#customer_id').on('change', function () {
         modal.style.display = "none";
     }
 
+
+// confirmation
+function confirmationDelete(type,id)
+{
+    var url ='';
+    if(type == 'user'){
+        url = 'user-delete/'+id;
+    }else if(type == 'departments'){
+        url = 'departments/'+id;
+    }else if(type == 'designation'){
+        url = 'designation/'+id;
+    }else if(type == 'product'){
+        url = 'product/'+id;
+    }else if(type == 'team'){
+        url = 'team/'+id;
+    }else if(type == 'packing'){
+        url = 'packing/'+id;
+    }else if(type == 'visit'){
+        url = 'visit/'+id;
+    }else if(type == 'vendor'){
+        url = 'vendor/'+id;
+    }
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, cancel it!',
+        cancelButtonText:'Cancel',
+        allowOutsideClick:false,
+
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ms-1',
+            container: 'swal-container-hold',
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                url:url,
+                type: "DELETE",
+                data    : { _token: '{{csrf_token()}}'},
+                dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                },
+                success: function (data) {
+                    console.log(data);
+                    if(data.status == '200'){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            confirmButtonText:'Ok',
+                            text: data.message,
+                            customClass: {
+                            confirmButton: 'btn btn-success'
+                            }
+                        }).then(function(success){
+                            location.reload();
+                        });
+                    }else{
+                        Swal.fire({
+                            title:  'Cancelled!',
+                            text: 'Item can not be deleted',
+                            confirmButtonText:'Ok',
+                            icon: 'error',
+                            allowOutsideClick:false,
+                            customClass: {
+                            confirmButton: 'btn btn-success',
+                            container: 'swal-container-hold',
+                            }
+                        });
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    var err = JSON.parse(xhr.responseText);
+                    Swal.fire({
+                        title:  'Cancelled!',
+                        text: err.message,
+                        icon: 'error',
+                        allowOutsideClick:false,
+                        customClass: {
+                        confirmButton: 'btn btn-success'
+                        }
+                    });
+
+                },
+
+            });
+        }
+    });
+}
+
+
+function confirmationStatus(type,id)
+{
+    var url ='';
+    if(type == 'user'){
+        url = 'user/change-status/'+id;
+    }else if(type == 'departments'){
+        url = 'departments/change-status/'+id;
+    }else if(type == 'designation'){
+        url = 'designation/change-status/'+id;
+    }else if(type == 'team'){
+        url = 'team/change-status/'+id;
+    }else if(type == 'product'){
+        url = 'product/change-status/'+id;
+    }else if(type == 'packing'){
+        url = 'packing/change-status/'+id;
+    }else if(type == 'vendor'){
+        url = 'vendor/change-status/'+id;
+    }
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, change it!',
+        cancelButtonText:'Cancel',
+        allowOutsideClick:false,
+
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ms-1',
+            container: 'swal-container-hold',
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                url:url,
+                type: "GET",
+                // data    : { _token: '{{csrf_token()}}'},
+                dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                },
+                success: function (data) {
+                    console.log(data);
+                    if(data.status == '200'){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            confirmButtonText:'Ok',
+                            text: data.message,
+                            customClass: {
+                            confirmButton: 'btn btn-success'
+                            }
+                        }).then(function(success){
+                            location.reload();
+                        });
+                    }else{
+                        Swal.fire({
+                            title:  'Cancelled!',
+                            text: 'Status can not be changed',
+                            confirmButtonText:'Ok',
+                            icon: 'error',
+                            allowOutsideClick:false,
+                            customClass: {
+                            confirmButton: 'btn btn-success',
+                            container: 'swal-container-hold',
+                            }
+                        });
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    var err = JSON.parse(xhr.responseText);
+                    Swal.fire({
+                        title:  'Cancelled!',
+                        text: err.message,
+                        icon: 'error',
+                        allowOutsideClick:false,
+                        customClass: {
+                        confirmButton: 'btn btn-success'
+                        }
+                    });
+
+                },
+
+            });
+        }
+    });
+}
+
+//upload image preview
+if( $('#upload').length ) {
+    upload.onchange = evt => {
+        const [file] = upload.files
+        if (file) {
+            avatarPreview.src = URL.createObjectURL(file)
+        }
+    }
+}
+
+//Delete Product Image
+
+function deleteImge(id,model,imageId=null){
+    var modelType='';
+    if(model=='product'){
+        modelType = 'Product';
+    }
+
+    $.ajax({
+        url: "/admin/product/image/delete",
+        type: "post",
+        data: {
+            id:id,
+            modelType : modelType,
+            imageId:imageId
+        },
+        datatype: "json",
+        processData:true,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    })
+    .done(function(data){
+        console.log(data);
+        location.reload();
+        $("#msg").empty().html(data.msg);
+    })
+    .fail(function(jqXHR, ajaxOptions, thrownError){
+        alert('No response from server');
+    });
+
+
+}
 
 
 
