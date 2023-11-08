@@ -105,9 +105,3 @@
   text-align: center;
   margin-top: 1rem;
 }
-
-/* custom css */
-.without-border {
-    border: none;
-    padding: 8px;
-}
