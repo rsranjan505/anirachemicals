@@ -68,9 +68,9 @@ class VisitController extends Controller
             'avatar' => 'required',
         ]);
 
-        if(!$this->triphoto_getGPS($request->avatar)){
-            return redirect()->route('visit.create')->with('warning','Image Geo Tag not enabled, Please enable geo tag');
-        }
+        // if(!$this->triphoto_getGPS($request->avatar)){
+        //     return redirect()->route('visit.create')->with('warning','Image Geo Tag not enabled, Please enable geo tag');
+        // }
 
         $geo = $this->triphoto_getGPS($request->avatar);
 
