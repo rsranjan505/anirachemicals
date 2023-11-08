@@ -76,8 +76,8 @@ class VisitController extends Controller
 
         $data = $request->except(['avatar']);
         $data['created_by'] = auth()->user()->id;
-        $data['latitude'] = in_array('latitude',$this->triphoto_getGPS($request->avatar)) ? $geo['latitude'] : $data['latitude'];
-        $data['longitude'] = in_array('longitude',$this->triphoto_getGPS($request->avatar)) ? $geo['longitude'] : $data['longitude'];
+        $data['latitude'] =  $geo ? (in_array('latitude',$this->triphoto_getGPS($request->avatar)) ? $geo['latitude'] : $data['latitude'] ): $data['latitude'];
+        $data['longitude'] = $geo ? (in_array('longitude',$this->triphoto_getGPS($request->avatar)) ? $geo['longitude'] : $data['longitude']) : $data['longitude'];
         $visit = new Visit();
         $visit = $visit->create($data);
         if($visit){
