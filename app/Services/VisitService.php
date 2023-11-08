@@ -18,12 +18,35 @@ class VisitService
 
     public function getAllVisits()
     {
-        return Visit::with('state','city','creator','image','statuslogs','statuslogs.creator')->orderBy('id',$this->orderBy)->paginate($this->defaultPage);
+        $visits = Visit::with('state','city','creator','image','statuslogs','statuslogs.creator');
+        if(auth()->user()->hasRole('Employee')){
+            $visits = $visits->where('created_by',auth()->user()->id);
+        }elseif(auth()->user()->hasRole('Supervisor')){
+            $teams = Team::where('team_lead_id',auth()->user()->id)->pluck('id');
+            $users = User::whereIn('id',$teams)->pluck('id');
+            $visits = $visits->whereIn('created_by',$users);
+        }elseif(auth()->user()->hasRole('Admin')){
+            $visits = $visits;
+        }
+
+        return   $visits->orderBy('id',$this->orderBy)->paginate($this->defaultPage);
+
     }
 
     public function getVisitsByFilter($request)
     {
-        return Visit::with('state','city','creator','image','statuslogs','statuslogs.creator')
+        $visits = Visit::with('state','city','creator','image','statuslogs','statuslogs.creator');
+        if(auth()->user()->hasRole('Employee')){
+            $visits = $visits->where('created_by',auth()->user()->id);
+        }elseif(auth()->user()->hasRole('Supervisor')){
+            $teams = Team::where('team_lead_id',auth()->user()->id)->pluck('id');
+            $users = User::whereIn('id',$teams)->pluck('id');
+            $visits = $visits->whereIn('created_by',$users);
+        }elseif(auth()->user()->hasRole('Admin')){
+            $visits = $visits;
+        }
+
+        return  $visits
         ->where( function($q)use($request){
             if($request->seach_term !='' && $request->seach_term ){
                 $q->where('name_of_establishment', 'like', '%'.$request->seach_term.'%')

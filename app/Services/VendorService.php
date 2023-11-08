@@ -18,12 +18,34 @@ class VendorService
 
     public function getAllvendors()
     {
-        return Vendor::with('state','city','creator','image','statuslogs','statuslogs.creator')->orderBy('id',$this->orderBy)->paginate($this->defaultPage);
+        $vendors = Vendor::with('state','city','creator','image','statuslogs','statuslogs.creator');
+        if(auth()->user()->hasRole('Employee')){
+            $vendors = $vendors->where('created_by',auth()->user()->id);
+        }elseif(auth()->user()->hasRole('Supervisor')){
+            $teams = Team::where('team_lead_id',auth()->user()->id)->pluck('id');
+            $users = User::whereIn('id',$teams)->pluck('id');
+            $vendors = $vendors->whereIn('created_by',$users);
+        }elseif(auth()->user()->hasRole('Admin')){
+            $vendors = $vendors;
+        }
+
+        return $vendors->orderBy('id',$this->orderBy)->paginate($this->defaultPage);
     }
 
     public function getvendorsByFilter($request)
     {
-        return Vendor::with('state','city','creator','image','statuslogs','statuslogs.creator')
+        $vendors = Vendor::with('state','city','creator','image','statuslogs','statuslogs.creator');
+        if(auth()->user()->hasRole('Employee')){
+            $vendors = $vendors->where('created_by',auth()->user()->id);
+        }elseif(auth()->user()->hasRole('Supervisor')){
+            $teams = Team::where('team_lead_id',auth()->user()->id)->pluck('id');
+            $users = User::whereIn('id',$teams)->pluck('id');
+            $vendors = $vendors->whereIn('created_by',$users);
+        }elseif(auth()->user()->hasRole('Admin')){
+            $vendors = $vendors;
+        }
+
+        return $vendors
         ->where( function($q)use($request){
             if($request->seach_term !='' && $request->seach_term ){
                 $q->where('name_of_establishment', 'like', '%'.$request->seach_term.'%')

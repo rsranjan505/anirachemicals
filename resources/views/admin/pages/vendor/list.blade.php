@@ -256,7 +256,10 @@ var filterEleId = '';
     $(document).ready(function(){
         $("#exportData").on("submit", function(e){
             e.preventDefault();
-            var filter_item = $('#'+filterEleId).val();
+            var filter_item = '';
+            if(filterEleId !=null && filterEleId !='undefined'){
+                var filter_item = $('#'+filterEleId).val();
+            }
             var seach_term = $('#search').val();
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
