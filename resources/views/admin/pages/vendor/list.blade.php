@@ -257,7 +257,7 @@ var filterEleId = '';
         $("#exportData").on("submit", function(e){
             e.preventDefault();
             var filter_item = '';
-            if(filterEleId !=null && filterEleId !='undefined'){
+            if(filterEleId !='' && filterEleId !='undefined'){
                 var filter_item = $('#'+filterEleId).val();
             }
             var seach_term = $('#search').val();

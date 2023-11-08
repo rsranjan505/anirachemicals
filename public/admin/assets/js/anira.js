@@ -257,10 +257,9 @@ function confirmationDelete(type,id)
             $.ajax({
                 url:url,
                 type: "DELETE",
-                data    : { _token: '{{csrf_token()}}'},
                 dataType: "json",
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (data) {
                     console.log(data);
@@ -351,7 +350,7 @@ function confirmationStatus(type,id)
                 // data    : { _token: '{{csrf_token()}}'},
                 dataType: "json",
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (data) {
                     console.log(data);
