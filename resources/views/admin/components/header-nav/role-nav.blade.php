@@ -4,7 +4,7 @@
             <li class="nav-item">
                 <a href="{{ route('roles.index')}}" class="nav-link {{ $activeTab == 'list' ? 'active' : '' }}" aria-selected="true">Roles Management</a>
             </li>
-            @can('role-edit')
+            @can('can-role-edit')
                 @if (isset($role))
                     @if($activeTab == 'edit')
                     <li class="nav-item">
@@ -13,7 +13,7 @@
                     @endif
                 @endif
             @endcan
-            @can('role-create')
+            @can('can-role-create')
                 @if($activeTab == 'add')
                     <li class="nav-item">
                         <a href="{{ route('roles.create')}}" class="nav-link {{ $activeTab == 'add' ? 'active' : '' }}" role="tab" >Create</a>
@@ -22,7 +22,7 @@
             @endcan
         </ul>
     </div>
-    @can('role-create')
+    @can('can-role-create')
         @if($activeTab != 'add')
             <a class="btn btn-outline-primary" style="float: right;position:absolute;right:15px;left:auto;" href="{{ route('roles.create')}}">Create New</a>
         @endif

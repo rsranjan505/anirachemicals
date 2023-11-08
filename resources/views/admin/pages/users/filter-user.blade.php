@@ -2,6 +2,7 @@
     @foreach ($users as $key => $item)
         <tr>
             <td>{{$users->firstItem() + $key}}</td>
+            <td>{{'Emp-'. $item->id }}</td>
             <td>
                 @if ($item->image)
                     <img src="{{$item->image->url}}" width="50px" alt="Avatar" class="rounded-circle">

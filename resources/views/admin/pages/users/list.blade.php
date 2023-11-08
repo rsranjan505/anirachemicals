@@ -115,6 +115,7 @@
             <thead class="table-dark">
             <tr>
                 <th>#</th>
+                <th>EmpId</th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Email</th>

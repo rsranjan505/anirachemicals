@@ -44,13 +44,29 @@
         </td>
         <td>
             <div class="dropdown">
-                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                @can('can-visit-create')
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                @endcan
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#statuslog_{{$item->id}}"  href="javascript:void(0);"><i class="bx bx-group me-1"></i> Visit Logs</a>
-                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#visitView_{{$item->id}}"><i class="bx bx-show-alt me-1"></i> View</a>
-                    <a class="dropdown-item" href="{{route('visit.edit',['visit' => $item])}}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#visitstatus_{{$item->id}}" href="javascript:void(0);"><i class="bx bx-group me-1"></i> Change Status</a>
-                    <a class="dropdown-item" onclick="confirmationDelete('visit',{{$item->id}})" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                    @can('can-visit-view-log')
+                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#statuslog_{{$item->id}}"  href="javascript:void(0);"><i class="bx bx-group me-1"></i> Visit Logs</a>
+                    @endcan
+
+                    @can('can-visit-view')
+                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#visitView_{{$item->id}}"><i class="bx bx-show-alt me-1"></i> View</a>
+                    @endcan
+
+                    @can('can-visit-edit')
+                        <a class="dropdown-item" href="{{route('visit.edit',['visit' => $item])}}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                    @endcan
+
+                    @can('can-visit-status-change')
+                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#visitstatus_{{$item->id}}" href="javascript:void(0);"><i class="bx bx-group me-1"></i> Change Status</a>
+                    @endcan
+
+                    @can('can-visit-delete')
+                        <a class="dropdown-item" onclick="confirmationDelete('visit',{{$item->id}})" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                    @endcan
                 </div>
             </div>
         </td>

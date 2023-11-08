@@ -4,19 +4,25 @@
             <li class="nav-item">
                 <a href="{{ route('admin-user-list')}}" class="nav-link {{ $activeTab == 'list' ? 'active' : '' }}" aria-selected="true">User List</a>
             </li>
-            @if($activeTab == 'edit')
-            <li class="nav-item">
-                <a href="{{ route('admin-user-edit')}}" class="nav-link {{ $activeTab == 'edit' ? 'active' : '' }}" role="tab" >Edit</a>
-            </li>
-            @endif
-            @if($activeTab == 'add')
+            @can('can-user-edit')
+                @if($activeTab == 'edit')
                 <li class="nav-item">
-                    <a href="{{ route('admin-user-add')}}" class="nav-link {{ $activeTab == 'add' ? 'active' : '' }}" role="tab" >Create</a>
+                    <a href="{{ route('admin-user-edit')}}" class="nav-link {{ $activeTab == 'edit' ? 'active' : '' }}" role="tab" >Edit</a>
                 </li>
-            @endif
+                @endif
+            @endcan
+            @can('can-user-edit')
+                @if($activeTab == 'add')
+                    <li class="nav-item">
+                        <a href="{{ route('admin-user-add')}}" class="nav-link {{ $activeTab == 'add' ? 'active' : '' }}" role="tab" >Create</a>
+                    </li>
+                @endif
+            @endcan
         </ul>
     </div>
-    @if($activeTab != 'add')
-        <a class="btn btn-outline-primary" style="float: right;position:absolute;right:15px;left:auto;" href="{{ route('admin-user-add')}}">Create New</a>
-    @endif
+    @can('can-user-create')
+        @if($activeTab != 'add')
+            <a class="btn btn-outline-primary" style="float: right;position:absolute;right:15px;left:auto;" href="{{ route('admin-user-add')}}">Create New</a>
+        @endif
+    @endcan
 </nav>

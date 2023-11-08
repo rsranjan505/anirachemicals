@@ -4,7 +4,7 @@
             <li class="nav-item">
                 <a href="{{ route('city.index')}}" class="nav-link {{ $activeTab == 'list' ? 'active' : '' }}" aria-selected="true">City List</a>
             </li>
-            {{-- @can('city-edit') --}}
+            @can('can-city-edit')
                 @if (isset($city))
                     @if($activeTab == 'edit')
                     <li class="nav-item">
@@ -12,8 +12,8 @@
                     </li>
                     @endif
                 @endif
-            {{-- @endcan --}}
-            @can('city-create')
+            @endcan
+            @can('can-city-create')
                 @if($activeTab == 'add')
                     <li class="nav-item">
                         <a href="{{ route('city.create')}}" class="nav-link {{ $activeTab == 'add' ? 'active' : '' }}" city="tab" >Create</a>
@@ -23,11 +23,11 @@
         </ul>
     </div>
     <div style="float: right;position:absolute;right:15px;left:auto;" >
-        {{-- @can('city-create') --}}
+        @can('can-city-create')
             @if($activeTab != 'add')
                 <a class="btn btn-outline-primary" href="{{ route('city.create')}}">Create New</a>
             @endif
-        {{-- @endcan --}}
+        @endcan
     </div>
 
 </nav>
