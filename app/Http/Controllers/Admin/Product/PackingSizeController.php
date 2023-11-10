@@ -25,11 +25,14 @@ class PackingSizeController extends Controller
     {
         $packings = $this->productService->getPackingSizes();
         $products = $this->productService->getProducts();
-        if($request->ajax()){
-            $packings = $this->productService->getPackingSizesByFilter($request);
-            return view('admin.pages.packingsize.filter-packing', compact('packings','products'))->render();
+        if($products){
+            if($request->ajax()){
+                $packings = $this->productService->getPackingSizesByFilter($request);
+                return view('admin.pages.packingsize.filter-packing', compact('packings','products'))->render();
+            }
+            return view('admin.pages.packingsize.list',compact('packings','products'));
         }
-        return view('admin.pages.packingsize.list',compact('packings','products'));
+        return back();
     }
 
     /**
