@@ -58,7 +58,7 @@
                         <a href="{{ route('home') }}"><img src="{{asset('assets/img/logo-name.png')}}" alt="Logo"></a>
                     </div>
                 </div>
-                <div class="col-xl-8 p-xl-0">
+                <div class="col-xl-7 p-xl-0">
                     <div class="top-bar-info">
                         <div class="top-info d-none d-lg-flex">
                             {{-- <p>Give Food Energy to World</p> --}}
@@ -71,14 +71,28 @@
 
                     </div>
                 </div>
-                <div class="col-xl-2 d-none d-xl-block">
+                {{-- <div class="col-xl-4 d-none d-xl-block">
                     <div class=" align-items-xl-center">
-                        {{-- <span class="my-icon icon-phone"></span> --}}
+                        <span class="my-icon icon-phone"></span>
                         <div class="info-text" style="background: #fff;padding:5px; border-radius:8px;">
                             <p>Customer Support & sell</p>
                             <h6><a href="tel:+91-9990696316">+91 9990 696 316</a></h6>
                         </div>
+                        <div class="col-xl-4 d-none d-xl-block">
+                            <div class="top-bar-btn">
+                                <a href="#" class="link-anime v2"><p>Customer Support & sell</p>
+                                +91 9990 696 316</a>
+                            </div>
+                        </div>
                     </div>
+                </div> --}}
+                <div class="col-xl-3 d-none d-xl-block">
+                    <div class=" align-items-xl-center">
+                    <div class="top-bar-btn" style="margin-top: 5px;">
+                        <a href="#" class="link-anime v2"><p>Customer Support & sell</p>
+                        +91 9990 696 316</a>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -130,10 +144,10 @@
                 </nav>
                 <div class="social-link">
                     <ul>
-                        <li><a href="#"><span class="my-icon icon-facebook"></span></a></li>
+                        {{-- <li><a href="#"><span class="my-icon icon-facebook"></span></a></li>
                         <li><a href="#"><span class="my-icon icon-instagram"></span></a></li>
-                        <li><a href="#"><span class="my-icon icon-twitter"></span></a></li>
-                        <li><a href="#"><span class="my-icon icon-linkedin-in"></span></a></li>
+                        <li><a href="#"><span class="my-icon icon-twitter"></span></a></li> --}}
+                        <li><a href="{{ route('login')}}">Login</a></li>
                     </ul>
                 </div>
             </div>
