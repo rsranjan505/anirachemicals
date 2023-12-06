@@ -34,6 +34,6 @@ class ProductDetailsController extends Controller
 
     public function productDetails($productName): ?Product
     {
-        return Product::with('image')->where('name',$productName)->first();
+        return Product::with('image')->where('slug',$productName)->first();
     }
 }
