@@ -11,9 +11,16 @@
 .menu-bar.v1 .menu-bar-content .main-menu li.current_page_parent > a {
   opacity: 1 !important;
   color: #07106B(36, 36, 237) !important;
+
 }
+
+.menu-bar.v1 .menu-bar-content .main-menu li a{
+    font-weight: 700 !important;
+    font-size: 16px !important;
+}
+
 .menu-bar.v1 .menu-bar-content .main-menu li:hover > a {
-    background: #fff !important;
+    /* background: #fff !important; */
     color: #4baf47 !important;
     padding-left: 2px;
     padding-right: 2px;
@@ -47,3 +54,31 @@
   .info-text p h6.a {
     columns: #07106B !important;
   }
+
+  a.left-header p {
+    font-style: normal;
+    font-weight: 600;
+    color: #fff;
+    font-size: 20px;
+  }
+
+  a.left-header {
+    font-style: normal;
+    font-weight: 600;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  .breadcum{
+    opacity: 1 !important;
+  }
+  .bg-cover-center {
+    opacity: 1 !important;
+  }
+/*
+  a.left-header :hover {
+    font-style: normal;
+    font-weight: 600;
+    color: #16f01a !important;
+    font-size: 16px;
+  } */

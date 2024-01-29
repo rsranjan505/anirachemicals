@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PackingSize extends Model
 {
     use HasFactory;
-    use HasFactory;
-    protected $fillable = ['packing','product_id','internal_qty','internal_size','unit_id','volume','is_active','created_by'];
+    protected $fillable = ['packing','product_id','internal_qty','internal_size','unit_id','volume','price','is_active','created_by'];
 	protected $dates = ['created_at', 'updated_at'];
 
     public function product(){
@@ -22,5 +21,9 @@ class PackingSize extends Model
 
     public function unit(){
         return $this->belongsTo(Unit::class,'unit_id');
+    }
+
+    public function pricelogs(){
+        return $this->hasMany(ProductPriceLog::class,'packing_sizes_id');
     }
 }

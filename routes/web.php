@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\location\CityController as LocationCityController;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\Order\OrderController;
 use App\Http\Controllers\Admin\Product\PackingSizeController;
 use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\ResetPasswordRequestController;
@@ -27,6 +26,8 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\Admin\Order\OrderController;
+use App\Http\Controllers\Admin\Product\ProductPriceLogController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -109,14 +110,7 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
     Route::resource('vendor', VendorController::class);
     Route::get('vendor/change-status/{id}', [VendorController::class, 'changeStatus'])->name('vendor.status.change');
     Route::post('vendor/export', [VendorController::class, 'exportVendor'])->name('vendor.export');
-    // Route::get('vendor', [VendorController::class, 'index'])->name('vendor');
-    // Route::post('vendor', [VendorController::class, 'store'])->name('vendor-save');
-    // Route::get('vendor-list', [VendorController::class, 'vendorList'])->name('vendor-list');
-    // Route::get('vendor-update/{id?}', [VendorController::class, 'edit'])->name('vendor-edit-view');
-    // Route::post('vendor-update', [VendorController::class, 'update'])->name('vendor-update');
-    // Route::get('vendor/change-status/{id}', [VendorController::class, 'changeStatus'])->name('vendor-status-change');
-    // Route::get('vendor/export', [VendorController::class, 'exportVendor'])->name('vendor-export');
-
+    Route::get('vendor/details/{id}', [VendorController::class, 'findById'])->name('vendor.details');
 
     //users
     Route::get('user', [UserController::class, 'index'])->name('admin-user-add');
@@ -141,12 +135,17 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
 
     Route::resource('packing', PackingSizeController::class);
     Route::get('packing/change-status/{id}', [PackingSizeController::class, 'changeStatus'])->name('packing-status-change');
-     //orders
-    Route::get('order/', [OrderController::class, 'orderList'])->name('order-list');
-    Route::get('order-add', [OrderController::class, 'index'])->name('order-add-view');
-    Route::post('order-add', [OrderController::class, 'createOrder'])->name('order-save');
-    Route::get('order-update/{id?}', [OrderController::class, 'edit'])->name('order-edit-view');
-    Route::post('order-update', [OrderController::class, 'update'])->name('order-update');
+    Route::resource('pricelog', ProductPriceLogController::class);
+
+    //orders
+
+    Route::resource('order', OrderController::class);
+    Route::get('products-packing-size/{product_id}', [OrderController::class, 'getpackingsize'])->name('product.packing');
+    // Route::get('order/', [OrderController::class, 'orderList'])->name('order-list');
+    // Route::get('order-add', [OrderController::class, 'index'])->name('order-add-view');
+    // Route::post('order-add', [OrderController::class, 'createOrder'])->name('order-save');
+    // Route::get('order-update/{id?}', [OrderController::class, 'edit'])->name('order-edit-view');
+    // Route::post('order-update', [OrderController::class, 'update'])->name('order-update');
     Route::get('order/change-status/{id}', [OrderController::class, 'changeStatus'])->name('order-status-change');
 
     Route::get('order/vendor/{id}', [OrderController::class, 'getVendorId'])->name('order-vendor-show');
@@ -154,7 +153,7 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
 
     Route::get('order-items/{id}', [OrderController::class, 'ajaxOrderItemShow'])->name('order.items-show');
     Route::post('order-delivered', [OrderController::class, 'orderdelivered'])->name('order.delivered');
-
+    Route::get('order/change-status/{id}', [OrderController::class, 'cancelOrder'])->name('visit.change.status');
      //Visit
     Route::resource('visit', VisitController::class);
     Route::post('visit-status-update', [VisitController::class, 'statusUpdate'])->name('visit.status.update');

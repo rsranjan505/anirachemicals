@@ -142,4 +142,5 @@ class VendorService
 
         return $vendors->latest()->get();
     }
+
 }

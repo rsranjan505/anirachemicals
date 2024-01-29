@@ -59,12 +59,12 @@ class ProductService
 
     public function getPackingSizes()
     {
-        return PackingSize::with('product','creator','unit')->orderBy('id',$this->orderBy)->paginate($this->defaultPage);
+        return PackingSize::with('product','creator','unit','pricelogs','pricelogs.creator')->orderBy('id',$this->orderBy)->paginate($this->defaultPage);
     }
 
     public function getPackingSizesByFilter($request)
     {
-        return PackingSize::with('product','creator','unit')
+        return PackingSize::with('product','creator','unit','pricelogs','pricelogs.creator')
                 ->where( function($q)use($request){
                     if($request->product !='' && $request->product ){
                         $q->where('product_id',$request->product);

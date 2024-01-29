@@ -25,10 +25,10 @@
         "slug": ["vendor.index","vendor.create","vendor.edit"]
     },
     {
-        "url": "/order",
+        "url": "/admin/order",
         "name": "Order",
         "icon": "menu-icon tf-icons bx bx-copy",
-        "slug": "order"
+        "slug": ["order.index","order.create","order.edit"]
     },
 
     {

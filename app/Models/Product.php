@@ -29,4 +29,8 @@ class Product extends Model
     public function stockItems(){
         return $this->hasMany(StockItems::class,'id');
     }
+
+    public function packingSizes(){
+        return $this->hasMany(PackingSize::class,'id')->latestOfMany();
+    }
 }

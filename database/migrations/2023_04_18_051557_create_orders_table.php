@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email','100');
             $table->string('mobile','100');
             $table->string('address','200');
+            $table->string('landmark','200');
             $table->unsignedBigInteger('state_id');
             $table->unsignedBigInteger('city_id');
             $table->string('pincode');
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->unsignedBigInteger('created_by');
             $table->tinyInteger('is_delivered')->default(0);
             $table->date('delivered_date')->nullable();
+            $table->tinyInteger('is_cancelled')->default(0);
             $table->timestamp('created_at')->nullable();
 			$table->timestamp('updated_at')->nullable();
         });

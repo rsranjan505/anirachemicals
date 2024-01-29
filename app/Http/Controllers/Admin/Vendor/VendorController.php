@@ -155,4 +155,9 @@ class VendorController extends Controller
         }
         return redirect()->route('vendor.index')->with('danger','Unauthorized access');
     }
+
+    public function findById($id){
+        $vendor = Vendor::with('state','city')->where('id',$id)->first();
+        return  $vendor;
+    }
 }

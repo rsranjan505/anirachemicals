@@ -63,6 +63,103 @@ $("body").on("click", "#Deletedocument", function () {
 })
 
 
+
+
+/////////// Add Products ///////
+
+let OrderProductRow=0;
+var total_amount = 0;
+$("#add_orderproduct").click(
+    function () {
+
+        var product = $('#product_id').val();
+        var packing_size = $('#packing_size_id').val();
+        var quantity = $('#quantity').val();
+        var volume = $('#volume').val();
+
+        if(product =='' || quantity == '' || packing_size == '' ){
+            alert('Product name or quantity Should not be blank');
+            return;
+        }
+
+
+        //decouple value and id
+        let pos_product = product.search(",");
+        let product_name = product.slice(pos_product + 1);
+        let product_id = product.slice(0,pos_product);
+
+
+        let pos_product_size = packing_size.search(",");
+        let packing_size_name = packing_size.slice(pos_product_size + 1);
+        let packing_size_id = packing_size.slice(0,pos_product_size);
+
+        //calculate volume
+        const conArray = packing_size_name.split("(");
+        let first_pos = conArray[1].search('n');
+        let first_nos  = conArray[1].slice(0,first_pos);
+
+        const conArray2 = packing_size_name.split("-");
+        let sec_pos = conArray2[0].search('X');
+        let sec_nos  = conArray2[0].slice(sec_pos +1,-1);
+
+        var volume = parseFloat(first_nos * sec_nos * quantity).toFixed(2) + ' '+ conArray2[1].toUpperCase();
+
+        let price  = parseFloat(conArray2[2] * quantity).toFixed(2);
+        if(price ==0.00){
+            alert('Product do not have price Please update price first!!');
+            return;
+        }
+
+        let template = '<div id="order-product" class="row"><div class="col-md-3"><div class="mb-3"><select id="order_items" type="text" name="order_items['+OrderProductRow+'][product_id]" class="form-control" readonly><option value="'+product_id+'"> '+product_name +'</option> </select></div></div><div class="col-md-2"><div class="mb-3"><select id="packing_size_id" type="text" name="order_items['+OrderProductRow+'][packing_size_id]" class="form-control" readonly><option value="'+packing_size_id+'"> '+conArray2[0] +'</option> </select></div></div><div class="col-md-1"><div class="mb-3"><input id="order_items" type="number"  value="'+quantity+'" name="order_items['+OrderProductRow+'][quantity]" class="form-control" readonly/></div></div><div class="col-md-2"><div class="mb-3"><input id="order_items" type="text"  value="'+volume+'" name="order_items['+OrderProductRow+'][volume]" class="form-control" readonly/></div></div><div class="col-md-2"><div class="mb-3"><input id="price_id'+'" type="text"  value="'+price+'" name="order_items['+OrderProductRow+'][price]" class="form-control" readonly/></div></div><div class="col-md-2" ><button type="button" id="Deleteproduct" class="btn btn-danger mr-2">X</button></div></div>';
+
+        $(".orderproducts").append(template);
+
+        $('#product_id').val('');
+        $('#packing_size_id').val('');
+        $('#quantity').val('');
+        $('#volume').val('');
+
+        total_amount = parseFloat(total_amount) + parseFloat(price);
+       $('#bill_amount').val(parseFloat(total_amount).toFixed(2));
+
+        OrderProductRow++;
+
+    }
+);
+$("body").on("click", "#Deleteproduct", function () {
+    var remprice = $(this).parents("#order-product").children().find('#price_id').val();
+    console.log( remprice);
+    total_amount = total_amount - remprice;
+    $('#bill_amount').val(parseFloat(total_amount).toFixed(2));
+    $(this).parents("#order-product").remove();
+
+    OrderProductRow--;
+
+
+})
+
+//state change
+$('#product_id').on('change', function () {
+    let product_id = this.value;
+    $.ajax({
+        url: "/admin/products-packing-size/"+product_id,
+        type: "get",
+
+        success: function (res) {
+            let html = "";
+            html += '<select id="packing_size_id" name="packing_size_id" class="form-control">';
+            res.forEach((val, key) => {
+                let packingname = val.packing + '('+  val.internal_qty + 'nosX' +  val.internal_size + ')';
+                html += "<option value=" + val.id + ',' + packingname  +'-'+val.unit.sku+'-'+val.price+ ">" + packingname + "</option>";
+            });
+            html += '</select>';
+            $("#packing_size_id").html("");
+            $("#packing_size_id").html(html);
+        },
+    });
+});
+
+
 //state change
 // $('#state').on('change', function () {
 //     let state_id = this.value;
@@ -119,32 +216,27 @@ $('#establishment_type').on('change', function () {
 $('#customer_id').on('change', function () {
     let vendor_id = this.value;
     $.ajax({
-        url: "/admin/order/vendor/"+vendor_id,
+        url: "/admin/vendor/details/"+vendor_id,
         type: "get",
 
         success: function (res) {
-            console.log(res.vendor.id);
-            let name_html = "";
-            let email_html = "";
-            let mobile_html = "";
-            let state_html = "";
-            let city_html = "";
+            console.log(res.id);
+            // let name_html = "";
+            // let email_html = "";
+            // let mobile_html = "";
+            // let state_html = "";
+            // let city_html = "";
 
-            name_html += '<div class="form-group"><label class="col-form-label">Name Of Customer</label><input id="customer_name" value="'+res.vendor.name_of_establishment+'" type="text" name="customer_name" class="form-control"/></div>';
+            // name_html += '<div class="form-group"><label class="col-form-label">Name Of Customer</label><input id="customer_name" value="'+res.name_of_establishment+'" type="text" name="customer_name" class="form-control"/></div>';
 
-            email_html += '<div class="form-group"><label class="col-form-label">Email</label><input id="email" value="'+res.vendor.email+'" type="text" name="email" class="form-control"/></div>';
+            // email_html += '<div class="form-group"><label class="col-form-label">Email</label><input id="email" value="'+res.email+'" type="text" name="email" class="form-control"/></div>';
 
-            mobile_html += '<div class="form-group"><label class="col-form-label">Mobile</label><input id="mobile" value="'+res.vendor.mobile+'" type="text" name="mobile" class="form-control"/></div>';
+            // mobile_html += '<div class="form-group"><label class="col-form-label">Mobile</label><input id="mobile" value="'+res.mobile+'" type="text" name="mobile" class="form-control"/></div>';
 
 
-            $(".vendor_name").html("");
-            $(".vendor_name").html(name_html);
-
-            $(".vendor_email").html("");
-            $(".vendor_email").html(email_html);
-
-            $(".vendor_mobile").html("");
-            $(".vendor_mobile").html(mobile_html);
+            $("#customer_name").val(res.key_person);
+            $("#email").val(res.email);
+            $("#mobile").val(res.mobile);
         },
     });
 });
@@ -237,6 +329,9 @@ function confirmationDelete(type,id)
     }else if(type == 'vendor'){
         url = 'vendor/'+id;
     }
+    else if(type == 'order'){
+        url = 'order/'+id;
+    }
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -326,6 +421,8 @@ function confirmationStatus(type,id)
         url = 'packing/change-status/'+id;
     }else if(type == 'vendor'){
         url = 'vendor/change-status/'+id;
+    }else if(type == 'order'){
+        url = 'order/change-status/'+id;
     }
     Swal.fire({
         title: 'Are you sure?',

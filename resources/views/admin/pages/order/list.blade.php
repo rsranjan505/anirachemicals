@@ -1,8 +1,109 @@
-@extends('admin.layouts.base')
+@extends('admin.layouts.contentNavbarLayout')
+
+@section('title', 'Orders - Anira Chemicals')
 
 @section('content')
-{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"> --}}
+<div class="row">
+    @include('admin/components/header-nav/order-nav',['activeTab' => 'list'] )
+    <hr>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row gy-3">
+            <div class="col-md">
+                <div class="form-check mt-3">
+                    <label for="defaultSelect" class="form-label">Search Orders</label>
+                    <input class="form-control" id="search" type="search" placeholder="Search ..." id="html5-search-input" />
+                </div>
+            </div>
+            {{-- <div class="col-md">
+                <div class="form-check mt-3">
+                    <label for="defaultSelect" class="form-label">Filter</label>
+                    <select class="form-select" id="order" aria-label="Default select example">
+                        <option value="" selected>Select order</option>
+                        @foreach ($orders as $item)
+                            <option value="{{$item->id}}">{{ $item->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div> --}}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive ">
+        <table class="table table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>SL No</th>
+                <th>Customer Name</th>
+                <th>Order Date</th>
+                <th>Bill Amount</th>
+                <th>Mobile</th>
+                <th>Address</th>
+                <th>Is Delivered</th>
+                <th>Delivered Date</th>
+                <th>Created By</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @include('admin.pages.order.filter-order')
+            </tbody>
+        </table>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+    const fetch_data = (page, search) => {
+        if(search === undefined){
+            search = "";
+        }
+
+        $.ajax({
+            url:"order/?page="+page+"&search="+search,
+            success:function(data){
+                console.log(data);
+                $('tbody').html('');
+                $('tbody').html(data);
+            }
+        })
+    }
+
+    $('body').on('keyup', '#search', function(){
+        var search = $('#search').val();
+        var page = $('#hidden_page').val();
+        fetch_data(page, search);
+    });
+
+    // $('body').on('change', '#order', function(){
+    //     var order = $('#order').val();
+    //     var page = $('#hidden_page').val();
+    //     fetch_data(page, order);
+    // });
+
+    $('body').on('click', '.pagination a', function(event){
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+        $('#hidden_page').val(page);
+        var search = $('#search').val();
+
+        fetch_data(page,search);
+    });
+});
+
+</script>
+@endsection
+
+
+
+{{-- @extends('admin.layouts.base')
+
+@section('content')
 
 <div class="main-panel">
     <div class="content-wrapper">
@@ -57,7 +158,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Product name</th>
+                            <th>order name</th>
                             <th>Packing Size</th>
                             <th>Qty</th>
                             <th>Unit</th>
@@ -65,7 +166,7 @@
                             <th>Total Price</th>
                         </tr>
                     </thead>
-                    <tbody id="product_items">
+                    <tbody id="order_items">
 
                     </tbody>
                 </table>
@@ -76,16 +177,11 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 
 
-
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script> --}}
-<script src="{{ asset('admin/assets/js/anira.js')}}"></script>
+{{-- <script src="{{ asset('admin/assets/js/anira.js')}}"></script>
 <script type="text/javascript">
     $(function () {
 
@@ -161,4 +257,4 @@
     }
   </script>
 
-@endsection
+@endsection --}}

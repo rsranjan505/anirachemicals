@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('order_items', function (Blueprint $table) {
-            $table->string('packing_size',11)->after('product_id');
+        Schema::table('packing_sizes', function (Blueprint $table) {
+            //
+            $table->decimal('price',8,2)->default(0.00)->after('volume');
         });
     }
 
@@ -25,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('order_items', function (Blueprint $table) {
-            //
+        Schema::table('packing_sizes', function (Blueprint $table) {
+            $table->dropColumn('price');
         });
     }
 };

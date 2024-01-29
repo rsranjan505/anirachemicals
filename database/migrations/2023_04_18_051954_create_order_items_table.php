@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
-            $table->decimal('quantity',6,2);
-            $table->string('unit');
+            $table->unsignedBigInteger('packing_size_id');
+            $table->decimal('quantity',10,2);
+            $table->decimal('volume',15,2);
             $table->decimal('unit_price',8,2);
+            $table->string('unit');
             $table->decimal('total_price',8,2);
             $table->timestamp('created_at')->nullable();
 			$table->timestamp('updated_at')->nullable();

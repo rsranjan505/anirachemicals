@@ -40,6 +40,7 @@
                 <th>Internal Qty</th>
                 <th>Internal Size(s)</th>
                 <th>Volume</th>
+                <th>Price</th>
                 <th>Created By</th>
                 <th>Status</th>
                 <th>Actions</th>

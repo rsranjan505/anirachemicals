@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="mb-3">
                             <label class="form-label" for="internal_size">Product internal Size(s) of Packing</label>
                             <input type="text" class="form-control @error('internal_size') is-invalid @enderror" id="internal_size" value="{{ $packing->internal_size }}"  name="internal_size" placeholder="Product internal Size(s) In Packing" />
@@ -72,7 +72,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-xl-6 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="mb-3">
                             <label class="form-label" for="unit_id">Product Internal Size Unit</label>
                             <select id="unit_id" name="unit_id" class="form-select @error('unit_id') is-invalid @enderror">
@@ -83,6 +83,17 @@
                                 @endforeach
                             </select>
                             @error('unit_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="price">Product Price</label>
+                            <input type="text" {{$packing->price != 0.00 ? 'disabled' : '' }}  class="form-control @error('price') is-invalid @enderror" id="price" value="{{ $packing->price }}"  name="price" placeholder="300.00" />
+                            @error('price')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
