@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Team;
+use App\Models\User;
 use App\Models\Vendor;
 use App\Models\Visit;
 use Illuminate\Http\Request;
@@ -37,18 +39,26 @@ class DashboardController extends Controller
         $data=[];
         $visits = Visit::with('state','city','creator','image');
         $vendors =  Vendor::with('state','city','creator','image');
+        $orders =  Order::with('customer','creator');
 
         if(auth()->user()->hasRole('Employee')){
             $data['visitcount'] = $visits->where('created_by',auth()->user()->id)->count();
             $data['vendorcount']  = $vendors->where('created_by',auth()->user()->id)->count();
+            $data['recentorder']  = $orders->where('is_delivered',0)->where('created_by',auth()->user()->id)->count();
+            $data['deliveredorder']  = $orders->where('is_delivered',1)->where('created_by',auth()->user()->id)->count();
         }elseif(auth()->user()->hasRole('Supervisor')){
             $teams = Team::where('team_lead_id',auth()->user()->id)->pluck('id');
             $users = User::whereIn('id',$teams)->pluck('id');
             $data['visitcount'] = $visits->whereIn('created_by',$users)->count();
             $data['vendorcount'] = $vendors->whereIn('created_by',$users)->count();
+            $orders->whereIn('created_by', $users);
+            $data['recentorder']  = $orders->where('is_delivered',0)->count();
+            $data['deliveredorder']  = $orders->where('is_delivered',1)->count();
         }elseif(auth()->user()->hasRole('Admin')){
             $data['visitcount'] = $visits->count();
             $data['vendorcount'] = $vendors->count();
+            $data['recentorder']  = $orders->where('is_delivered',0)->count();
+            $data['deliveredorder']  = $orders->where('is_delivered',1)->count();
         }
 
         return $data;

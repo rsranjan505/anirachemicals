@@ -64,34 +64,6 @@ class OrderService
         return Order::with('customer','state','city','creator','orderItems')->get();
     }
 
-    // public function deleteImage($request): bool
-    // {
-    //     $order  = Order::findOrFail($request->id);
-    //     if($request->imageId !=null){
-    //         if($order->image()->where('id',$request->imageId)->delete()){
-    //             return true;
-    //         }
-    //     }
 
-    //     return false;
-    // }
-
-    // public function getPackingSizes()
-    // {
-    //     return PackingSize::with('order','creator','unit')->orderBy('id',$this->orderBy)->paginate($this->defaultPage);
-    // }
-
-    // public function getPackingSizesByFilter($request)
-    // {
-    //     return PackingSize::with('order','creator','unit')
-    //             ->where( function($q)use($request){
-    //                 if($request->order !='' && $request->order ){
-    //                     $q->where('order_id',$request->order);
-    //                 }
-
-    //             })
-    //             ->orderBy('id',$this->orderBy)
-    //             ->paginate($this->defaultPage);
-    // }
 
 }

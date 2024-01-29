@@ -25,7 +25,6 @@ return new class extends Migration
             $table->tinyInteger('is_active')->default(1);
             $table->timestamp('created_at')->nullable();
 			$table->timestamp('updated_at')->nullable();
-
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
