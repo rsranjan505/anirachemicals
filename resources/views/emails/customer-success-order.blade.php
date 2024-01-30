@@ -86,14 +86,14 @@
             <table align="center" width="100%" class="emailer_table" border="0" cellspacing="0" style="padding: 0;" >
                 <tr>
                     <td style="padding: 0 15px">
-                        <img src="{{$message->embed(public_path('/images/logo.png'))}}" alt="" class="logo_con">
+                        <img src="{{$message->embed(public_path('assets/img/logo-name.png'))}}" alt="" class="logo_con">
                     </td>
                 </tr>
 
                 <tr>
                     <td style="padding-bottom: 40px;">
                         <div class="email_body">
-                            <h3 style="text-align: left; margin:0 0 6px; font-size: 24px; font-weight: 600; color: #29323C;">Hi {{$order->user ? $order->user->name : 'User'}},</h3>
+                            <h3 style="text-align: left; margin:0 0 6px; font-size: 24px; font-weight: 600; color: #29323C;">Hi {{$order->customer_name}},</h3>
                             <p style="text-align: left; padding:0 0 15px; color:#393636BF;">Your orders
                                 -</p>
                             <div style="overflow: auto;">
@@ -107,22 +107,30 @@
                                         <th style="padding: 5px; background: #eeeb86e5; font-weight: normal; font-size: 14px;">Price</th>
                                     </tr>
 
-                                    <!-- @if (isset($order))
+                                   @if (isset($order))
                                         @foreach ($order->order_items as $k => $item)
                                             <tr>
                                                 <td style="padding: 5px; border-bottom: solid 1px #cbe9b7; font-size: 14px;">{{ $k +1}}</td>
-                                                <td style="padding: 5px; border-bottom: solid 1px #cbe9b7; font-size: 14px;">{{ $item->product->name}}</td>
+                                                <td style="padding: 5px; border-bottom: solid 1px #cbe9b7; font-size: 14px;">{{ ucfirst($item->product->name)}}</td>
+                                                <td style="padding: 5px; border-bottom: solid 1px #cbe9b7; font-size: 14px;">{{ $item->packing_size->packing . '(' .$item->packing_size->internal_qty .'X' .$item->packing_size->internal_size.$item->packing_size->unit->sku .')'}}</td>
                                                 <td style="padding: 5px; border-bottom: solid 1px #cbe9b7; font-size: 14px;">{{ $item->quantity}}</td>
-                                                <td style="padding: 5px; border-bottom: solid 1px #cbe9b7; font-size: 14px;">{{ $item->product->unit->name}}</td>
+                                                <td style="padding: 5px; border-bottom: solid 1px #cbe9b7; font-size: 14px;">{{ $item->volume . $item->packing_size->unit->sku}}</td>
+                                                <td style="padding: 5px; border-bottom: solid 1px #cbe9b7; font-size: 14px;">&#8377; {{ $item->total_price}}</td>
                                             </tr>
                                         @endforeach
                                     @endif
-                                    -->
+
+                                    <tr>
+                                        <td colspan="3" style="text-align: center; padding: 5px; font-size: 14px;"></td>
+                                        <td colspan="2" style="text-align: center; padding: 5px; font-size: 18px; font-weight: 700; background: #cbe9b7;">Total</td>
+                                        <td style="text-align: center; padding: 10px 5px; font-size: 18px; font-weight: 700; background: #cbe9b7;">&#8377; {{ number_format($order->bill_amount,2)}}</td>
+                                    </tr>
+
                                 </table>
                             </div>
 
                             <p style="text-align: left; padding:20px 0 3px; color:#393636BF; font-weight: 600;">Delivery Address -</p>
-                           <p style="text-align: left; padding:0 0 15px; color:#393636BF;">{{ $order->shipping ? $order->shipping->address.' '.$order->shipping->city .' '.$order->shipping->state. ' '.$order->shipping->postcode  : '-'}}</p>
+                           <p style="text-align: left; padding:0 0 15px; color:#393636BF;">{{ $order->address.' '.$order->landmark . ' '.$order->postcode }}</p>
                         </div>
                     </td>
                 </tr>

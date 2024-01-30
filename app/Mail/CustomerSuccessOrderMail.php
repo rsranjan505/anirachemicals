@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Order;
+use Faker\Provider\ar_EG\Address;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,14 +15,16 @@ class CustomerSuccessOrderMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected Order $order;
+
     /**
-     * Create a new message instance.
+     * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Order $order)
     {
-        //
+        $this->order = $order;
     }
 
     /**
@@ -31,7 +35,8 @@ class CustomerSuccessOrderMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Customer Success Order Mail',
+            // from: new Address('no-reply@anirachemicals.com', 'Anira Chemicals'),
+            subject: 'Success Order - Anira Chemicals',
         );
     }
 
@@ -43,7 +48,10 @@ class CustomerSuccessOrderMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.customer-success-order',
+            with:[
+                'order' => $this->order,
+            ],
         );
     }
 

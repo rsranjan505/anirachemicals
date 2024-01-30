@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Order;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CustomerSuccessOrderJob;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PackingSize;
@@ -92,6 +93,7 @@ class OrderController extends Controller
                     $orderitem->create($item);
                 }
             }
+            CustomerSuccessOrderJob::dispatch($order);
             return redirect()->route('order.index')->with('success','Order added Successfully');
         }
     }
