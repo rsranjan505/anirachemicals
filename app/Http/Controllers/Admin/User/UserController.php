@@ -41,14 +41,15 @@ class UserController extends Controller
                 'password' => 'required',
                 'password_confirmation' => 'required|same:password',
             ]);
+            $user_type = $request->is_admin ? 'admin' : 'employee';
 
             $request['password'] = Hash::make($request->password);
                 $user = User::create([
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
                     'mobile' => $request->mobile,
-                    'role_id' => $request->role_id,
-                    'user_type' => $request->user_type,
+                    'role_id' => $request->roles,
+                    'user_type' => $user_type,
                     'address' => $request->address,
                     'state_id' => $request->state_id,
                     'city_id' => $request->city_id,
@@ -67,7 +68,7 @@ class UserController extends Controller
                     $image['document_type']='avatar';
                     $user->image()->create($image);
                 }
-                return redirect()->route('user-list')->with('success','User created Successfully');
+                return redirect()->route('admin-user-list')->with('success','User created Successfully');
     }
 
     public function userList(Request $request)
