@@ -61,7 +61,6 @@ class OrderController extends Controller
     public function store(Request $request)
     {
        $data =  $request->validate([
-            'customer_id' => 'numeric|between:0,9999999999.99',
             'customer_name' => 'required',
             'address' => 'required',
             'landmark' => 'required',
@@ -75,7 +74,7 @@ class OrderController extends Controller
         ]);
 
         // $data['order_items'] = json_encode($request->order_items,true);
-
+        $data['customer_id'] = $request->customer_id !='others' ? $request->customer_id :NULL;
         $data['created_by'] = auth()->user()->id;
         $order = new Order();
         $order = $order->create($data);
