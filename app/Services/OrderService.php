@@ -45,12 +45,13 @@ class OrderService
             $order;
         }
 
-        $order
+        return $order
         ->where( function($q)use($request){
             if($request->search !='' && $request->search ){
                 $q->where('customer_name', 'like', '%'.$request->search.'%')
                 ->orWhere('product_name', 'like', '%'.$request->search.'%')
-                ->orWhere('date', 'like', '%'.$request->search.'%');
+                ->orWhere('date', 'like', '%'.$request->search.'%')
+                ;
             }
 
         })

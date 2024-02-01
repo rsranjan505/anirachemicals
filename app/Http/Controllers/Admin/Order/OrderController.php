@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Order;
 
+use App\Events\OrderNotifyEvent;
 use App\Http\Controllers\Controller;
+use App\Jobs\AdminSuccessOrderJob;
 use App\Jobs\CustomerSuccessOrderJob;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -11,8 +13,10 @@ use App\Models\Product;
 use App\Models\State;
 use App\Models\Unit;
 use App\Models\Vendor;
+use App\Notifications\SuccessOrderNotify;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class OrderController extends Controller
 {
@@ -31,7 +35,8 @@ class OrderController extends Controller
     {
         $orders = $this->orderService->getAllOrders();
         if($request->ajax()){
-            $orders = $this->orderService->getordersByFilter($request);
+            $orders = $this->orderService->getOrdersByFilter($request);
+
             return view('admin.pages.order.filter-order', compact('orders'))->render();
         }
         return view('admin.pages.order.list',compact('orders'));
@@ -93,6 +98,9 @@ class OrderController extends Controller
                 }
             }
             CustomerSuccessOrderJob::dispatch($order);
+            AdminSuccessOrderJob::dispatch($order);
+            Notification::send(auth()->user(),new SuccessOrderNotify($order));
+
             return redirect()->route('order.index')->with('success','Order added Successfully');
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\OrderNotifyEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
@@ -35,6 +36,7 @@ class DashboardController extends Controller
         //today visit
         //team members
         //products for admin only
+        // event(new OrderNotifyEvent('hello world'));
 
         $data=[];
         $visits = Visit::with('state','city','creator','image');

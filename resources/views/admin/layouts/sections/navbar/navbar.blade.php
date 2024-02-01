@@ -38,9 +38,91 @@ $navbarDetached = ($navbarDetached ?? '');
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
           <!-- User -->
-          <button type="button" class="btn rounded-pill btn-icon btn-secondary">
+          {{-- <button type="button" class="btn rounded-pill btn-icon btn-secondary">
             <span class="tf-icons bx bx-bell"></span>
-          </button>
+          </button> --}}
+                    <!-- Notification -->
+                    <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-2 me-xl-1">
+                        <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow btn-floating" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                          <i class="tf-icons bx bx-bell"></i>
+                          <span class="badge rounded-pill badge-notification bg-danger notifycount">{{count($notifications)}}</span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end py-0">
+                          <li class="dropdown-menu-header border-bottom">
+                            <div class="dropdown-header d-flex align-items-center py-3">
+                              <h6 class="fw-normal mb-0 me-auto">Notification</h6>
+                              <span class="badge rounded-pill bg-label-primary notifycount_new">{{count($notifications)}} New</span>
+                            </div>
+                          </li>
+                          <li class="dropdown-notifications-list scrollable-container">
+                            <ul class="list-group list-group-flush">
+                                {{-- @php
+                                    function time_elapsed_string($datetime, $full = false) {
+                                        $now = new DateTime;
+                                        $ago = new DateTime($datetime);
+                                        $diff = $now->diff($ago);
+
+                                        $diff->w = floor($diff->d / 7);
+                                        $diff->d -= $diff->w * 7;
+
+                                        $string = array(
+                                            'y' => 'year',
+                                            'm' => 'month',
+                                            'w' => 'week',
+                                            'd' => 'day',
+                                            'h' => 'hour',
+                                            'i' => 'minute',
+                                            's' => 'second',
+                                        );
+                                        foreach ($string as $k => &$v) {
+                                            if ($diff->$k) {
+                                                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+                                            } else {
+                                                unset($string[$k]);
+                                            }
+                                        }
+
+                                        if (!$full) $string = array_slice($string, 0, 1);
+                                        return $string ? implode(', ', $string) . ' ago' : 'just now';
+                                    }
+                                    @endphp --}}
+
+                                @foreach ($notifications as $item)
+                                    @if ($item->read_at == null)
+
+                                    <a href="{{route('mark-as-read',$item->id)}}">
+                                        <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                            <div class="d-flex align-items-center gap-2">
+                                            <div class="flex-shrink-0">
+                                                <div class="avatar me-1">
+                                                <img src="https://demos.themeselection.com/materio-bootstrap-html-laravel-admin-template/demo/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-250">
+                                                <h6 class="mb-1 text-truncate">Order From {{ ucfirst($item->data['order']['customer_name'])}} 🎉</h6>
+                                                <small class="text-truncate text-body">{{ ucfirst($item->data['order']['address']) . ' ' . $item->data['order']['pincode']}}</small>
+                                            </div>
+                                            <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                <small class="text-muted"></small>
+                                            </div>
+                                            </div>
+                                        </li>
+                                    </a>
+
+                                    @endif
+                                @endforeach
+
+                            </ul>
+                          </li>
+                          <li class="dropdown-menu-footer border-top p-3">
+                            <a href="{{route('notification.index')}}" class="btn btn-primary d-flex justify-content-center">Read all notifications</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <!--/ Notification -->
+
+
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
               <div class="avatar avatar-online">
@@ -102,4 +184,26 @@ $navbarDetached = ($navbarDetached ?? '');
     </div>
     @endif
   </nav>
+  <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+    // Enable pusher logging - don't include this in production
+    // Pusher.logToConsole = true;
+
+    var pusher = new Pusher('a9d41da1ecb7224520ca', {
+      cluster: 'ap2'
+    });
+
+    var count = $(".notifycount").text();
+
+    var channel = pusher.subscribe('notification');
+    channel.bind('notification.my-event', function(data) {
+
+        console.log(data.message);
+
+        $(".notifycount").text(parseInt(count) + 1);
+        $(".notifycount_new").text(parseInt(count) + 1 + 'New');
+
+    });
+
+    </script>
   <!-- / Navbar -->

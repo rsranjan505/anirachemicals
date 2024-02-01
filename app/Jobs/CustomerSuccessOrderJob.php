@@ -42,6 +42,6 @@ class CustomerSuccessOrderJob implements ShouldQueue
         $this->order->order_items = $order_items;
 
         Mail::to($this->order->email)->send(new  CustomerSuccessOrderMail($this->order));
-        Mail::to('surbhi@anirachemicals.com')->send(new  AdminSuccessOrderMail($this->order));
+
     }
 }

@@ -164,6 +164,7 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
     Route::post('enquiry/export', [EnquiryController::class, 'exportEnquiry'])->name('enquiry.export');
 
     Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
+    Route::get('mark-as-read/{id}', [NotificationController::class, 'notifyRead'])->name('mark-as-read');
 
 });
 // Route::apiResource('posts', PostController::class)->middleware('auth:sanctum');

@@ -59,6 +59,8 @@
         @include('admin.components.modalImage')
 
     </div>
+
+
     {{-- <script src="{{ asset('admin/assets/js/jquery.min.js')}}"></script> --}}
     <script src="{{ asset('admin/assets/vendors/js/vendor.bundle.base.js')}}"></script>
 
@@ -77,7 +79,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     @stack('scripts')
-    {{-- {!! Toastr::message() !!} --}}
+
 
 </body>
 

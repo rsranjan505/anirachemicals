@@ -12,6 +12,7 @@
 
 @section('page-script')
 <script src="{{asset('admin/assets/js/dashboards-analytics.js')}}"></script>
+
 @endsection
 
 @section('content')
@@ -137,6 +138,7 @@
           </div>
         </div>
       </div>
-</div>
+    </div>
+
 
 @endsection

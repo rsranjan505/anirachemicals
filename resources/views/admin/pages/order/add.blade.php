@@ -10,8 +10,9 @@
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
             </div>
+
             <div class="card-body">
-            <form method="POST" action="{{ route('order.store') }}" enctype="multipart/form-data">
+            <form id="order-form" method="POST" action="{{ route('order.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
@@ -240,11 +241,25 @@
 
 
                 <button type="submit" class="btn btn-primary">Place Order</button>
+                    <div class="spinner-border text-info" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                  </div>
             </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+
+     $(".spinner-border").css("display", "none");
+    var form = document.querySelector('#order-form');
+    form.addEventListener('submit', function (event) {
+
+        $(".btn").css("display", "none");
+        $(".spinner-border").css("display", "block");
+    });
+</script>
 
 @endsection
 {{--
