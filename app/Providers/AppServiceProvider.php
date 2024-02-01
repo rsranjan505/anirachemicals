@@ -56,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
 
                 }
 
-                view()->share('notifications', $notifications[0]);
+                view()->share('notifications', $notifications ? $notifications[0] : []);
             }
 
 
