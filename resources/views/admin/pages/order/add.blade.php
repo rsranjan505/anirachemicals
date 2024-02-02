@@ -36,7 +36,7 @@
                     <div class="col-xl-6 col-md-6 cust_name">
                         <div class="mb-3">
                             <label class="form-label" for="customer_name">Other Name</label>
-                            <input type="text" class="form-control @error('customer_name') is-invalid @enderror" id="customer_name" name="customer_name" value="{{ old('customer_name') }}" placeholder="order Code" />
+                            <input type="text" class="form-control @error('customer_name') is-invalid @enderror" id="customer_name" name="customer_name" value="{{ old('customer_name') }}" placeholder="customer name" />
                             @error('customer_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
