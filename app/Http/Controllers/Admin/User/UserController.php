@@ -146,6 +146,8 @@ class UserController extends Controller
                 'city_id' => 'numeric',
                 'roles' => 'required',
             ]);
+
+
             $data = $request->except(['avatar','roles']);
             $user = User::findOrFail($request->id);
             $user->update($data);
