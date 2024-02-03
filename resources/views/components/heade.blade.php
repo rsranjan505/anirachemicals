@@ -97,7 +97,7 @@
                         {{-- <li><a href="#"><span class="my-icon icon-facebook"></span></a></li>
                         <li><a href="#"><span class="my-icon icon-instagram"></span></a></li>
                         <li><a href="#"><span class="my-icon icon-twitter"></span></a></li> --}}
-                        <li><a href="{{ route('login')}}">Login</a></li>
+                        <li ><a style="font-weight: 700" href="{{ route('login')}}">Login</a></li>
                     </ul>
                 </div>
             </div>
