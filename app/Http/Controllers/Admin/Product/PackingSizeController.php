@@ -70,6 +70,7 @@ class PackingSizeController extends Controller
             'unit_id.required' => 'Unit required',
         ]);
         $data = $request->all();
+        $data['price'] = $request->price !=null ? $request->price : '0.00';
         $data['created_by'] = auth()->user()->id;
         $data['volume'] = $request->internal_qty * $request->internal_size;
         $packing = new PackingSize();

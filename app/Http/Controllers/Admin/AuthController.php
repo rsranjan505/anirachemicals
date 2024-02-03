@@ -107,6 +107,9 @@ class AuthController extends Controller
             $credentials = $request->only('email', 'password');
             $remember = $request->has('remember_me') ? true : false;
             $user = User::where(['email'=> $request->email,'is_active' =>1])->first();
+            if($user->role_id ==null){
+                return redirect()->route('login')->withErrors(['error' => 'Please Contact admin. ']);
+            }
             if(!$user){
                 return redirect()->route('login')->withErrors(['error' => 'Your Account has been inactive. Please contact admin']);
             }

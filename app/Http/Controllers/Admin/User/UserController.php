@@ -33,17 +33,17 @@ class UserController extends Controller
      */
     public function createUser(Request $request)
     {
-            $request->validate([
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'mobile' => 'required|min:10',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required',
-                'password_confirmation' => 'required|same:password',
-            ]);
-            $user_type = $request->is_admin ? 'admin' : 'employee';
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'mobile' => 'required|min:10',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+            'password_confirmation' => 'required|same:password',
+        ]);
+        $user_type = $request->is_admin ? 'admin' : 'employee';
 
-            $request['password'] = Hash::make($request->password);
+        $request['password'] = Hash::make($request->password);
                 $user = User::create([
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
