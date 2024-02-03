@@ -39,7 +39,7 @@
                 <div class="col-xl-3 ">
                     {{-- <div class=" align-items-xl-center"> --}}
                         {{-- <div class="top-bar-btn" style="margin-top: 5px;"> --}}
-                            <a href="#" class="left-header"><p>Customer & Support</p>
+                            <a href="#" class="left-header"><p>Sales & Support</p>
                             +91 9990 696 316</a>
                         {{-- </div> --}}
                     {{-- </div> --}}
