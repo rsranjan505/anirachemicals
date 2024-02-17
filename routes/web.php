@@ -122,7 +122,7 @@ Route::prefix('admin/')->middleware('auth','web')->group(function(){
     Route::get('user/change-status/{id}', [UserController::class, 'changeStatus'])->name('admin-user-status-change');
     Route::get('user/setting', [UserController::class, 'settingView'])->name('setting-view');
     Route::post('user/change-password', [UserController::class, 'changePassword'])->name('admin-user-change-password');
-    Route::get('user-delete/{id}', [UserController::class, 'deleteUser'])->name('admin-user-delete');
+    Route::delete('user-delete/{id}', [UserController::class, 'deleteUser'])->name('admin-user-delete');
     Route::get('user-profile', [UserController::class, 'profile'])->name('user-profile');
     Route::post('team-assigned', [UserController::class, 'assigendTeam'])->name('team.assigned');
 
