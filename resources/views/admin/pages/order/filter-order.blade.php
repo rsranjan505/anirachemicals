@@ -29,7 +29,7 @@
     </td>
 
     <td>
-        {{ ucfirst($item->creator->first_name)}}
+        {{ ucfirst($item->creator ? $item->creator->first_name : '')}}
     </td>
 
     <td>
