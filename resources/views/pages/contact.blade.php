@@ -99,7 +99,7 @@
                 <div class="my-icon icon-home"></div>
                 <div class="text">
                     <h4>Location</h4>
-                    <p>Lane No-1, Nathanpur Raod, Dehradun (Uttarakhand) Pin-248005</p>
+                    <p>Lane No-1, Nathanpur Road, Dehradun (Uttarakhand) Pin-248005</p>
                 </div>
             </li>
         </ul>
