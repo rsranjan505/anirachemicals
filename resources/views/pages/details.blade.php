@@ -11,7 +11,12 @@
                     <p>{{$product->description}}</p>
                     <div class="serv-box-img-text">
                         <div class="box-img">
-                            <img src="{{asset($product->image->url)}}" height="300px" alt="box-im">
+                            @if ($product->image == null)
+                                <img src="{{ asset("assets/img/products/product_bond.jpg")}}" alt="box-im">
+                            @else
+                                <img src="{{ asset($product->image->url) }}" height="300px" alt="box-im">
+                            @endif
+
                         </div>
                         <div class="box-text">
                             <h5>{{ ucfirst($product->name)}}</h5>
