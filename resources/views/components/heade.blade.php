@@ -61,7 +61,7 @@
                         <li class="{{Request::is('about') ? 'active' : ''}}"><a href="{{ route('about') }}">About Us</a></li>
                         <li class="has-dropdown {{Request::is('product') ? 'active' : ''}}">
                             <a href="{{ route('product') }}">Products</a>
-                            <ul>
+                            <ul style="width: 300px;">
                                 @if (isset($products))
                                     @foreach ($products as $product)
                                         <li><a href="{{route('product.details',['name' => $product->slug])}}">{{ ucfirst($product->name)}}</a></li>
